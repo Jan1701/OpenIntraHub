@@ -1,5 +1,8 @@
 const fs = require('fs');
 const path = require('path');
+const { createModuleLogger } = require('./logger');
+
+const logger = createModuleLogger('ModuleLoader');
 
 class ModuleLoader {
     constructor(app, eventBus) {
@@ -10,13 +13,13 @@ class ModuleLoader {
 
     loadModules() {
         const modulesPath = path.join(__dirname, '../modules');
-        
+
         // Falls Ordner nicht existiert, erstellen
         if (!fs.existsSync(modulesPath)) return;
 
         const folders = fs.readdirSync(modulesPath);
 
-        console.log('[ModuleLoader] Scanne Module...');
+        logger.info('Scanne Module...');
 
         folders.forEach(folder => {
             const modulePath = path.join(modulesPath, folder);
@@ -33,15 +36,15 @@ class ModuleLoader {
                         events: this.eventBus,
                         config: manifest.config || {}
                     });
-                    
+
                     this.modules.set(manifest.name, manifest);
-                    console.log(`[ModuleLoader] Modul geladen: ${manifest.name} v${manifest.version}`);
+                    logger.info('Modul geladen', { name: manifest.name, version: manifest.version });
                 } catch (error) {
-                    console.error(`[ModuleLoader] Fehler beim Laden von ${manifest.name}:`, error);
+                    logger.error('Fehler beim Laden eines Moduls', { name: manifest.name, error: error.message });
                 }
             }
         });
-        console.log('[ModuleLoader] Alle Module verarbeitet.');
+        logger.info('Alle Module verarbeitet', { count: this.modules.size });
     }
 }
 

@@ -1,4 +1,7 @@
 const { Pool } = require('pg');
+const { createModuleLogger } = require('./logger');
+
+const logger = createModuleLogger('Database');
 
 class Database {
     constructor() {
@@ -20,12 +23,15 @@ class Database {
 
             // Test Verbindung
             const client = await this.pool.connect();
-            console.log('[Database] Verbindung erfolgreich');
+            logger.info('Datenbankverbindung erfolgreich', {
+                host: process.env.DB_HOST || 'localhost',
+                database: process.env.DB_NAME || 'openintrahub'
+            });
             client.release();
 
             return true;
         } catch (error) {
-            console.error('[Database] Verbindungsfehler:', error.message);
+            logger.error('Datenbankverbindung fehlgeschlagen', { error: error.message });
             return false;
         }
     }
@@ -40,13 +46,11 @@ class Database {
             const result = await this.pool.query(text, params);
             const duration = Date.now() - start;
 
-            if (process.env.LOG_LEVEL === 'debug') {
-                console.log('[Database] Query ausgeführt:', { text, duration, rows: result.rowCount });
-            }
+            logger.debug('Query ausgeführt', { text, duration: `${duration}ms`, rows: result.rowCount });
 
             return result;
         } catch (error) {
-            console.error('[Database] Query-Fehler:', error.message);
+            logger.error('Query-Fehler', { error: error.message, query: text });
             throw error;
         }
     }
@@ -54,7 +58,7 @@ class Database {
     async close() {
         if (this.pool) {
             await this.pool.end();
-            console.log('[Database] Verbindung geschlossen');
+            logger.info('Datenbankverbindung geschlossen');
         }
     }
 }
