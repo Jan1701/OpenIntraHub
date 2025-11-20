@@ -16,7 +16,7 @@ class ModuleLoader {
 
         const folders = fs.readdirSync(modulesPath);
 
-        console.log('🔄 Scanne Module...');
+        console.log('[ModuleLoader] Scanne Module...');
 
         folders.forEach(folder => {
             const modulePath = path.join(modulesPath, folder);
@@ -35,13 +35,13 @@ class ModuleLoader {
                     });
                     
                     this.modules.set(manifest.name, manifest);
-                    console.log(`✅ Modul geladen: ${manifest.name} v${manifest.version}`);
+                    console.log(`[ModuleLoader] Modul geladen: ${manifest.name} v${manifest.version}`);
                 } catch (error) {
-                    console.error(`❌ Fehler beim Laden von ${manifest.name}:`, error);
+                    console.error(`[ModuleLoader] Fehler beim Laden von ${manifest.name}:`, error);
                 }
             }
         });
-        console.log('🚀 Alle Module verarbeitet.');
+        console.log('[ModuleLoader] Alle Module verarbeitet.');
     }
 }
 
