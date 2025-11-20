@@ -7,6 +7,21 @@ const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('Auth');
 
+// Event-Listener: Last Login aktualisieren
+eventBus.on('USER_LOGIN', async (user) => {
+    if (user.id && database.pool) {
+        try {
+            await database.query(
+                'UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1',
+                [user.id]
+            );
+            logger.debug('Last login aktualisiert', { userId: user.id });
+        } catch (error) {
+            logger.error('Fehler beim Aktualisieren von last_login_at', { userId: user.id, error: error.message });
+        }
+    }
+});
+
 // JWT-Hilfsfunktionen
 const generateToken = (payload) => {
     const secret = process.env.JWT_SECRET;
