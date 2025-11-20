@@ -1,0 +1,6 @@
+{
+  "name": "Example Module",
+  "version": "1.0.0",
+  "entry": "index.js",
+  "description": "Ein Testmodul für das Intranet"
+}
