@@ -25,6 +25,7 @@ const { middleware: i18nMiddleware, i18nRequestMiddleware, SUPPORTED_LANGUAGES, 
 const userService = require('./userService');
 const pageBuilderApi = require('./pageBuilderApi');
 const postsApi = require('./postsApi');
+const locationApi = require('./locationApi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -182,6 +183,9 @@ app.use('/api', pageBuilderApi);
 
 // Posts API
 app.use('/api', postsApi);
+
+// Location API
+app.use('/api', locationApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
