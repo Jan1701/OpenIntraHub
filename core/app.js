@@ -26,6 +26,7 @@ const {
 const { swaggerUi, swaggerSpec } = require('./swagger');
 const { middleware: i18nMiddleware, i18nRequestMiddleware, SUPPORTED_LANGUAGES, validateLanguage } = require('./i18n');
 const userService = require('./userService');
+const setupApi = require('./setupApi');
 const pageBuilderApi = require('./pageBuilderApi');
 const postsApi = require('./postsApi');
 const locationApi = require('./locationApi');
@@ -100,6 +101,9 @@ app.post('/api/auth/login', auth.login);
 app.get('/api/core/status', (req, res) => {
     res.json({ status: 'ok', uptime: process.uptime() });
 });
+
+// Setup API - MUST be before other routes (works without database)
+app.use('/api', setupApi);
 
 // Protected Routes - Authentifizierung erforderlich
 app.get('/api/user/profile', authenticateToken, (req, res) => {

@@ -4,6 +4,7 @@ import PagesList from './pages/PagesList';
 import PageBuilder from './pages/PageBuilder';
 import ModuleRegistry from './pages/ModuleRegistry';
 import Login from './pages/Login';
+import Setup from './pages/Setup/Setup';
 import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Chat from './pages/Chat/Chat';
@@ -35,6 +36,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/setup" element={<Setup />} />
 
         <Route path="/" element={
           <ProtectedRoute>
