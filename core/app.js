@@ -23,6 +23,7 @@ const {
 const { swaggerUi, swaggerSpec } = require('./swagger');
 const { middleware: i18nMiddleware, i18nRequestMiddleware, SUPPORTED_LANGUAGES, validateLanguage } = require('./i18n');
 const userService = require('./userService');
+const pageBuilderApi = require('./pageBuilderApi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -174,6 +175,9 @@ app.get('/api/languages', (req, res) => {
         default: 'de'
     });
 });
+
+// Page Builder API
+app.use('/api', pageBuilderApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
