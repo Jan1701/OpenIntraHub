@@ -1,7 +1,7 @@
 {
   "name": "openintrahub",
   "version": "0.1.0",
-  "description": "Modulare Social-Intranet-Plattform",
+  "description": "Modulare Social-Intranet-Plattform mit Core-Module-Architektur",
   "main": "core/app.js",
   "scripts": {
     "start": "node core/app.js",
@@ -15,10 +15,32 @@
     "intranet",
     "social",
     "modular",
-    "enterprise"
+    "enterprise",
+    "collaboration",
+    "nodejs",
+    "express",
+    "postgresql",
+    "ldap",
+    "jwt",
+    "rbac"
   ],
-  "author": "",
+  "author": {
+    "name": "Jan Günther",
+    "email": "jg@linxpress.de"
+  },
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jan1701/OpenIntraHub.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jan1701/OpenIntraHub/issues"
+  },
+  "homepage": "https://github.com/Jan1701/OpenIntraHub#readme",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
