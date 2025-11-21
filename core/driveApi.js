@@ -619,4 +619,276 @@ router.get('/drive/stats', authenticateToken, async (req, res) => {
     }
 });
 
+// =====================================================
+// FOLDER MANAGEMENT ENDPOINTS
+// =====================================================
+
+/**
+ * PUT /api/drive/folders/:id
+ * Update folder (rename, move)
+ */
+router.put('/drive/folders/:id', authenticateToken, async (req, res) => {
+    try {
+        const folderId = parseInt(req.params.id);
+        const { name, description, parentId } = req.body;
+
+        const pool = require('./db');
+
+        // Check ownership
+        const folderResult = await pool.query(
+            'SELECT owner_id FROM drive_folders WHERE id = $1 AND deleted_at IS NULL',
+            [folderId]
+        );
+
+        if (folderResult.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: req.t('drive:errors.folderNotFound')
+            });
+        }
+
+        if (folderResult.rows[0].owner_id !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                error: req.t('errors:general.accessDenied')
+            });
+        }
+
+        // Update folder
+        const result = await pool.query(`
+            UPDATE drive_folders
+            SET name = COALESCE($1, name),
+                description = COALESCE($2, description),
+                parent_id = COALESCE($3, parent_id),
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = $4
+            RETURNING *
+        `, [name, description, parentId !== undefined ? parentId : null, folderId]);
+
+        res.json({
+            success: true,
+            data: result.rows[0],
+            message: req.t('drive:folders.updated')
+        });
+
+        logger.info('Folder updated', { folderId, userId: req.user.id });
+
+    } catch (error) {
+        logger.error('Folder update failed', { error: error.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+/**
+ * DELETE /api/drive/folders/:id
+ * Delete folder (soft delete)
+ */
+router.delete('/drive/folders/:id', authenticateToken, async (req, res) => {
+    try {
+        const folderId = parseInt(req.params.id);
+
+        const pool = require('./db');
+
+        // Check ownership
+        const folderResult = await pool.query(
+            'SELECT owner_id FROM drive_folders WHERE id = $1 AND deleted_at IS NULL',
+            [folderId]
+        );
+
+        if (folderResult.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: req.t('drive:errors.folderNotFound')
+            });
+        }
+
+        if (folderResult.rows[0].owner_id !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                error: req.t('errors:general.accessDenied')
+            });
+        }
+
+        // Soft delete
+        await pool.query(
+            'UPDATE drive_folders SET deleted_at = CURRENT_TIMESTAMP WHERE id = $1',
+            [folderId]
+        );
+
+        res.json({
+            success: true,
+            message: req.t('drive:folders.deleted')
+        });
+
+        logger.info('Folder deleted', { folderId, userId: req.user.id });
+
+    } catch (error) {
+        logger.error('Folder delete failed', { error: error.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =====================================================
+// FILE VERSIONING ENDPOINTS
+// =====================================================
+
+/**
+ * GET /api/drive/files/:id/versions
+ * Get file version history
+ */
+router.get('/drive/files/:id/versions', authenticateToken, async (req, res) => {
+    try {
+        const fileId = parseInt(req.params.id);
+
+        // Check access to file
+        const file = await driveService.getFile(fileId, req.user.id);
+
+        const pool = require('./db');
+
+        // Get versions
+        const result = await pool.query(`
+            SELECT v.*, u.name as uploaded_by_name
+            FROM drive_file_versions v
+            LEFT JOIN users u ON v.uploaded_by = u.id
+            WHERE v.file_id = $1
+            ORDER BY v.version DESC
+        `, [fileId]);
+
+        res.json({
+            success: true,
+            data: result.rows
+        });
+
+    } catch (error) {
+        logger.error('Get versions failed', { error: error.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+/**
+ * POST /api/drive/files/:id/restore-version
+ * Restore a previous version
+ */
+router.post('/drive/files/:id/restore-version', authenticateToken, async (req, res) => {
+    try {
+        const fileId = parseInt(req.params.id);
+        const { versionId } = req.body;
+
+        if (!versionId) {
+            return res.status(400).json({
+                success: false,
+                error: 'versionId required'
+            });
+        }
+
+        // Check ownership
+        const file = await driveService.getFile(fileId, req.user.id);
+
+        if (file.uploaded_by !== req.user.id) {
+            return res.status(403).json({
+                success: false,
+                error: req.t('errors:general.accessDenied')
+            });
+        }
+
+        const pool = require('./db');
+
+        // Get version data
+        const versionResult = await pool.query(
+            'SELECT * FROM drive_file_versions WHERE id = $1 AND file_id = $2',
+            [versionId, fileId]
+        );
+
+        if (versionResult.rows.length === 0) {
+            return res.status(404).json({
+                success: false,
+                error: 'Version not found'
+            });
+        }
+
+        const version = versionResult.rows[0];
+
+        // Create new version from current file
+        await pool.query(`
+            INSERT INTO drive_file_versions (
+                file_id, version, file_path, file_hash, file_size_bytes,
+                change_description, uploaded_by
+            )
+            SELECT id, version, file_path, file_hash, file_size_bytes,
+                   'Auto-backup before restore', uploaded_by
+            FROM drive_files
+            WHERE id = $1
+        `, [fileId]);
+
+        // Restore version to main file
+        await pool.query(`
+            UPDATE drive_files
+            SET file_path = $1,
+                file_hash = $2,
+                file_size_bytes = $3,
+                version = version + 1,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = $4
+        `, [version.file_path, version.file_hash, version.file_size_bytes, fileId]);
+
+        res.json({
+            success: true,
+            message: 'Version restored successfully'
+        });
+
+        logger.info('Version restored', { fileId, versionId, userId: req.user.id });
+
+    } catch (error) {
+        logger.error('Version restore failed', { error: error.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
+// =====================================================
+// USER LIST ENDPOINT (for sharing)
+// =====================================================
+
+/**
+ * GET /api/users
+ * Get list of users (for sharing interface)
+ */
+router.get('/users', authenticateToken, async (req, res) => {
+    try {
+        const pool = require('./db');
+
+        const result = await pool.query(`
+            SELECT id, username, name, email, avatar_url
+            FROM users
+            WHERE is_active = true
+              AND id != $1
+            ORDER BY name, username
+            LIMIT 100
+        `, [req.user.id]);
+
+        res.json({
+            success: true,
+            users: result.rows
+        });
+
+    } catch (error) {
+        logger.error('Get users failed', { error: error.message });
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 module.exports = router;

@@ -18,7 +18,7 @@ import EventsList from './pages/Events/EventsList';
 import EventEditor from './pages/Events/EventEditor';
 import EventDetails from './pages/Events/EventDetails';
 import LDAPAdmin from './pages/Admin/LDAPAdmin';
-import Drive from './pages/Drive/Drive';
+import Drive from './pages/Drive/DriveAdvanced';
 import './styles/index.css';
 
 function App() {
