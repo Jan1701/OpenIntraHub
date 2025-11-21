@@ -1,7 +1,10 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const { Server: SocketIO } = require('socket.io');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
 const EnhancedModuleLoader = require('./enhancedModuleLoader');
 const eventBus = require('./eventBus');
 const auth = require('./auth');
@@ -29,8 +32,19 @@ const locationApi = require('./locationApi');
 const moduleManagementApi = require('./moduleManagementApi');
 const userManagementApi = require('./userManagementApi');
 const eventsApi = require('./eventsApi');
+const socialApi = require('./socialApi');
+const chatApi = require('./chatApi');
 
 const app = express();
+const httpServer = http.createServer(app);
+const io = new SocketIO(httpServer, {
+    cors: {
+        origin: process.env.FRONTEND_URL || '*',
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -199,6 +213,12 @@ app.use('/api', userManagementApi);
 // Events API
 app.use('/api', eventsApi);
 
+// Social API (Reactions, Activity Feed, Notifications)
+app.use('/api', socialApi);
+
+// Chat API (Real-time Messaging)
+app.use('/api', chatApi);
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -281,13 +301,40 @@ async function startServer() {
             logger.info('Module erfolgreich geladen');
         }
 
+        // Socket.io Setup für Chat
+        const authenticateSocketToken = async (socket) => {
+            const token = socket.handshake.auth.token || socket.handshake.query.token;
+
+            if (!token) {
+                throw new Error('No token provided');
+            }
+
+            try {
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                const user = await userService.findUserById(decoded.id);
+
+                if (!user) {
+                    throw new Error('User not found');
+                }
+
+                return user;
+            } catch (error) {
+                throw new Error('Invalid token');
+            }
+        };
+
+        // Initialize Socket.io Chat
+        chatApi.setupSocketIO(io, authenticateSocketToken);
+        logger.info('Socket.io Chat initialisiert');
+
         // Server starten
-        app.listen(PORT, () => {
-            logger.info(`OpenIntraHub Core gestartet auf Port ${PORT}`);
+        httpServer.listen(PORT, () => {
+            logger.info(`🚀 OpenIntraHub v${require('../package.json').version} gestartet auf Port ${PORT}`);
             logger.info(`Umgebung: ${process.env.NODE_ENV || 'development'}`);
             logger.info(`Log-Level: ${process.env.LOG_LEVEL || 'debug'}`);
             logger.info(`Mehrsprachigkeit: DE, EN, FR, ES, IT, PL, NL (Standard: DE)`);
-            logger.info(`API-Dokumentation verfügbar: http://localhost:${PORT}/api-docs`);
+            logger.info(`API-Dokumentation: http://localhost:${PORT}/api-docs`);
+            logger.info(`Socket.io Chat: ws://localhost:${PORT}/chat`);
         });
 
     } catch (error) {
