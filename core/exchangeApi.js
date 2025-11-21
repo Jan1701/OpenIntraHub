@@ -236,16 +236,19 @@ router.post('/exchange/sync', authenticateToken, async (req, res) => {
 
         let result;
 
-        if (direction === 'from_exchange' || !direction) {
+        if (direction === 'from_exchange') {
             // Sync from Exchange to OpenIntraHub
             result = await exchangeService.syncFromExchange(req.user.id);
         } else if (direction === 'to_exchange') {
             // Sync from OpenIntraHub to Exchange
             result = await exchangeService.syncToExchange(req.user.id);
+        } else if (direction === 'bidirectional' || !direction) {
+            // Bidirectional sync
+            result = await exchangeService.syncBidirectional(req.user.id);
         } else {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid direction. Use "from_exchange" or "to_exchange"'
+                message: 'Invalid direction. Use "from_exchange", "to_exchange", or "bidirectional"'
             });
         }
 
@@ -429,6 +432,80 @@ router.post('/exchange/conflicts/:id/resolve', authenticateToken, async (req, re
         });
     } catch (error) {
         logger.error('Failed to resolve conflict', { error: error.message });
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+/**
+ * GET /api/exchange/oof
+ * Get Out of Office settings
+ */
+router.get('/exchange/oof', authenticateToken, async (req, res) => {
+    try {
+        const result = await exchangeService.getOutOfOfficeSettings(req.user.id);
+
+        res.json({
+            success: true,
+            settings: result.settings
+        });
+    } catch (error) {
+        logger.error('Failed to get OOF settings', { error: error.message });
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+/**
+ * POST /api/exchange/oof
+ * Set Out of Office settings
+ */
+router.post('/exchange/oof', authenticateToken, async (req, res) => {
+    try {
+        const {
+            state,
+            externalAudience,
+            startTime,
+            endTime,
+            internalReply,
+            externalReply
+        } = req.body;
+
+        if (!state || !['Disabled', 'Enabled', 'Scheduled'].includes(state)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid state. Must be "Disabled", "Enabled", or "Scheduled"'
+            });
+        }
+
+        if (state === 'Scheduled' && (!startTime || !endTime)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Start time and end time are required for scheduled OOF'
+            });
+        }
+
+        const result = await exchangeService.setOutOfOfficeSettings(req.user.id, {
+            state,
+            externalAudience,
+            startTime,
+            endTime,
+            internalReply,
+            externalReply
+        });
+
+        logger.info('OOF settings updated', {
+            userId: req.user.id,
+            state
+        });
+
+        res.json(result);
+    } catch (error) {
+        logger.error('Failed to set OOF settings', { error: error.message });
         res.status(500).json({
             success: false,
             message: error.message

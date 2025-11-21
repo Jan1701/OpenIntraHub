@@ -602,18 +602,334 @@ async function syncFromExchange(userId) {
  * Sync events from OpenIntraHub to Exchange
  */
 async function syncToExchange(userId) {
-    // TODO: Implement push to Exchange
-    // This is more complex as it requires:
-    // 1. Finding events created/modified in OpenIntraHub since last sync
-    // 2. Creating/updating them in Exchange via EWS CreateItem/UpdateItem
-    // 3. Handling conflicts
+    const client = await pool.connect();
+    const syncStarted = new Date();
 
-    logger.info('Sync to Exchange not yet implemented', { userId });
+    try {
+        await client.query('BEGIN');
 
-    return {
-        success: true,
-        message: 'Push to Exchange will be implemented in next phase'
-    };
+        const connection = await getConnection(userId);
+
+        if (!connection || !connection.sync_enabled) {
+            throw new Error('Exchange sync not enabled for user');
+        }
+
+        const ews = createEWSClient(connection);
+
+        let stats = {
+            created: 0,
+            updated: 0,
+            deleted: 0,
+            errors: 0
+        };
+
+        // Find events that need to be pushed to Exchange
+        // 1. Events created in OpenIntraHub without exchange_event_id
+        // 2. Events modified since last_synced_at
+        const eventsToPush = await client.query(`
+            SELECT * FROM events
+            WHERE created_by = $1
+            AND (
+                (exchange_event_id IS NULL AND sync_source = 'openintrahub')
+                OR (last_synced_at IS NULL OR updated_at > last_synced_at)
+            )
+            ORDER BY created_at ASC
+        `, [userId]);
+
+        for (const event of eventsToPush.rows) {
+            try {
+                if (!event.exchange_event_id) {
+                    // Create new event in Exchange
+                    const createArgs = {
+                        SavedItemFolderId: {
+                            DistinguishedFolderId: {
+                                attributes: {
+                                    Id: 'calendar'
+                                }
+                            }
+                        },
+                        Items: {
+                            CalendarItem: {
+                                Subject: event.title,
+                                Body: {
+                                    attributes: {
+                                        BodyType: 'Text'
+                                    },
+                                    _: event.description || ''
+                                },
+                                Start: event.start_date,
+                                End: event.end_date,
+                                Location: event.location || '',
+                                IsAllDayEvent: event.all_day || false,
+                                ReminderIsSet: false
+                            }
+                        }
+                    };
+
+                    const result = await ews.run('CreateItem', createArgs);
+                    const createdItem = result.ResponseMessages?.CreateItemResponseMessage?.[0]?.Items?.CalendarItem?.[0];
+
+                    if (createdItem?.ItemId) {
+                        // Update OpenIntraHub event with Exchange IDs
+                        await client.query(`
+                            UPDATE events SET
+                                exchange_event_id = $1,
+                                exchange_change_key = $2,
+                                last_synced_at = CURRENT_TIMESTAMP
+                            WHERE id = $3
+                        `, [
+                            createdItem.ItemId.attributes.Id,
+                            createdItem.ItemId.attributes.ChangeKey,
+                            event.id
+                        ]);
+
+                        stats.created++;
+                    }
+                } else {
+                    // Update existing event in Exchange
+                    const updateArgs = {
+                        ItemChanges: {
+                            ItemChange: {
+                                ItemId: {
+                                    attributes: {
+                                        Id: event.exchange_event_id,
+                                        ChangeKey: event.exchange_change_key
+                                    }
+                                },
+                                Updates: {
+                                    SetItemField: [
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'item:Subject' } },
+                                            CalendarItem: { Subject: event.title }
+                                        },
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'item:Body' } },
+                                            CalendarItem: {
+                                                Body: {
+                                                    attributes: { BodyType: 'Text' },
+                                                    _: event.description || ''
+                                                }
+                                            }
+                                        },
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'calendar:Start' } },
+                                            CalendarItem: { Start: event.start_date }
+                                        },
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'calendar:End' } },
+                                            CalendarItem: { End: event.end_date }
+                                        },
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'calendar:Location' } },
+                                            CalendarItem: { Location: event.location || '' }
+                                        },
+                                        {
+                                            FieldURI: { attributes: { FieldURI: 'calendar:IsAllDayEvent' } },
+                                            CalendarItem: { IsAllDayEvent: event.all_day || false }
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    };
+
+                    const result = await ews.run('UpdateItem', updateArgs);
+                    const updatedItem = result.ResponseMessages?.UpdateItemResponseMessage?.[0]?.Items?.CalendarItem?.[0];
+
+                    if (updatedItem?.ItemId) {
+                        // Update change key
+                        await client.query(`
+                            UPDATE events SET
+                                exchange_change_key = $1,
+                                last_synced_at = CURRENT_TIMESTAMP
+                            WHERE id = $2
+                        `, [updatedItem.ItemId.attributes.ChangeKey, event.id]);
+
+                        stats.updated++;
+                    }
+                }
+            } catch (itemError) {
+                logger.error('Failed to push event to Exchange', {
+                    error: itemError.message,
+                    eventId: event.id
+                });
+                stats.errors++;
+            }
+        }
+
+        // Find deleted events in OpenIntraHub that still exist in Exchange
+        // (Events with exchange_event_id but deleted from OpenIntraHub)
+        // This would require tracking deletions - for now, skip
+
+        // Update last sync time
+        await client.query(
+            'UPDATE exchange_connections SET last_sync_at = CURRENT_TIMESTAMP WHERE id = $1',
+            [connection.id]
+        );
+
+        // Log sync operation
+        const syncFinished = new Date();
+        await client.query(`
+            INSERT INTO exchange_sync_log (
+                connection_id, sync_started_at, sync_finished_at, sync_duration_ms,
+                sync_direction, events_created_in_exchange, events_updated_in_exchange,
+                sync_status
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        `, [
+            connection.id,
+            syncStarted,
+            syncFinished,
+            syncFinished - syncStarted,
+            'openintrahub_to_exchange',
+            stats.created,
+            stats.updated,
+            stats.errors > 0 ? 'partial_success' : 'success'
+        ]);
+
+        await client.query('COMMIT');
+
+        logger.info('Push to Exchange completed', { userId, stats });
+
+        return {
+            success: true,
+            stats
+        };
+    } catch (error) {
+        await client.query('ROLLBACK');
+        logger.error('Push to Exchange failed', { error: error.message, userId });
+
+        // Log failed sync
+        try {
+            await client.query(`
+                INSERT INTO exchange_sync_log (
+                    connection_id, sync_started_at, sync_finished_at, sync_status, error_message
+                )
+                SELECT id, $1, CURRENT_TIMESTAMP, 'failed', $2
+                FROM exchange_connections
+                WHERE user_id = $3
+            `, [syncStarted, error.message, userId]);
+        } catch (logError) {
+            logger.error('Failed to log sync error', { error: logError.message });
+        }
+
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
+/**
+ * Get user's Out of Office (OOF) settings from Exchange
+ */
+async function getOutOfOfficeSettings(userId) {
+    try {
+        const connection = await getConnection(userId);
+
+        if (!connection) {
+            throw new Error('No Exchange connection found for user');
+        }
+
+        const ews = createEWSClient(connection);
+
+        const oofArgs = {
+            Mailbox: {
+                Address: connection.username
+            }
+        };
+
+        const result = await ews.run('GetUserOofSettings', oofArgs);
+        const oofSettings = result.OofSettings;
+
+        return {
+            success: true,
+            settings: {
+                state: oofSettings?.OofState || 'Disabled', // Disabled, Enabled, Scheduled
+                externalAudience: oofSettings?.ExternalAudience || 'None',
+                startTime: oofSettings?.Duration?.StartTime,
+                endTime: oofSettings?.Duration?.EndTime,
+                internalReply: oofSettings?.InternalReply?.Message || '',
+                externalReply: oofSettings?.ExternalReply?.Message || ''
+            }
+        };
+    } catch (error) {
+        logger.error('Failed to get OOF settings', { error: error.message, userId });
+        throw error;
+    }
+}
+
+/**
+ * Set user's Out of Office (OOF) settings in Exchange
+ */
+async function setOutOfOfficeSettings(userId, settings) {
+    try {
+        const connection = await getConnection(userId);
+
+        if (!connection) {
+            throw new Error('No Exchange connection found for user');
+        }
+
+        const ews = createEWSClient(connection);
+
+        const oofArgs = {
+            Mailbox: {
+                Address: connection.username
+            },
+            UserOofSettings: {
+                OofState: settings.state || 'Disabled', // Disabled, Enabled, Scheduled
+                ExternalAudience: settings.externalAudience || 'None', // None, Known, All
+                InternalReply: {
+                    Message: settings.internalReply || ''
+                },
+                ExternalReply: {
+                    Message: settings.externalReply || ''
+                }
+            }
+        };
+
+        // Add duration if scheduled
+        if (settings.state === 'Scheduled' && settings.startTime && settings.endTime) {
+            oofArgs.UserOofSettings.Duration = {
+                StartTime: settings.startTime,
+                EndTime: settings.endTime
+            };
+        }
+
+        await ews.run('SetUserOofSettings', oofArgs);
+
+        logger.info('OOF settings updated', { userId, state: settings.state });
+
+        return {
+            success: true,
+            message: 'Out of Office settings updated successfully'
+        };
+    } catch (error) {
+        logger.error('Failed to set OOF settings', { error: error.message, userId });
+        throw error;
+    }
+}
+
+/**
+ * Bidirectional sync (both directions)
+ */
+async function syncBidirectional(userId) {
+    try {
+        // First pull from Exchange
+        const pullResult = await syncFromExchange(userId);
+
+        // Then push to Exchange
+        const pushResult = await syncToExchange(userId);
+
+        return {
+            success: true,
+            stats: {
+                fromExchange: pullResult.stats,
+                toExchange: pushResult.stats
+            }
+        };
+    } catch (error) {
+        logger.error('Bidirectional sync failed', { error: error.message, userId });
+        throw error;
+    }
 }
 
 /**
@@ -645,5 +961,8 @@ module.exports = {
     toggleCalendarSync,
     syncFromExchange,
     syncToExchange,
+    syncBidirectional,
+    getOutOfOfficeSettings,
+    setOutOfOfficeSettings,
     deleteConnection
 };

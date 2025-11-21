@@ -36,6 +36,8 @@ const eventsApi = require('./eventsApi');
 const socialApi = require('./socialApi');
 const chatApi = require('./chatApi');
 const exchangeApi = require('./exchangeApi');
+const userStatusApi = require('./userStatusApi');
+const scheduledSyncWorker = require('./scheduledSyncWorker');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -227,6 +229,9 @@ app.use('/api', chatApi);
 // Exchange API (Calendar Synchronization)
 app.use('/api', exchangeApi);
 
+// User Status API (Global Presence)
+app.use('/api', userStatusApi);
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -343,7 +348,47 @@ async function startServer() {
             logger.info(`Mehrsprachigkeit: DE, EN, FR, ES, IT, PL, NL (Standard: DE)`);
             logger.info(`API-Dokumentation: http://localhost:${PORT}/api-docs`);
             logger.info(`Socket.io Chat: ws://localhost:${PORT}/chat`);
+
+            // Start Exchange scheduled sync worker
+            if (process.env.EXCHANGE_ENABLED === 'true') {
+                scheduledSyncWorker.startWorker();
+                logger.info('📧 Exchange scheduled sync worker aktiviert');
+            }
         });
+
+        // Graceful shutdown
+        const shutdown = async (signal) => {
+            logger.info(`${signal} empfangen. Server wird heruntergefahren...`);
+
+            // Stop accepting new connections
+            httpServer.close(async () => {
+                logger.info('HTTP Server geschlossen');
+
+                // Stop scheduled sync worker
+                if (process.env.EXCHANGE_ENABLED === 'true') {
+                    scheduledSyncWorker.stopWorker();
+                }
+
+                // Close database connections
+                try {
+                    await database.pool.end();
+                    logger.info('Datenbank-Verbindungen geschlossen');
+                } catch (error) {
+                    logger.error('Fehler beim Schließen der Datenbank', { error: error.message });
+                }
+
+                process.exit(0);
+            });
+
+            // Force exit after 10 seconds
+            setTimeout(() => {
+                logger.error('Erzwungenes Herunterfahren nach Timeout');
+                process.exit(1);
+            }, 10000);
+        };
+
+        process.on('SIGTERM', () => shutdown('SIGTERM'));
+        process.on('SIGINT', () => shutdown('SIGINT'));
 
     } catch (error) {
         logger.error('Fehler beim Starten des Servers', { error: error.message, stack: error.stack });
