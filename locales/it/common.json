@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "OpenIntraHub",
+    "tagline": "Piattaforma Intranet Social Modulare",
+    "welcome": "Benvenuto in {{name}}",
+    "version": "Versione {{version}}"
+  },
+  "general": {
+    "yes": "Sì",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "create": "Crea",
+    "update": "Aggiorna",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "loading": "Caricamento...",
+    "success": "Successo",
+    "error": "Errore",
+    "warning": "Avviso",
+    "info": "Informazione",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "refresh": "Aggiorna",
+    "download": "Scarica",
+    "upload": "Carica",
+    "export": "Esporta",
+    "import": "Importa"
+  },
+  "time": {
+    "now": "Ora",
+    "today": "Oggi",
+    "yesterday": "Ieri",
+    "tomorrow": "Domani",
+    "week": "Settimana",
+    "month": "Mese",
+    "year": "Anno",
+    "date": "Data",
+    "time": "Ora",
+    "datetime": "Data e ora"
+  },
+  "status": {
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "pending": "In attesa",
+    "approved": "Approvato",
+    "rejected": "Rifiutato",
+    "draft": "Bozza",
+    "published": "Pubblicato"
+  },
+  "pagination": {
+    "page": "Pagina",
+    "of": "di",
+    "items": "Elementi",
+    "perPage": "Per pagina",
+    "showing": "Visualizzazione da {{from}} a {{to}} di {{total}} elementi",
+    "noResults": "Nessun risultato trovato"
+  }
+}

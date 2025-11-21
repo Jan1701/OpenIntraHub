@@ -1,0 +1,73 @@
+{
+  "general": {
+    "unknown": "Se produjo un error desconocido",
+    "serverError": "Error interno del servidor",
+    "notFound": "No encontrado",
+    "badRequest": "Solicitud incorrecta",
+    "forbidden": "Prohibido",
+    "unauthorized": "No autorizado",
+    "timeout": "Tiempo de espera agotado",
+    "maintenance": "Mantenimiento en curso",
+    "unavailable": "Servicio no disponible"
+  },
+  "validation": {
+    "required": "{{field}} es obligatorio",
+    "invalid": "{{field}} no es válido",
+    "tooShort": "{{field}} es demasiado corto (mín. {{min}} caracteres)",
+    "tooLong": "{{field}} es demasiado largo (máx. {{max}} caracteres)",
+    "format": "{{field}} tiene un formato inválido",
+    "unique": "{{field}} ya existe",
+    "range": "{{field}} debe estar entre {{min}} y {{max}}",
+    "min": "{{field}} debe ser al menos {{min}}",
+    "max": "{{field}} no debe exceder {{max}}",
+    "email": "Dirección de correo electrónico inválida",
+    "url": "URL inválida",
+    "alphanumeric": "{{field}} solo puede contener letras y números",
+    "numeric": "{{field}} debe ser un número",
+    "pattern": "{{field}} no coincide con el patrón esperado"
+  },
+  "database": {
+    "connectionFailed": "Error de conexión a la base de datos",
+    "queryFailed": "Error en la consulta de base de datos",
+    "notFound": "Registro no encontrado",
+    "duplicate": "El registro ya existe",
+    "constraint": "Violación de restricción de base de datos",
+    "transaction": "Error de transacción"
+  },
+  "auth": {
+    "loginFailed": "Error al iniciar sesión",
+    "invalidCredentials": "Credenciales inválidas",
+    "tokenExpired": "Sesión expirada, por favor inicie sesión nuevamente",
+    "tokenInvalid": "Token de autenticación inválido",
+    "permissionDenied": "Permiso denegado para esta acción",
+    "accountInactive": "La cuenta no está activa",
+    "accountLocked": "La cuenta ha sido bloqueada"
+  },
+  "ldap": {
+    "connectionFailed": "Error de conexión LDAP",
+    "bindFailed": "Error de autenticación LDAP",
+    "searchFailed": "Error de búsqueda LDAP",
+    "userNotFound": "Usuario no encontrado en LDAP",
+    "invalidConfiguration": "Configuración LDAP inválida"
+  },
+  "file": {
+    "notFound": "Archivo no encontrado",
+    "uploadFailed": "Error al subir el archivo",
+    "invalidType": "Tipo de archivo inválido",
+    "tooLarge": "Archivo demasiado grande (máx. {{max}})",
+    "readFailed": "No se pudo leer el archivo",
+    "writeFailed": "No se pudo escribir el archivo",
+    "deleteFailed": "No se pudo eliminar el archivo"
+  },
+  "module": {
+    "notFound": "Módulo no encontrado",
+    "loadFailed": "No se pudo cargar el módulo",
+    "invalidManifest": "Manifiesto de módulo inválido",
+    "dependencyMissing": "Falta dependencia de módulo",
+    "alreadyLoaded": "El módulo ya está cargado"
+  },
+  "rate": {
+    "limitExceeded": "Demasiadas solicitudes, por favor intente más tarde",
+    "throttled": "Solicitud limitada, por favor espere"
+  }
+}

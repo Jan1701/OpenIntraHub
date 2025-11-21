@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "OpenIntraHub",
+    "tagline": "Plataforma de Intranet Social Modular",
+    "welcome": "Bienvenido a {{name}}",
+    "version": "Versión {{version}}"
+  },
+  "general": {
+    "yes": "Sí",
+    "no": "No",
+    "ok": "Aceptar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "loading": "Cargando...",
+    "success": "Éxito",
+    "error": "Error",
+    "warning": "Advertencia",
+    "info": "Información",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "refresh": "Actualizar",
+    "download": "Descargar",
+    "upload": "Subir",
+    "export": "Exportar",
+    "import": "Importar"
+  },
+  "time": {
+    "now": "Ahora",
+    "today": "Hoy",
+    "yesterday": "Ayer",
+    "tomorrow": "Mañana",
+    "week": "Semana",
+    "month": "Mes",
+    "year": "Año",
+    "date": "Fecha",
+    "time": "Hora",
+    "datetime": "Fecha y hora"
+  },
+  "status": {
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "pending": "Pendiente",
+    "approved": "Aprobado",
+    "rejected": "Rechazado",
+    "draft": "Borrador",
+    "published": "Publicado"
+  },
+  "pagination": {
+    "page": "Página",
+    "of": "de",
+    "items": "Elementos",
+    "perPage": "Por página",
+    "showing": "Mostrando {{from}} a {{to}} de {{total}} elementos",
+    "noResults": "No se encontraron resultados"
+  }
+}

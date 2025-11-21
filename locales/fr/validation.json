@@ -1,0 +1,71 @@
+{
+  "fields": {
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "email": "E-mail",
+    "name": "Nom",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "title": "Titre",
+    "description": "Description",
+    "content": "Contenu",
+    "category": "Catégorie",
+    "tags": "Tags",
+    "status": "Statut",
+    "date": "Date",
+    "time": "Heure",
+    "phone": "Téléphone",
+    "address": "Adresse",
+    "city": "Ville",
+    "country": "Pays",
+    "zipCode": "Code postal",
+    "language": "Langue"
+  },
+  "rules": {
+    "required": "{{field}} est obligatoire",
+    "email": "Veuillez saisir une adresse e-mail valide",
+    "min": "{{field}} doit contenir au moins {{count}} caractères",
+    "max": "{{field}} ne peut pas dépasser {{count}} caractères",
+    "minValue": "{{field}} doit être au moins {{value}}",
+    "maxValue": "{{field}} ne peut pas dépasser {{value}}",
+    "between": "{{field}} doit être entre {{min}} et {{max}}",
+    "alpha": "{{field}} ne peut contenir que des lettres",
+    "alphanumeric": "{{field}} ne peut contenir que des lettres et des chiffres",
+    "numeric": "{{field}} doit être un nombre",
+    "integer": "{{field}} doit être un entier",
+    "url": "Veuillez saisir une URL valide",
+    "date": "Veuillez saisir une date valide",
+    "time": "Veuillez saisir une heure valide",
+    "datetime": "Veuillez saisir une date et une heure valides",
+    "boolean": "{{field}} doit être vrai ou faux",
+    "array": "{{field}} doit être un tableau",
+    "object": "{{field}} doit être un objet",
+    "unique": "{{field}} est déjà utilisé",
+    "exists": "{{field}} n'existe pas",
+    "confirmed": "{{field}} ne correspond pas",
+    "pattern": "{{field}} a un format invalide",
+    "weakPassword": "Mot de passe trop faible. Utilisez des majuscules, minuscules, chiffres et caractères spéciaux",
+    "invalidFormat": "Format invalide pour {{field}}"
+  },
+  "messages": {
+    "invalidInput": "Entrée invalide",
+    "validationFailed": "La validation a échoué",
+    "checkInputs": "Veuillez vérifier vos entrées",
+    "requiredFields": "Veuillez remplir tous les champs obligatoires",
+    "success": "Validation réussie"
+  },
+  "password": {
+    "tooShort": "Le mot de passe doit contenir au moins {{min}} caractères",
+    "requireUppercase": "Le mot de passe doit contenir au moins une majuscule",
+    "requireLowercase": "Le mot de passe doit contenir au moins une minuscule",
+    "requireNumber": "Le mot de passe doit contenir au moins un chiffre",
+    "requireSpecial": "Le mot de passe doit contenir au moins un caractère spécial",
+    "noMatch": "Les mots de passe ne correspondent pas"
+  },
+  "file": {
+    "required": "Veuillez sélectionner un fichier",
+    "invalidType": "Type de fichier non autorisé. Types autorisés: {{types}}",
+    "tooLarge": "Le fichier est trop volumineux. Taille maximale: {{size}}",
+    "tooMany": "Trop de fichiers. Maximum autorisé: {{count}}"
+  }
+}

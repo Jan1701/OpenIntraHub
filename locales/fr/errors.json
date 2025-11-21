@@ -1,0 +1,73 @@
+{
+  "general": {
+    "unknown": "Une erreur inconnue s'est produite",
+    "serverError": "Erreur interne du serveur",
+    "notFound": "Non trouvé",
+    "badRequest": "Requête incorrecte",
+    "forbidden": "Interdit",
+    "unauthorized": "Non autorisé",
+    "timeout": "Délai d'attente dépassé",
+    "maintenance": "Maintenance en cours",
+    "unavailable": "Service indisponible"
+  },
+  "validation": {
+    "required": "{{field}} est requis",
+    "invalid": "{{field}} est invalide",
+    "tooShort": "{{field}} est trop court (min. {{min}} caractères)",
+    "tooLong": "{{field}} est trop long (max. {{max}} caractères)",
+    "format": "{{field}} a un format invalide",
+    "unique": "{{field}} existe déjà",
+    "range": "{{field}} doit être entre {{min}} et {{max}}",
+    "min": "{{field}} doit être au moins {{min}}",
+    "max": "{{field}} ne doit pas dépasser {{max}}",
+    "email": "Adresse e-mail invalide",
+    "url": "URL invalide",
+    "alphanumeric": "{{field}} ne peut contenir que des lettres et des chiffres",
+    "numeric": "{{field}} doit être un nombre",
+    "pattern": "{{field}} ne correspond pas au modèle attendu"
+  },
+  "database": {
+    "connectionFailed": "Échec de la connexion à la base de données",
+    "queryFailed": "Échec de la requête à la base de données",
+    "notFound": "Enregistrement non trouvé",
+    "duplicate": "L'enregistrement existe déjà",
+    "constraint": "Violation de contrainte de base de données",
+    "transaction": "Erreur de transaction"
+  },
+  "auth": {
+    "loginFailed": "Échec de la connexion",
+    "invalidCredentials": "Identifiants invalides",
+    "tokenExpired": "Session expirée, veuillez vous reconnecter",
+    "tokenInvalid": "Jeton d'authentification invalide",
+    "permissionDenied": "Permission refusée pour cette action",
+    "accountInactive": "Le compte n'est pas actif",
+    "accountLocked": "Le compte a été verrouillé"
+  },
+  "ldap": {
+    "connectionFailed": "Échec de la connexion LDAP",
+    "bindFailed": "Échec de l'authentification LDAP",
+    "searchFailed": "Échec de la recherche LDAP",
+    "userNotFound": "Utilisateur non trouvé dans LDAP",
+    "invalidConfiguration": "Configuration LDAP invalide"
+  },
+  "file": {
+    "notFound": "Fichier non trouvé",
+    "uploadFailed": "Échec du téléversement du fichier",
+    "invalidType": "Type de fichier invalide",
+    "tooLarge": "Fichier trop volumineux (max. {{max}})",
+    "readFailed": "Impossible de lire le fichier",
+    "writeFailed": "Impossible d'écrire le fichier",
+    "deleteFailed": "Impossible de supprimer le fichier"
+  },
+  "module": {
+    "notFound": "Module non trouvé",
+    "loadFailed": "Impossible de charger le module",
+    "invalidManifest": "Manifeste de module invalide",
+    "dependencyMissing": "Dépendance de module manquante",
+    "alreadyLoaded": "Le module est déjà chargé"
+  },
+  "rate": {
+    "limitExceeded": "Trop de requêtes, veuillez réessayer plus tard",
+    "throttled": "Requête limitée, veuillez patienter"
+  }
+}

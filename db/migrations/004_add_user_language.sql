@@ -9,7 +9,7 @@ ADD COLUMN language VARCHAR(5) DEFAULT 'de' NOT NULL;
 -- Check Constraint für unterstützte Sprachen
 ALTER TABLE users
 ADD CONSTRAINT users_language_check
-CHECK (language IN ('de', 'en'));
+CHECK (language IN ('de', 'en', 'fr', 'es', 'it', 'pl', 'nl'));
 
 -- Index für Sprach-Filterung
 CREATE INDEX idx_users_language ON users(language);

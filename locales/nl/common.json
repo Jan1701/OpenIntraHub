@@ -1,0 +1,7 @@
+{
+  "app": {"name": "OpenIntraHub", "tagline": "Modulair Sociaal Intranetplatform", "welcome": "Welkom bij {{name}}", "version": "Versie {{version}}"},
+  "general": {"yes": "Ja", "no": "Nee", "ok": "OK", "cancel": "Annuleren", "save": "Opslaan", "delete": "Verwijderen", "edit": "Bewerken", "create": "Aanmaken", "update": "Bijwerken", "close": "Sluiten", "back": "Terug", "next": "Volgende", "previous": "Vorige", "loading": "Laden...", "success": "Succes", "error": "Fout", "warning": "Waarschuwing", "info": "Informatie", "search": "Zoeken", "filter": "Filteren", "sort": "Sorteren", "refresh": "Vernieuwen", "download": "Downloaden", "upload": "Uploaden", "export": "Exporteren", "import": "Importeren"},
+  "time": {"now": "Nu", "today": "Vandaag", "yesterday": "Gisteren", "tomorrow": "Morgen", "week": "Week", "month": "Maand", "year": "Jaar", "date": "Datum", "time": "Tijd", "datetime": "Datum en tijd"},
+  "status": {"active": "Actief", "inactive": "Inactief", "pending": "In behandeling", "approved": "Goedgekeurd", "rejected": "Afgewezen", "draft": "Concept", "published": "Gepubliceerd"},
+  "pagination": {"page": "Pagina", "of": "van", "items": "Items", "perPage": "Per pagina", "showing": "Weergave {{from}} tot {{to}} van {{total}} items", "noResults": "Geen resultaten gevonden"}
+}

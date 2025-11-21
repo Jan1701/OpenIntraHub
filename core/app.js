@@ -154,12 +154,22 @@ app.put('/api/user/language', authenticateToken, async (req, res) => {
 
 // Öffentlicher Endpunkt für unterstützte Sprachen
 app.get('/api/languages', (req, res) => {
+    const languageNames = {
+        de: { name: 'German', nativeName: 'Deutsch' },
+        en: { name: 'English', nativeName: 'English' },
+        fr: { name: 'French', nativeName: 'Français' },
+        es: { name: 'Spanish', nativeName: 'Español' },
+        it: { name: 'Italian', nativeName: 'Italiano' },
+        pl: { name: 'Polish', nativeName: 'Polski' },
+        nl: { name: 'Dutch', nativeName: 'Nederlands' }
+    };
+
     res.json({
         success: true,
         languages: SUPPORTED_LANGUAGES.map(lang => ({
             code: lang,
-            name: lang === 'de' ? 'Deutsch' : 'English',
-            nativeName: lang === 'de' ? 'Deutsch' : 'English'
+            name: languageNames[lang].name,
+            nativeName: languageNames[lang].nativeName
         })),
         default: 'de'
     });
@@ -246,7 +256,7 @@ async function startServer() {
             logger.info(`OpenIntraHub Core gestartet auf Port ${PORT}`);
             logger.info(`Umgebung: ${process.env.NODE_ENV || 'development'}`);
             logger.info(`Log-Level: ${process.env.LOG_LEVEL || 'debug'}`);
-            logger.info(`Mehrsprachigkeit: DE (Standard), EN`);
+            logger.info(`Mehrsprachigkeit: DE, EN, FR, ES, IT, PL, NL (Standard: DE)`);
             logger.info(`API-Dokumentation verfügbar: http://localhost:${PORT}/api-docs`);
         });
 

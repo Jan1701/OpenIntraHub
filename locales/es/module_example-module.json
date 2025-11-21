@@ -1,0 +1,22 @@
+{
+  "example": {
+    "greeting": "¡Bienvenido al módulo de ejemplo!",
+    "description": "Este módulo demuestra todas las características principales de OpenIntraHub",
+    "features": {
+      "authentication": "Autenticación y autorización",
+      "permissions": "Permisos granulares",
+      "events": "Comunicación basada en eventos",
+      "database": "Integración de base de datos",
+      "logging": "Registro estructurado",
+      "i18n": "Internacionalización"
+    },
+    "messages": {
+      "success": "Acción ejecutada exitosamente",
+      "error": "Error durante la ejecución",
+      "notFound": "Recurso no encontrado",
+      "created": "Recurso creado exitosamente",
+      "updated": "Recurso actualizado exitosamente",
+      "deleted": "Recurso eliminado exitosamente"
+    }
+  }
+}

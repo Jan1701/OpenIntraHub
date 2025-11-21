@@ -1,0 +1,71 @@
+{
+  "fields": {
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "email": "Correo electrónico",
+    "name": "Nombre",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "title": "Título",
+    "description": "Descripción",
+    "content": "Contenido",
+    "category": "Categoría",
+    "tags": "Etiquetas",
+    "status": "Estado",
+    "date": "Fecha",
+    "time": "Hora",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "city": "Ciudad",
+    "country": "País",
+    "zipCode": "Código postal",
+    "language": "Idioma"
+  },
+  "rules": {
+    "required": "{{field}} es obligatorio",
+    "email": "Por favor ingrese una dirección de correo electrónico válida",
+    "min": "{{field}} debe tener al menos {{count}} caracteres",
+    "max": "{{field}} no puede exceder {{count}} caracteres",
+    "minValue": "{{field}} debe ser al menos {{value}}",
+    "maxValue": "{{field}} no puede exceder {{value}}",
+    "between": "{{field}} debe estar entre {{min}} y {{max}}",
+    "alpha": "{{field}} solo puede contener letras",
+    "alphanumeric": "{{field}} solo puede contener letras y números",
+    "numeric": "{{field}} debe ser un número",
+    "integer": "{{field}} debe ser un número entero",
+    "url": "Por favor ingrese una URL válida",
+    "date": "Por favor ingrese una fecha válida",
+    "time": "Por favor ingrese una hora válida",
+    "datetime": "Por favor ingrese una fecha y hora válidas",
+    "boolean": "{{field}} debe ser verdadero o falso",
+    "array": "{{field}} debe ser un arreglo",
+    "object": "{{field}} debe ser un objeto",
+    "unique": "{{field}} ya está en uso",
+    "exists": "{{field}} no existe",
+    "confirmed": "{{field}} no coincide",
+    "pattern": "{{field}} tiene un formato inválido",
+    "weakPassword": "Contraseña demasiado débil. Use mayúsculas, minúsculas, números y caracteres especiales",
+    "invalidFormat": "Formato inválido para {{field}}"
+  },
+  "messages": {
+    "invalidInput": "Entrada inválida",
+    "validationFailed": "La validación falló",
+    "checkInputs": "Por favor verifique sus entradas",
+    "requiredFields": "Por favor complete todos los campos obligatorios",
+    "success": "Validación exitosa"
+  },
+  "password": {
+    "tooShort": "La contraseña debe tener al menos {{min}} caracteres",
+    "requireUppercase": "La contraseña debe contener al menos una letra mayúscula",
+    "requireLowercase": "La contraseña debe contener al menos una letra minúscula",
+    "requireNumber": "La contraseña debe contener al menos un número",
+    "requireSpecial": "La contraseña debe contener al menos un carácter especial",
+    "noMatch": "Las contraseñas no coinciden"
+  },
+  "file": {
+    "required": "Por favor seleccione un archivo",
+    "invalidType": "Tipo de archivo no permitido. Tipos permitidos: {{types}}",
+    "tooLarge": "El archivo es demasiado grande. Tamaño máximo: {{size}}",
+    "tooMany": "Demasiados archivos. Máximo permitido: {{count}}"
+  }
+}

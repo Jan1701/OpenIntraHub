@@ -1,0 +1,7 @@
+{
+  "app": {"name": "OpenIntraHub", "tagline": "Modularna Platforma Intranetowa", "welcome": "Witaj w {{name}}", "version": "Wersja {{version}}"},
+  "general": {"yes": "Tak", "no": "Nie", "ok": "OK", "cancel": "Anuluj", "save": "Zapisz", "delete": "Usuń", "edit": "Edytuj", "create": "Utwórz", "update": "Aktualizuj", "close": "Zamknij", "back": "Wstecz", "next": "Dalej", "previous": "Poprzedni", "loading": "Ładowanie...", "success": "Sukces", "error": "Błąd", "warning": "Ostrzeżenie", "info": "Informacja", "search": "Szukaj", "filter": "Filtruj", "sort": "Sortuj", "refresh": "Odśwież", "download": "Pobierz", "upload": "Prześlij", "export": "Eksportuj", "import": "Importuj"},
+  "time": {"now": "Teraz", "today": "Dzisiaj", "yesterday": "Wczoraj", "tomorrow": "Jutro", "week": "Tydzień", "month": "Miesiąc", "year": "Rok", "date": "Data", "time": "Czas", "datetime": "Data i czas"},
+  "status": {"active": "Aktywny", "inactive": "Nieaktywny", "pending": "Oczekujący", "approved": "Zatwierdzony", "rejected": "Odrzucony", "draft": "Szkic", "published": "Opublikowany"},
+  "pagination": {"page": "Strona", "of": "z", "items": "Elementy", "perPage": "Na stronę", "showing": "Wyświetlanie {{from}} do {{to}} z {{total}} elementów", "noResults": "Nie znaleziono wyników"}
+}

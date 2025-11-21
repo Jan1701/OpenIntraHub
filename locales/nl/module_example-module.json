@@ -1,0 +1,8 @@
+{
+  "example": {
+    "greeting": "Welkom bij de voorbeeldmodule!",
+    "description": "Deze module demonstreert alle kernfuncties van OpenIntraHub",
+    "features": {"authentication": "Authenticatie en autorisatie", "permissions": "Granulaire rechten", "events": "Gebeurtenisgebaseerde communicatie", "database": "Database integratie", "logging": "Gestructureerde logging", "i18n": "Internationalisering"},
+    "messages": {"success": "Actie succesvol uitgevoerd", "error": "Fout tijdens uitvoering", "notFound": "Bron niet gevonden", "created": "Bron succesvol aangemaakt", "updated": "Bron succesvol bijgewerkt", "deleted": "Bron succesvol verwijderd"}
+  }
+}

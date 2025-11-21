@@ -21,7 +21,7 @@ const path = require('path');
 const logger = require('./logger');
 
 // Unterstützte Sprachen
-const SUPPORTED_LANGUAGES = ['de', 'en'];
+const SUPPORTED_LANGUAGES = ['de', 'en', 'fr', 'es', 'it', 'pl', 'nl'];
 const DEFAULT_LANGUAGE = 'de';
 const FALLBACK_LANGUAGE = 'en';
 

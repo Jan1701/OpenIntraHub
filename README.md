@@ -220,15 +220,22 @@ OpenIntraHub unterstützt Mehrsprachigkeit mit **i18next**.
 
 - 🇩🇪 **Deutsch (DE)** - Standard
 - 🇬🇧 **English (EN)**
+- 🇫🇷 **Français (FR)**
+- 🇪🇸 **Español (ES)**
+- 🇮🇹 **Italiano (IT)**
+- 🇵🇱 **Polski (PL)**
+- 🇳🇱 **Nederlands (NL)**
 
 ### Sprachumschaltung
 
 ```bash
-# Query-Parameter
+# Query-Parameter (de, en, fr, es, it, pl, nl)
 GET /api/example/hello?lang=en
+GET /api/example/hello?lang=fr
 
 # Accept-Language Header
 curl -H "Accept-Language: en" http://localhost:3000/api/example/hello
+curl -H "Accept-Language: es" http://localhost:3000/api/example/hello
 
 # Cookie (automatisch gesetzt nach Sprachwahl)
 Cookie: i18next=en
