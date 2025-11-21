@@ -11,6 +11,9 @@ import CategoryManager from './pages/Posts/CategoryManager';
 import TagManager from './pages/Posts/TagManager';
 import LocationsList from './pages/Locations/LocationsList';
 import LocationEditor from './pages/Locations/LocationEditor';
+import EventsList from './pages/Events/EventsList';
+import EventEditor from './pages/Events/EventEditor';
+import EventDetails from './pages/Events/EventDetails';
 import './styles/index.css';
 
 function App() {
@@ -53,6 +56,12 @@ function App() {
           <Route path="locations" element={<LocationsList />} />
           <Route path="locations/new" element={<LocationEditor />} />
           <Route path="locations/:id/edit" element={<LocationEditor />} />
+
+          {/* Events Routes */}
+          <Route path="events" element={<EventsList />} />
+          <Route path="events/new" element={<EventEditor />} />
+          <Route path="events/:id" element={<EventDetails />} />
+          <Route path="events/:id/edit" element={<EventEditor />} />
         </Route>
       </Routes>
     </Router>

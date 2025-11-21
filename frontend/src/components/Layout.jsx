@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, FileText, Blocks, BookOpen, MapPin } from 'lucide-react';
+import { LayoutDashboard, FileText, Blocks, BookOpen, MapPin, Calendar } from 'lucide-react';
 
 function Layout() {
   const { t } = useTranslation();
@@ -10,6 +10,7 @@ function Layout() {
     { name: t('pageBuilder.pages'), href: '/pages', icon: FileText },
     { name: 'Posts', href: '/posts', icon: BookOpen },
     { name: 'Locations', href: '/locations', icon: MapPin },
+    { name: 'Events', href: '/events', icon: Calendar },
     { name: t('pageBuilder.modules'), href: '/modules', icon: Blocks }
   ];
 

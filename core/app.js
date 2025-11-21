@@ -28,6 +28,7 @@ const postsApi = require('./postsApi');
 const locationApi = require('./locationApi');
 const moduleManagementApi = require('./moduleManagementApi');
 const userManagementApi = require('./userManagementApi');
+const eventsApi = require('./eventsApi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -194,6 +195,9 @@ app.use('/api', moduleManagementApi);
 
 // User Management API
 app.use('/api', userManagementApi);
+
+// Events API
+app.use('/api', eventsApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
