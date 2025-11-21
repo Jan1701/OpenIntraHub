@@ -12,7 +12,8 @@ import {
   Home,
   User,
   Settings,
-  LogOut
+  LogOut,
+  HardDrive
 } from 'lucide-react';
 import NotificationBell from './NotificationBell';
 
@@ -27,6 +28,7 @@ function Layout() {
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Chat', href: '/chat', icon: MessageSquare },
+    { name: 'Drive', href: '/drive', icon: HardDrive },
     { name: 'Posts', href: '/posts', icon: BookOpen },
     { name: 'Events', href: '/events', icon: Calendar },
     { name: 'Locations', href: '/locations', icon: MapPin },
