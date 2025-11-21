@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const ModuleLoader = require('./moduleLoader');
+const EnhancedModuleLoader = require('./enhancedModuleLoader');
 const eventBus = require('./eventBus');
 const auth = require('./auth');
 const database = require('./database');
@@ -26,6 +26,8 @@ const userService = require('./userService');
 const pageBuilderApi = require('./pageBuilderApi');
 const postsApi = require('./postsApi');
 const locationApi = require('./locationApi');
+const moduleManagementApi = require('./moduleManagementApi');
+const userManagementApi = require('./userManagementApi');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -187,6 +189,12 @@ app.use('/api', postsApi);
 // Location API
 app.use('/api', locationApi);
 
+// Module Management API
+app.use('/api', moduleManagementApi);
+
+// User Management API
+app.use('/api', userManagementApi);
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -226,9 +234,8 @@ app.post('/api/files/upload', authenticateToken, requirePermission('files.upload
     });
 });
 
-// Module System starten
-const loader = new ModuleLoader(app, eventBus);
-loader.loadModules();
+// Module System initialisieren (wird in startServer() geladen)
+const moduleLoader = new EnhancedModuleLoader(app, eventBus);
 
 // 404 Handler
 app.use((req, res) => {
@@ -261,6 +268,13 @@ async function startServer() {
             }
         } else {
             logger.info('Keine DB konfiguriert - Auth läuft ohne DB (nur LDAP/Mock)');
+        }
+
+        // Module laden (Enhanced Module System mit Feature-Toggles)
+        if (database.pool) {
+            logger.info('Lade Module mit Enhanced Module Loader...');
+            await moduleLoader.loadModules();
+            logger.info('Module erfolgreich geladen');
         }
 
         // Server starten

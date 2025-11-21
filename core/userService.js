@@ -328,5 +328,6 @@ module.exports = {
     updateLastLogin,
     deactivateUser,
     deleteUser,
-    countUsers
+    countUsers,
+    database // Export database for advanced queries
 };
