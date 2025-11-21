@@ -1,0 +1,63 @@
+{
+  "title": "Projets",
+  "subtitle": "Gestion de Projets & Kanban",
+  "myProjects": "Mes Projets",
+  "newProject": "Nouveau Projet",
+  "project": {
+    "name": "Nom du Projet",
+    "key": "Clé du Projet",
+    "description": "Description",
+    "status": "Statut",
+    "progress": "Progression",
+    "tasks": "Tâches",
+    "members": "Membres",
+    "created": "Créé",
+    "deadline": "Date Limite",
+    "startDate": "Date de Début"
+  },
+  "board": {
+    "title": "Tableau",
+    "kanban": "Kanban",
+    "timeline": "Chronologie",
+    "list": "Liste"
+  },
+  "task": {
+    "title": "Tâche",
+    "new": "Nouvelle Tâche",
+    "assignee": "Assigné à",
+    "reporter": "Créateur",
+    "priority": "Priorité",
+    "type": "Type",
+    "status": "Statut",
+    "dueDate": "Date d'Échéance",
+    "description": "Description",
+    "comments": "Commentaires",
+    "activity": "Activité",
+    "attachments": "Pièces Jointes"
+  },
+  "priority": {
+    "low": "Faible",
+    "medium": "Moyen",
+    "high": "Élevé",
+    "critical": "Critique"
+  },
+  "type": {
+    "task": "Tâche",
+    "bug": "Bug",
+    "feature": "Fonctionnalité",
+    "epic": "Epic",
+    "story": "Histoire"
+  },
+  "status": {
+    "open": "Ouvert",
+    "in_progress": "En Cours",
+    "in_review": "En Révision",
+    "done": "Terminé",
+    "blocked": "Bloqué",
+    "active": "Actif",
+    "planning": "Planification",
+    "on_hold": "En Attente",
+    "completed": "Complété",
+    "archived": "Archivé"
+  }
+}

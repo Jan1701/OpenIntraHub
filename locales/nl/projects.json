@@ -1,0 +1,63 @@
+{
+  "title": "Projecten",
+  "subtitle": "Projectbeheer & Kanban",
+  "myProjects": "Mijn Projecten",
+  "newProject": "Nieuw Project",
+  "project": {
+    "name": "Projectnaam",
+    "key": "Projectsleutel",
+    "description": "Beschrijving",
+    "status": "Status",
+    "progress": "Voortgang",
+    "tasks": "Taken",
+    "members": "Leden",
+    "created": "Aangemaakt",
+    "deadline": "Deadline",
+    "startDate": "Startdatum"
+  },
+  "board": {
+    "title": "Bord",
+    "kanban": "Kanban",
+    "timeline": "Tijdlijn",
+    "list": "Lijst"
+  },
+  "task": {
+    "title": "Taak",
+    "new": "Nieuwe Taak",
+    "assignee": "Toegewezen aan",
+    "reporter": "Maker",
+    "priority": "Prioriteit",
+    "type": "Type",
+    "status": "Status",
+    "dueDate": "Vervaldatum",
+    "description": "Beschrijving",
+    "comments": "Opmerkingen",
+    "activity": "Activiteit",
+    "attachments": "Bijlagen"
+  },
+  "priority": {
+    "low": "Laag",
+    "medium": "Gemiddeld",
+    "high": "Hoog",
+    "critical": "Kritiek"
+  },
+  "type": {
+    "task": "Taak",
+    "bug": "Bug",
+    "feature": "Feature",
+    "epic": "Epic",
+    "story": "Verhaal"
+  },
+  "status": {
+    "open": "Open",
+    "in_progress": "In Behandeling",
+    "in_review": "In Beoordeling",
+    "done": "Klaar",
+    "blocked": "Geblokkeerd",
+    "active": "Actief",
+    "planning": "Planning",
+    "on_hold": "In Wacht",
+    "completed": "Voltooid",
+    "archived": "Gearchiveerd"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "title": "Projekty",
+  "subtitle": "Zarządzanie Projektami & Kanban",
+  "myProjects": "Moje Projekty",
+  "newProject": "Nowy Projekt",
+  "project": {
+    "name": "Nazwa Projektu",
+    "key": "Klucz Projektu",
+    "description": "Opis",
+    "status": "Status",
+    "progress": "Postęp",
+    "tasks": "Zadania",
+    "members": "Członkowie",
+    "created": "Utworzono",
+    "deadline": "Termin",
+    "startDate": "Data Rozpoczęcia"
+  },
+  "board": {
+    "title": "Tablica",
+    "kanban": "Kanban",
+    "timeline": "Oś Czasu",
+    "list": "Lista"
+  },
+  "task": {
+    "title": "Zadanie",
+    "new": "Nowe Zadanie",
+    "assignee": "Przypisano do",
+    "reporter": "Twórca",
+    "priority": "Priorytet",
+    "type": "Typ",
+    "status": "Status",
+    "dueDate": "Termin Wykonania",
+    "description": "Opis",
+    "comments": "Komentarze",
+    "activity": "Aktywność",
+    "attachments": "Załączniki"
+  },
+  "priority": {
+    "low": "Niski",
+    "medium": "Średni",
+    "high": "Wysoki",
+    "critical": "Krytyczny"
+  },
+  "type": {
+    "task": "Zadanie",
+    "bug": "Błąd",
+    "feature": "Funkcja",
+    "epic": "Epic",
+    "story": "Historia"
+  },
+  "status": {
+    "open": "Otwarte",
+    "in_progress": "W Trakcie",
+    "in_review": "W Recenzji",
+    "done": "Zrobione",
+    "blocked": "Zablokowane",
+    "active": "Aktywny",
+    "planning": "Planowanie",
+    "on_hold": "Wstrzymany",
+    "completed": "Ukończony",
+    "archived": "Zarchiwizowany"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "title": "Progetti",
+  "subtitle": "Gestione Progetti & Kanban",
+  "myProjects": "I Miei Progetti",
+  "newProject": "Nuovo Progetto",
+  "project": {
+    "name": "Nome Progetto",
+    "key": "Chiave Progetto",
+    "description": "Descrizione",
+    "status": "Stato",
+    "progress": "Progresso",
+    "tasks": "Attività",
+    "members": "Membri",
+    "created": "Creato",
+    "deadline": "Scadenza",
+    "startDate": "Data di Inizio"
+  },
+  "board": {
+    "title": "Bacheca",
+    "kanban": "Kanban",
+    "timeline": "Timeline",
+    "list": "Lista"
+  },
+  "task": {
+    "title": "Attività",
+    "new": "Nuova Attività",
+    "assignee": "Assegnato a",
+    "reporter": "Creatore",
+    "priority": "Priorità",
+    "type": "Tipo",
+    "status": "Stato",
+    "dueDate": "Data di Scadenza",
+    "description": "Descrizione",
+    "comments": "Commenti",
+    "activity": "Attività",
+    "attachments": "Allegati"
+  },
+  "priority": {
+    "low": "Bassa",
+    "medium": "Media",
+    "high": "Alta",
+    "critical": "Critica"
+  },
+  "type": {
+    "task": "Attività",
+    "bug": "Bug",
+    "feature": "Funzionalità",
+    "epic": "Epic",
+    "story": "Storia"
+  },
+  "status": {
+    "open": "Aperto",
+    "in_progress": "In Corso",
+    "in_review": "In Revisione",
+    "done": "Completato",
+    "blocked": "Bloccato",
+    "active": "Attivo",
+    "planning": "Pianificazione",
+    "on_hold": "In Attesa",
+    "completed": "Completato",
+    "archived": "Archiviato"
+  }
+}

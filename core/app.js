@@ -40,6 +40,7 @@ const userStatusApi = require('./userStatusApi');
 const mailApi = require('./mailApi');
 const ldapApi = require('./ldapApi');
 const driveApi = require('./driveApi');
+const projectApi = require('./projectApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -244,6 +245,9 @@ app.use('/api', ldapApi);
 
 // Drive API (File Management)
 app.use('/api', driveApi);
+
+// Project Management API
+app.use('/api', projectApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {

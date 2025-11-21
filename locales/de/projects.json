@@ -1,0 +1,57 @@
+{
+  "title": "Projekte",
+  "subtitle": "Projekt-Management & Kanban",
+  "myProjects": "Meine Projekte",
+  "newProject": "Neues Projekt",
+  "project": {
+    "name": "Projektname",
+    "key": "Projekt-Kürzel",
+    "description": "Beschreibung",
+    "status": "Status",
+    "progress": "Fortschritt",
+    "tasks": "Aufgaben",
+    "members": "Mitglieder",
+    "created": "Erstellt",
+    "deadline": "Deadline"
+  },
+  "board": {
+    "title": "Board",
+    "kanban": "Kanban",
+    "timeline": "Zeitstrahl",
+    "list": "Liste"
+  },
+  "task": {
+    "title": "Aufgabe",
+    "new": "Neue Aufgabe",
+    "assignee": "Zugewiesen an",
+    "reporter": "Ersteller",
+    "priority": "Priorität",
+    "type": "Typ",
+    "status": "Status",
+    "dueDate": "Fälligkeitsdatum",
+    "description": "Beschreibung",
+    "comments": "Kommentare",
+    "activity": "Aktivität",
+    "attachments": "Anhänge"
+  },
+  "priority": {
+    "low": "Niedrig",
+    "medium": "Mittel",
+    "high": "Hoch",
+    "critical": "Kritisch"
+  },
+  "type": {
+    "task": "Aufgabe",
+    "bug": "Fehler",
+    "feature": "Feature",
+    "epic": "Epic",
+    "story": "Story"
+  },
+  "status": {
+    "open": "Offen",
+    "in_progress": "In Bearbeitung",
+    "in_review": "In Review",
+    "done": "Erledigt",
+    "blocked": "Blockiert"
+  }
+}

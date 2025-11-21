@@ -19,6 +19,8 @@ import EventEditor from './pages/Events/EventEditor';
 import EventDetails from './pages/Events/EventDetails';
 import LDAPAdmin from './pages/Admin/LDAPAdmin';
 import Drive from './pages/Drive/DriveAdvanced';
+import ProjectList from './pages/Projects/ProjectList';
+import ProjectKanban from './pages/Projects/ProjectKanban';
 import './styles/index.css';
 
 function App() {
@@ -53,6 +55,10 @@ function App() {
 
           {/* Drive */}
           <Route path="drive" element={<Drive />} />
+
+          {/* Projects Routes */}
+          <Route path="projects" element={<ProjectList />} />
+          <Route path="projects/:projectId" element={<ProjectKanban />} />
 
           {/* Posts Routes */}
           <Route path="posts" element={<PostsList />} />
