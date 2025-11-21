@@ -17,6 +17,7 @@ import LocationEditor from './pages/Locations/LocationEditor';
 import EventsList from './pages/Events/EventsList';
 import EventEditor from './pages/Events/EventEditor';
 import EventDetails from './pages/Events/EventDetails';
+import LDAPAdmin from './pages/Admin/LDAPAdmin';
 import './styles/index.css';
 
 function App() {
@@ -74,6 +75,9 @@ function App() {
 
           {/* Module Registry */}
           <Route path="modules" element={<ModuleRegistry />} />
+
+          {/* Admin Routes */}
+          <Route path="admin/ldap" element={<LDAPAdmin />} />
         </Route>
       </Routes>
     </Router>
