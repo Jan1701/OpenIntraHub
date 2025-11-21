@@ -66,7 +66,7 @@ function ChatWindow({ conversationId }) {
 
     const markAsRead = async (lastMessageId) => {
         try {
-            await api.put(`/chat/conversations/${conversationId}/read`, {
+            await api.post(`/chat/conversations/${conversationId}/read`, {
                 last_message_id: lastMessageId
             });
 

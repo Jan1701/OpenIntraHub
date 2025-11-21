@@ -170,6 +170,7 @@ module.exports = {
                         id: user.id,
                         username: user.username,
                         name: user.name,
+                        display_name: user.name, // Alias für Frontend-Kompatibilität
                         email: user.email,
                         role: user.role
                     }

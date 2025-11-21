@@ -687,9 +687,10 @@ function setupSocketIO(io, authenticateSocketToken) {
                 const conversationId = messageData.rows[0].conversation_id;
 
                 // Broadcast reaction to conversation
-                chatNamespace.to(`conversation:${conversationId}`).emit('message:reaction:added', {
+                chatNamespace.to(`conversation:${conversationId}`).emit('message:reaction', {
                     conversation_id: conversationId,
                     message_id,
+                    reaction_count: reaction.reaction_count,
                     reaction: {
                         ...reaction,
                         user_name: socket.user.name
