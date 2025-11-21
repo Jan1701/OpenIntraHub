@@ -4,6 +4,7 @@ const cors = require('cors');
 const ModuleLoader = require('./moduleLoader');
 const eventBus = require('./eventBus');
 const auth = require('./auth');
+const database = require('./database');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('Core');
@@ -141,9 +142,46 @@ app.use((err, req, res, next) => {
 });
 
 // Server Start
-app.listen(PORT, () => {
-    logger.info(`OpenIntraHub Core gestartet auf Port ${PORT}`);
-    logger.info(`Umgebung: ${process.env.NODE_ENV || 'development'}`);
-    logger.info(`Log-Level: ${process.env.LOG_LEVEL || 'debug'}`);
-    logger.info(`API-Dokumentation verfügbar: http://localhost:${PORT}/api-docs`);
+async function startServer() {
+    try {
+        // Datenbankverbindung herstellen (optional)
+        if (process.env.DB_HOST) {
+            logger.info('Stelle Datenbankverbindung her...');
+            const connected = await database.connect();
+            if (connected) {
+                logger.info('Datenbankverbindung erfolgreich');
+            } else {
+                logger.warn('Datenbankverbindung fehlgeschlagen - Auth läuft ohne DB');
+            }
+        } else {
+            logger.info('Keine DB konfiguriert - Auth läuft ohne DB (nur LDAP/Mock)');
+        }
+
+        // Server starten
+        app.listen(PORT, () => {
+            logger.info(`OpenIntraHub Core gestartet auf Port ${PORT}`);
+            logger.info(`Umgebung: ${process.env.NODE_ENV || 'development'}`);
+            logger.info(`Log-Level: ${process.env.LOG_LEVEL || 'debug'}`);
+            logger.info(`API-Dokumentation verfügbar: http://localhost:${PORT}/api-docs`);
+        });
+
+    } catch (error) {
+        logger.error('Fehler beim Starten des Servers', { error: error.message, stack: error.stack });
+        process.exit(1);
+    }
+}
+
+// Graceful Shutdown
+process.on('SIGTERM', async () => {
+    logger.info('SIGTERM empfangen, fahre Server herunter...');
+    await database.close();
+    process.exit(0);
 });
+
+process.on('SIGINT', async () => {
+    logger.info('SIGINT empfangen, fahre Server herunter...');
+    await database.close();
+    process.exit(0);
+});
+
+startServer();

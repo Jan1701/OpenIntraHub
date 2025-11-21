@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const { createModuleLogger } = require('./logger');
+const database = require('./database');
+const middleware = require('./middleware');
+const permissions = require('./permissions');
 
 const logger = createModuleLogger('ModuleLoader');
 
@@ -31,11 +34,44 @@ class ModuleLoader {
 
                 // Modul initialisieren
                 try {
-                    entryPoint.init({
+                    // Module Context mit allen wichtigen Core-Funktionen
+                    const moduleContext = {
+                        // Express App für Routes
                         router: this.app,
+
+                        // Event-Bus für Kommunikation
                         events: this.eventBus,
-                        config: manifest.config || {}
-                    });
+
+                        // Modul-Konfiguration
+                        config: manifest.config || {},
+
+                        // Core Services
+                        services: {
+                            database,
+                            logger: createModuleLogger(manifest.name)
+                        },
+
+                        // Middleware-Funktionen
+                        middleware: {
+                            authenticateToken: middleware.authenticateToken,
+                            optionalAuth: middleware.optionalAuth,
+                            requireRole: middleware.requireRole,
+                            requireAdmin: middleware.requireAdmin,
+                            requireModerator: middleware.requireModerator,
+                            rateLimit: middleware.rateLimit
+                        },
+
+                        // Permissions-System
+                        permissions: {
+                            requirePermission: permissions.requirePermission,
+                            requireAllPermissions: permissions.requireAllPermissions,
+                            hasPermission: permissions.hasPermission,
+                            ROLES: permissions.ROLES,
+                            PERMISSIONS: permissions.PERMISSIONS
+                        }
+                    };
+
+                    entryPoint.init(moduleContext);
 
                     this.modules.set(manifest.name, manifest);
                     logger.info('Modul geladen', { name: manifest.name, version: manifest.version });
