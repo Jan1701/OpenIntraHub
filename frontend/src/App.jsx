@@ -5,6 +5,10 @@ import PageBuilder from './pages/PageBuilder';
 import ModuleRegistry from './pages/ModuleRegistry';
 import Login from './pages/Login';
 import Layout from './components/Layout';
+import PostsList from './pages/Posts/PostsList';
+import PostEditor from './pages/Posts/PostEditor';
+import CategoryManager from './pages/Posts/CategoryManager';
+import TagManager from './pages/Posts/TagManager';
 import './styles/index.css';
 
 function App() {
@@ -35,6 +39,13 @@ function App() {
           <Route path="pages/new" element={<PageBuilder />} />
           <Route path="pages/:id/edit" element={<PageBuilder />} />
           <Route path="modules" element={<ModuleRegistry />} />
+
+          {/* Posts Routes */}
+          <Route path="posts" element={<PostsList />} />
+          <Route path="posts/new" element={<PostEditor />} />
+          <Route path="posts/:id/edit" element={<PostEditor />} />
+          <Route path="posts/categories" element={<CategoryManager />} />
+          <Route path="posts/tags" element={<TagManager />} />
         </Route>
       </Routes>
     </Router>
