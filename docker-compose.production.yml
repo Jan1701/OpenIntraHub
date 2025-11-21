@@ -1,0 +1,125 @@
+version: '3.8'
+
+# =====================================================
+# OpenIntraHub v0.1.1-alpha - Production Setup
+# Für Debian Server mit Nginx Proxy Manager
+# =====================================================
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: openintrahub-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-openintrahub}
+      POSTGRES_USER: ${DB_USER:-openintrahub}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=de_DE.utf8"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "127.0.0.1:5432:5432"  # Only accessible from localhost
+    networks:
+      - openintrahub-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-openintrahub}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (for Chat, Caching, Sessions)
+  redis:
+    image: redis:7-alpine
+    container_name: openintrahub-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "127.0.0.1:6379:6379"  # Only accessible from localhost
+    networks:
+      - openintrahub-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # OpenIntraHub App
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: openintrahub-app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Node Environment
+      NODE_ENV: production
+      PORT: 3000
+
+      # Database
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-openintrahub}
+      DB_USER: ${DB_USER:-openintrahub}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      # Redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+      # JWT
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+
+      # LDAP (optional)
+      LDAP_ENABLED: ${LDAP_ENABLED:-false}
+      LDAP_URL: ${LDAP_URL:-ldap://ldap.example.com}
+      LDAP_BIND_DN: ${LDAP_BIND_DN}
+      LDAP_BIND_PASSWORD: ${LDAP_BIND_PASSWORD}
+      LDAP_SEARCH_BASE: ${LDAP_SEARCH_BASE:-dc=example,dc=com}
+      LDAP_SEARCH_FILTER: ${LDAP_SEARCH_FILTER:-(uid={{username}})}
+
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+
+      # Frontend URL (for CORS & Socket.io)
+      FRONTEND_URL: ${FRONTEND_URL:-https://intranet.example.com}
+
+      # File Uploads
+      UPLOAD_MAX_SIZE: ${UPLOAD_MAX_SIZE:-25mb}
+      UPLOAD_PATH: ${UPLOAD_PATH:-/app/uploads}
+
+    volumes:
+      - uploads_data:/app/uploads
+      - ./logs:/app/logs
+    ports:
+      - "127.0.0.1:3000:3000"  # Exposed to localhost for Nginx Proxy Manager
+    networks:
+      - openintrahub-network
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  openintrahub-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  uploads_data:
+    driver: local
