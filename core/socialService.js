@@ -9,7 +9,7 @@ const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('SocialService');
 
-// Reaction Types (Meta Workplace-inspiriert)
+// Reaction Types (Standard Enterprise Social Network Reactions)
 const REACTION_TYPES = {
     LIKE: 'like',           // 👍
     LOVE: 'love',           // ❤️

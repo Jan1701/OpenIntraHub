@@ -1,6 +1,6 @@
 -- =====================================================
 -- Migration 010: Activity Feed & Reactions System
--- Erweitert Posts-Modul zu Social Feed wie Meta Workplace
+-- Erweitert Posts-Modul zu modernem Social Feed für Unternehmen
 -- Author: Jan Günther <jg@linxpress.de>
 -- =====================================================
 

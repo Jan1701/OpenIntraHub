@@ -1,5 +1,5 @@
 -- =====================================================
--- Migration 011: Chat System (Meta Workplace-inspiriert)
+-- Migration 011: Chat System für Unternehmenskommunikation
 -- Real-time Messaging mit Socket.io + Redis
 -- Author: Jan Günther <jg@linxpress.de>
 -- =====================================================
