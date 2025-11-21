@@ -5,6 +5,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import api from '../../services/api';
 import { useConversationMessages, useTypingIndicator, useSocket } from '../../hooks/useSocket';
+import { useSingleUserStatus } from '../../hooks/useUserStatus';
+import UserStatusBadge from '../../components/UserStatusBadge';
 
 function ChatWindow({ conversationId }) {
     const [conversation, setConversation] = useState(null);
@@ -18,6 +20,10 @@ function ChatWindow({ conversationId }) {
     const { messages, setMessages, loading, setLoading } = useConversationMessages(conversationId);
     const typingUsers = useTypingIndicator(conversationId);
     const { socket } = useSocket();
+
+    // Get participant status (only for direct chats)
+    const participantId = conversation?.type === 'direct' ? conversation.participant_id : null;
+    const { status: participantStatus } = useSingleUserStatus(participantId);
 
     // Load conversation details
     useEffect(() => {
@@ -217,25 +223,61 @@ function ChatWindow({ conversationId }) {
             <div className="px-6 py-4 border-b border-gray-200 bg-white">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center">
-                        {conversation?.participant_avatar ? (
-                            <img
-                                src={conversation.participant_avatar}
-                                alt={getConversationName()}
-                                className="w-10 h-10 rounded-full object-cover"
-                            />
-                        ) : (
-                            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                                <span className="text-gray-600 font-semibold">
-                                    {getConversationName().charAt(0).toUpperCase()}
-                                </span>
-                            </div>
-                        )}
+                        <div className="relative">
+                            {conversation?.participant_avatar ? (
+                                <img
+                                    src={conversation.participant_avatar}
+                                    alt={getConversationName()}
+                                    className="w-10 h-10 rounded-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                    <span className="text-gray-600 font-semibold">
+                                        {getConversationName().charAt(0).toUpperCase()}
+                                    </span>
+                                </div>
+                            )}
+                            {conversation?.type === 'direct' && participantStatus && (
+                                <UserStatusBadge
+                                    status={participantStatus.status}
+                                    size="sm"
+                                    className="absolute -bottom-1 -right-1"
+                                />
+                            )}
+                        </div>
                         <div className="ml-3">
                             <h2 className="text-lg font-semibold text-gray-900">
                                 {getConversationName()}
                             </h2>
-                            {conversation?.type === 'direct' && conversation.participant_online && (
-                                <p className="text-xs text-green-600">Online</p>
+                            {conversation?.type === 'direct' && participantStatus && (
+                                <div className="flex items-center text-xs">
+                                    {participantStatus.status === 'available' && (
+                                        <span className="text-green-600">Verfügbar</span>
+                                    )}
+                                    {participantStatus.status === 'away' && (
+                                        <span className="text-yellow-600">Abwesend</span>
+                                    )}
+                                    {participantStatus.status === 'busy' && (
+                                        <span className="text-red-600">Beschäftigt</span>
+                                    )}
+                                    {participantStatus.status === 'dnd' && (
+                                        <span className="text-red-600">Nicht stören</span>
+                                    )}
+                                    {participantStatus.status === 'oof' && (
+                                        <span className="text-purple-600">🏖️ Abwesend</span>
+                                    )}
+                                    {participantStatus.status === 'offline' && (
+                                        <span className="text-gray-500">Offline</span>
+                                    )}
+                                    {participantStatus.status_message && (
+                                        <span className="ml-2 text-gray-500">• {participantStatus.status_message}</span>
+                                    )}
+                                </div>
+                            )}
+                            {participantStatus?.status === 'oof' && participantStatus.oof_enabled && participantStatus.oof_internal_message && (
+                                <div className="mt-1 px-2 py-1 bg-purple-50 text-purple-700 text-xs rounded">
+                                    {participantStatus.oof_internal_message}
+                                </div>
                             )}
                         </div>
                     </div>

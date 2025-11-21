@@ -37,6 +37,7 @@ const socialApi = require('./socialApi');
 const chatApi = require('./chatApi');
 const exchangeApi = require('./exchangeApi');
 const userStatusApi = require('./userStatusApi');
+const mailApi = require('./mailApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 
 const app = express();
@@ -231,6 +232,9 @@ app.use('/api', exchangeApi);
 
 // User Status API (Global Presence)
 app.use('/api', userStatusApi);
+
+// Mail API (Exchange Mail Integration)
+app.use('/api/mail', mailApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {

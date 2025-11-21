@@ -32,6 +32,36 @@
 - **Eigene APIs** - Jedes Modul hat eigene Endpoints
 - **Versionierung** - Module unabhängig versionierbar
 
+### 📧 **Exchange Integration & Mail**
+- **📅 Bidirektionale Kalender-Synchronisation** - Vollständige 2-Wege-Sync mit Microsoft Exchange
+- **📬 Mail Client** - Vollständiger E-Mail-Client mit Inbox, Compose, Attachments
+- **🔄 Automatische Synchronisation** - Scheduled Worker synct alle 15 Minuten (konfigurierbar)
+- **🏖️ Out of Office (OOF)** - Globale Abwesenheitsverwaltung mit Exchange-Sync
+- **📁 Folder Management** - Synchronisiere Exchange-Ordner und -Nachrichten
+- **🔐 Verschlüsselte Credentials** - AES-256-GCM Verschlüsselung für Exchange-Zugangsdaten
+
+### 💬 **Chat & Real-time Communication**
+- **WebSocket Chat** - Echtzeit-Messaging mit Socket.io
+- **👤 User Status** - Globales Präsenz-System (Available, Away, Busy, DND, Offline, OOF)
+- **📊 Status History** - Tracking von Status-Änderungen für Analytics
+- **💼 Group & Direct Chats** - 1:1 Direktnachrichten und Gruppenchats
+- **📎 File Sharing** - Datei-Upload und -Freigabe in Chats
+- **✍️ Typing Indicators** - Echtzeit-Tippindikatoren
+- **✓ Read Receipts** - Lesebestätigungen für Nachrichten
+
+### 🏗️ **Page Builder & Content**
+- **🎨 Drag & Drop Editor** - Visueller Page Builder
+- **📝 Posts & Blog** - Rich-Text-Editor mit Kategorien und Tags
+- **📅 Events & Calendar** - Event-Management mit Kalenderansicht
+- **📍 Locations & Rooms** - Standort- und Raum-Verwaltung
+- **🖼️ Media Library** - Zentrale Medienverwaltung
+
+### 🛠️ **Setup & Administration**
+- **🚀 Web-basierter Setup-Wizard** - Schritt-für-Schritt Installation
+- **🧩 Module Selection** - Wähle Module während der Installation
+- **⚙️ Environment Configuration** - Konfiguriere DB, Redis, Exchange im Setup
+- **👥 Admin User Creation** - Erstelle Admin-Account im Setup
+
 ---
 
 ## 📦 Schnellstart
@@ -96,6 +126,10 @@ LDAP_URL=ldap://localhost:389
 LDAP_BIND_DN=cn=admin,dc=example,dc=com
 LDAP_BIND_PASSWORD=admin_password
 LDAP_SEARCH_BASE=ou=users,dc=example,dc=com
+
+# Exchange Integration (optional)
+EXCHANGE_ENABLED=false
+EXCHANGE_SYNC_INTERVAL_MINUTES=15
 
 # Logging
 LOG_LEVEL=info

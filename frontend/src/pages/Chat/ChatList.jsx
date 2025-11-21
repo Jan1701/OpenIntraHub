@@ -2,10 +2,12 @@
 // ChatList - Conversation List
 // =====================================================
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import { useSocket, useOnlineStatus } from '../../hooks/useSocket';
+import { useUserStatus } from '../../hooks/useUserStatus';
+import UserStatusBadge from '../../components/UserStatusBadge';
 
 function ChatList({ selectedConversationId, onSelectConversation }) {
     const [conversations, setConversations] = useState([]);
@@ -17,6 +19,15 @@ function ChatList({ selectedConversationId, onSelectConversation }) {
 
     const { connected, socket } = useSocket();
     const { isUserOnline } = useOnlineStatus();
+
+    // Get all participant IDs for status tracking
+    const participantIds = useMemo(() => {
+        return conversations
+            .filter(c => c.type === 'direct' && c.participant_id)
+            .map(c => c.participant_id);
+    }, [conversations]);
+
+    const { statuses, getUserStatus } = useUserStatus(participantIds);
 
     // Load conversations
     useEffect(() => {
@@ -228,9 +239,13 @@ function ChatList({ selectedConversationId, onSelectConversation }) {
                                             </span>
                                         </div>
                                     )}
-                                    {/* Online indicator */}
-                                    {isOnline && (
-                                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                                    {/* Status indicator */}
+                                    {conversation.type === 'direct' && conversation.participant_id && (
+                                        <UserStatusBadge
+                                            status={getUserStatus(conversation.participant_id)?.status || 'offline'}
+                                            size="sm"
+                                            className="absolute bottom-0 right-0"
+                                        />
                                     )}
                                 </div>
 
@@ -258,6 +273,25 @@ function ChatList({ selectedConversationId, onSelectConversation }) {
                                             </span>
                                         )}
                                     </div>
+                                    {/* Show status message or OOF message */}
+                                    {conversation.type === 'direct' && conversation.participant_id && (() => {
+                                        const status = getUserStatus(conversation.participant_id);
+                                        if (status?.status === 'oof' && status.oof_enabled) {
+                                            return (
+                                                <div className="mt-1 flex items-center text-xs text-purple-600">
+                                                    <span className="mr-1">🏖️</span>
+                                                    <span className="truncate">Abwesend bis {status.oof_end_time ? new Date(status.oof_end_time).toLocaleDateString('de-DE') : 'auf Weiteres'}</span>
+                                                </div>
+                                            );
+                                        } else if (status?.status_message) {
+                                            return (
+                                                <div className="mt-1 text-xs text-gray-500 truncate">
+                                                    {status.status_message}
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })()}
                                 </div>
                             </div>
                         );
@@ -286,35 +320,56 @@ function ChatList({ selectedConversationId, onSelectConversation }) {
                                     Lädt Benutzer...
                                 </div>
                             ) : (
-                                users.map(user => (
-                                    <div
-                                        key={user.id}
-                                        onClick={() => handleStartDirectChat(user.id)}
-                                        className="flex items-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition"
-                                    >
-                                        {user.avatar_url ? (
-                                            <img
-                                                src={user.avatar_url}
-                                                alt={user.display_name || user.username}
-                                                className="w-10 h-10 rounded-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                                                <span className="text-gray-600 font-semibold">
-                                                    {(user.display_name || user.username).charAt(0).toUpperCase()}
-                                                </span>
+                                users.map(user => {
+                                    const userStatus = getUserStatus(user.id);
+                                    return (
+                                        <div
+                                            key={user.id}
+                                            onClick={() => handleStartDirectChat(user.id)}
+                                            className="flex items-center p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition"
+                                        >
+                                            <div className="relative flex-shrink-0">
+                                                {user.avatar_url ? (
+                                                    <img
+                                                        src={user.avatar_url}
+                                                        alt={user.display_name || user.username}
+                                                        className="w-10 h-10 rounded-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
+                                                        <span className="text-gray-600 font-semibold">
+                                                            {(user.display_name || user.username).charAt(0).toUpperCase()}
+                                                        </span>
+                                                    </div>
+                                                )}
+                                                <UserStatusBadge
+                                                    status={userStatus?.status || 'offline'}
+                                                    size="sm"
+                                                    className="absolute bottom-0 right-0"
+                                                />
                                             </div>
-                                        )}
-                                        <div className="ml-3">
-                                            <div className="text-sm font-semibold text-gray-900">
-                                                {user.display_name || user.username}
+                                            <div className="ml-3 flex-1 min-w-0">
+                                                <div className="text-sm font-semibold text-gray-900 flex items-center">
+                                                    {user.display_name || user.username}
+                                                    {userStatus?.status && (
+                                                        <span className="ml-2 text-xs text-gray-500">
+                                                            {userStatus.status === 'available' && '(Verfügbar)'}
+                                                            {userStatus.status === 'away' && '(Abwesend)'}
+                                                            {userStatus.status === 'busy' && '(Beschäftigt)'}
+                                                            {userStatus.status === 'dnd' && '(Nicht stören)'}
+                                                            {userStatus.status === 'oof' && '(Abwesend)'}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                {userStatus?.status_message ? (
+                                                    <div className="text-xs text-gray-600 truncate">{userStatus.status_message}</div>
+                                                ) : user.email ? (
+                                                    <div className="text-xs text-gray-500 truncate">{user.email}</div>
+                                                ) : null}
                                             </div>
-                                            {user.email && (
-                                                <div className="text-xs text-gray-500">{user.email}</div>
-                                            )}
                                         </div>
-                                    </div>
-                                ))
+                                    );
+                                })
                             )}
                         </div>
                     </div>
