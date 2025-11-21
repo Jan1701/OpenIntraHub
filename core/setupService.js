@@ -140,6 +140,38 @@ async function testLdapConnection(config) {
 }
 
 /**
+ * Test Exchange connection
+ */
+async function testExchangeConnection(config) {
+    try {
+        const exchangeService = require('./exchangeService');
+
+        if (!config.server_url || !config.username || !config.password) {
+            return {
+                success: false,
+                message: 'Exchange server URL, username, and password are required'
+            };
+        }
+
+        // Test connection using Exchange service
+        const result = await exchangeService.testConnection({
+            server_url: config.server_url,
+            username: config.username,
+            password: config.password,
+            auth_type: config.auth_type || 'basic'
+        });
+
+        return result;
+    } catch (error) {
+        logger.error('Exchange connection test failed', { error: error.message });
+        return {
+            success: false,
+            message: error.message
+        };
+    }
+}
+
+/**
  * Write .env file
  */
 async function writeEnvFile(config) {
@@ -212,6 +244,21 @@ async function writeEnvFile(config) {
         envLines.push(`SMTP_FROM=${config.email.from || 'noreply@openintrahub.local'}`);
         envLines.push('');
     }
+
+    // Exchange
+    if (config.exchange?.enabled) {
+        envLines.push('# Exchange Calendar Sync');
+        envLines.push('EXCHANGE_ENABLED=true');
+        envLines.push(`EXCHANGE_DEFAULT_SERVER=${config.exchange.server_url || ''}`);
+        envLines.push(`EXCHANGE_DEFAULT_AUTH_TYPE=${config.exchange.auth_type || 'basic'}`);
+        envLines.push('');
+    }
+
+    // Exchange encryption key (always generate for security)
+    envLines.push('# Exchange Encryption Key (for storing credentials)');
+    const crypto = require('crypto');
+    envLines.push(`EXCHANGE_ENCRYPTION_KEY=${crypto.randomBytes(32).toString('hex')}`);
+    envLines.push('');
 
     // Logging
     envLines.push('# Logging');
@@ -400,6 +447,7 @@ module.exports = {
     testDatabaseConnection,
     testRedisConnection,
     testLdapConnection,
+    testExchangeConnection,
     writeEnvFile,
     runDatabaseMigrations,
     createAdminUser,

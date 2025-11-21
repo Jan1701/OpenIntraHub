@@ -17,15 +17,17 @@ import {
     AlertCircle,
     CheckCircle,
     ArrowRight,
-    ArrowLeft
+    ArrowLeft,
+    Mail
 } from 'lucide-react';
 
 const STEPS = [
     { id: 1, name: 'Willkommen', icon: Rocket },
     { id: 2, name: 'Datenbank', icon: Database },
     { id: 3, name: 'Redis', icon: Server },
-    { id: 4, name: 'Admin User', icon: User },
-    { id: 5, name: 'Installation', icon: CheckCircle }
+    { id: 4, name: 'Exchange', icon: Mail },
+    { id: 5, name: 'Admin User', icon: User },
+    { id: 6, name: 'Installation', icon: CheckCircle }
 ];
 
 function Setup() {
@@ -52,6 +54,13 @@ function Setup() {
             port: '6379',
             password: ''
         },
+        exchange: {
+            enabled: false,
+            server_url: '',
+            username: '',
+            password: '',
+            auth_type: 'basic'
+        },
         admin: {
             username: 'admin',
             email: '',
@@ -67,6 +76,7 @@ function Setup() {
     // Test results
     const [dbTestResult, setDbTestResult] = useState(null);
     const [redisTestResult, setRedisTestResult] = useState(null);
+    const [exchangeTestResult, setExchangeTestResult] = useState(null);
 
     // Installation progress
     const [installProgress, setInstallProgress] = useState({
@@ -148,6 +158,22 @@ function Setup() {
         }
     };
 
+    const testExchangeConnection = async () => {
+        setLoading(true);
+        setExchangeTestResult(null);
+        try {
+            const response = await api.post('/setup/test-exchange', config.exchange);
+            setExchangeTestResult(response.data);
+        } catch (error) {
+            setExchangeTestResult({
+                success: false,
+                message: error.response?.data?.message || error.message
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleInstall = async () => {
         setLoading(true);
         setInstallProgress({ step: 0, message: 'Installation wird vorbereitet...', completed: false, error: null });
@@ -199,6 +225,8 @@ function Setup() {
             case 3:
                 return !config.redis.enabled || redisTestResult?.success;
             case 4:
+                return !config.exchange.enabled || exchangeTestResult?.success;
+            case 5:
                 return config.admin.username && config.admin.email && config.admin.password &&
                        config.admin.password === config.admin.passwordConfirm;
             default:
@@ -215,8 +243,10 @@ function Setup() {
             case 3:
                 return renderRedisStep();
             case 4:
-                return renderAdminStep();
+                return renderExchangeStep();
             case 5:
+                return renderAdminStep();
+            case 6:
                 return renderInstallStep();
             default:
                 return null;
@@ -546,6 +576,179 @@ function Setup() {
         </div>
     );
 
+    const renderExchangeStep = () => (
+        <div className="space-y-6">
+            <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Exchange Kalender-Sync (Optional)</h2>
+                <p className="text-gray-600">
+                    Synchronisiere Kalender mit Exchange Server 2016/2019. Dies ist optional und kann später konfiguriert werden.
+                </p>
+            </div>
+
+            <div className="flex items-center mb-4">
+                <input
+                    type="checkbox"
+                    id="exchange-enabled"
+                    checked={config.exchange.enabled}
+                    onChange={(e) => setConfig(prev => ({
+                        ...prev,
+                        exchange: { ...prev.exchange, enabled: e.target.checked }
+                    }))}
+                    className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="exchange-enabled" className="ml-2 text-sm font-medium text-gray-700">
+                    Exchange-Integration aktivieren
+                </label>
+            </div>
+
+            {config.exchange.enabled && (
+                <>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Exchange Server URL
+                            </label>
+                            <input
+                                type="text"
+                                value={config.exchange.server_url}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    exchange: { ...prev.exchange, server_url: e.target.value }
+                                }))}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="https://mail.company.com/EWS/Exchange.asmx"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                                Beispiel: https://mail.company.com/EWS/Exchange.asmx
+                            </p>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Benutzername
+                            </label>
+                            <input
+                                type="text"
+                                value={config.exchange.username}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    exchange: { ...prev.exchange, username: e.target.value }
+                                }))}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="DOMAIN\benutzer oder email@company.com"
+                            />
+                            <p className="text-xs text-gray-500 mt-1">
+                                Format: DOMAIN\benutzer oder email@company.com
+                            </p>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Passwort
+                            </label>
+                            <input
+                                type="password"
+                                value={config.exchange.password}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    exchange: { ...prev.exchange, password: e.target.value }
+                                }))}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="********"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Authentifizierungstyp
+                            </label>
+                            <select
+                                value={config.exchange.auth_type}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    exchange: { ...prev.exchange, auth_type: e.target.value }
+                                }))}
+                                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            >
+                                <option value="basic">Basic (Standard)</option>
+                                <option value="ntlm">NTLM (Windows)</option>
+                            </select>
+                            <p className="text-xs text-gray-500 mt-1">
+                                Für Exchange 2016/2019 wird meist NTLM verwendet
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button
+                            onClick={testExchangeConnection}
+                            disabled={loading || !config.exchange.server_url || !config.exchange.username || !config.exchange.password}
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                        >
+                            {loading ? (
+                                <>
+                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                    Teste Verbindung...
+                                </>
+                            ) : (
+                                <>
+                                    <Mail className="w-4 h-4 mr-2" />
+                                    Verbindung testen
+                                </>
+                            )}
+                        </button>
+                    </div>
+
+                    {exchangeTestResult && (
+                        <div className={`p-4 rounded-lg border ${
+                            exchangeTestResult.success
+                                ? 'bg-green-50 border-green-200'
+                                : 'bg-red-50 border-red-200'
+                        }`}>
+                            <div className="flex items-start">
+                                {exchangeTestResult.success ? (
+                                    <CheckCircle className="w-5 h-5 text-green-600 mr-3 mt-0.5" />
+                                ) : (
+                                    <X className="w-5 h-5 text-red-600 mr-3 mt-0.5" />
+                                )}
+                                <div className="flex-1">
+                                    <div className={`font-medium ${
+                                        exchangeTestResult.success ? 'text-green-900' : 'text-red-900'
+                                    }`}>
+                                        {exchangeTestResult.message}
+                                    </div>
+                                    {exchangeTestResult.version && (
+                                        <div className="text-sm text-green-700 mt-1">
+                                            {exchangeTestResult.version}
+                                        </div>
+                                    )}
+                                    {exchangeTestResult.note && (
+                                        <div className="text-sm text-gray-600 mt-1">
+                                            {exchangeTestResult.note}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
+
+            {!config.exchange.enabled && (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-start">
+                        <AlertCircle className="w-5 h-5 text-blue-600 mr-3 mt-0.5" />
+                        <div>
+                            <p className="text-sm text-blue-800">
+                                <strong>Hinweis:</strong> Du kannst die Exchange-Integration jederzeit später in den Einstellungen aktivieren.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
     const renderAdminStep = () => (
         <div className="space-y-6">
             <div>
@@ -669,6 +872,10 @@ function Setup() {
                         <div className="flex justify-between">
                             <span className="text-gray-600">Redis:</span>
                             <span className="font-medium">{config.redis.enabled ? 'Aktiviert' : 'Deaktiviert'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                            <span className="text-gray-600">Exchange:</span>
+                            <span className="font-medium">{config.exchange.enabled ? 'Aktiviert' : 'Deaktiviert'}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="text-gray-600">Admin User:</span>
@@ -810,7 +1017,7 @@ function Setup() {
                             Zurück
                         </button>
 
-                        {currentStep < 5 && (
+                        {currentStep < 6 && (
                             <button
                                 onClick={() => setCurrentStep(currentStep + 1)}
                                 disabled={!canProceed() || loading}

@@ -154,6 +154,38 @@ router.post('/setup/test-ldap', requireSetup, async (req, res) => {
 });
 
 /**
+ * POST /api/setup/test-exchange
+ * Test Exchange connection
+ */
+router.post('/setup/test-exchange', requireSetup, async (req, res) => {
+    try {
+        const { server_url, username, password, auth_type } = req.body;
+
+        if (!server_url || !username || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Exchange server URL, username, and password are required'
+            });
+        }
+
+        const result = await setupService.testExchangeConnection({
+            server_url,
+            username,
+            password,
+            auth_type: auth_type || 'basic'
+        });
+
+        res.json(result);
+    } catch (error) {
+        logger.error('Exchange test error', { error: error.message });
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+/**
  * POST /api/setup/install
  * Run complete installation
  */

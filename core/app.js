@@ -35,6 +35,7 @@ const userManagementApi = require('./userManagementApi');
 const eventsApi = require('./eventsApi');
 const socialApi = require('./socialApi');
 const chatApi = require('./chatApi');
+const exchangeApi = require('./exchangeApi');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -222,6 +223,9 @@ app.use('/api', socialApi);
 
 // Chat API (Real-time Messaging)
 app.use('/api', chatApi);
+
+// Exchange API (Calendar Synchronization)
+app.use('/api', exchangeApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
