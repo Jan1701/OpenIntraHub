@@ -4,10 +4,11 @@
 
 ![OpenIntraHub Logo](logo/transparent.png)
 
-**Moderne, modulare Social-Intranet-Plattform**
+**Moderne, modulare Enterprise Social-Intranet-Plattform**
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-0.1.1--alpha-orange.svg)](CHANGELOG.md)
 [![GitHub Issues](https://img.shields.io/github/issues/Jan1701/OpenIntraHub)](https://github.com/Jan1701/OpenIntraHub/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -15,63 +16,135 @@
 
 ---
 
-## 🚀 Features
+## Projektstatistiken
 
-### ✨ **Core-System**
-- 🔐 **Multi-Authentifizierung** (JWT, LDAP, Database)
-- 👥 **RBAC** - 5 Rollen, 20+ Permissions
-- 🌍 **i18n** - Mehrsprachigkeit (DE, EN, FR, ES, IT, PL, NL) mit i18next
-- 📝 **Winston Logging** - Strukturiertes JSON-Logging
-- 📚 **Swagger API-Docs** - Interactive API-Dokumentation
-- 🗄️ **PostgreSQL** - Vollständiges DB-Schema
-- 🔄 **Event-System** - Modul-Kommunikation via Event-Bus
-
-### 🧩 **Modulare Architektur**
-- **Hot-Swap Module** - Aktivieren/Deaktivieren ohne Neustart
-- **Saubere Trennung** - Core = Infrastruktur, Module = Features
-- **Eigene APIs** - Jedes Modul hat eigene Endpoints
-- **Versionierung** - Module unabhängig versionierbar
-
-### 📧 **Exchange Integration & Mail**
-- **📅 Bidirektionale Kalender-Synchronisation** - Vollständige 2-Wege-Sync mit Microsoft Exchange
-- **📬 Mail Client** - Vollständiger E-Mail-Client mit Inbox, Compose, Attachments
-- **🔄 Automatische Synchronisation** - Scheduled Worker synct alle 15 Minuten (konfigurierbar)
-- **🏖️ Out of Office (OOF)** - Globale Abwesenheitsverwaltung mit Exchange-Sync
-- **📁 Folder Management** - Synchronisiere Exchange-Ordner und -Nachrichten
-- **🔐 Verschlüsselte Credentials** - AES-256-GCM Verschlüsselung für Exchange-Zugangsdaten
-
-### 💬 **Chat & Real-time Communication**
-- **WebSocket Chat** - Echtzeit-Messaging mit Socket.io
-- **👤 User Status** - Globales Präsenz-System (Available, Away, Busy, DND, Offline, OOF)
-- **📊 Status History** - Tracking von Status-Änderungen für Analytics
-- **💼 Group & Direct Chats** - 1:1 Direktnachrichten und Gruppenchats
-- **📎 File Sharing** - Datei-Upload und -Freigabe in Chats
-- **✍️ Typing Indicators** - Echtzeit-Tippindikatoren
-- **✓ Read Receipts** - Lesebestätigungen für Nachrichten
-
-### 🏗️ **Page Builder & Content**
-- **🎨 Drag & Drop Editor** - Visueller Page Builder
-- **📝 Posts & Blog** - Rich-Text-Editor mit Kategorien und Tags
-- **📅 Events & Calendar** - Event-Management mit Kalenderansicht
-- **📍 Locations & Rooms** - Standort- und Raum-Verwaltung
-- **🖼️ Media Library** - Zentrale Medienverwaltung
-
-### 🛠️ **Setup & Administration**
-- **🚀 Web-basierter Setup-Wizard** - Schritt-für-Schritt Installation
-- **🧩 Module Selection** - Wähle Module während der Installation
-- **⚙️ Environment Configuration** - Konfiguriere DB, Redis, Exchange im Setup
-- **👥 Admin User Creation** - Erstelle Admin-Account im Setup
+| Metrik | Wert |
+|--------|------|
+| **Gesamter Code** | ~37.649 Zeilen |
+| **API-Endpoints** | 215+ REST-Endpoints |
+| **Datenbanktabellen** | 66+ Tabellen |
+| **Sprachen** | 7 (DE, EN, FR, ES, IT, PL, NL) |
+| **Module** | 12 vollständig implementiert |
 
 ---
 
-## 📦 Schnellstart
+## Features
+
+### Core-System
+- **Multi-Authentifizierung** - JWT, LDAP/Active Directory, Datenbank
+- **RBAC** - 5 Rollen (Admin, Moderator, Editor, User, Guest), 20+ Permissions
+- **Internationalisierung (i18n)** - 7 Sprachen mit i18next
+- **Winston Logging** - Strukturiertes JSON-Logging
+- **Swagger API-Docs** - Interaktive API-Dokumentation unter `/api-docs`
+- **PostgreSQL** - Vollständiges DB-Schema mit 16 Migrationen
+- **Redis** - Caching & Session-Management
+- **Event-System** - Modul-Kommunikation via Event-Bus
+- **WebSocket** - Real-time Kommunikation mit Socket.io
+
+### Modulare Architektur
+- **Hot-Swap Module** - Aktivieren/Deaktivieren ohne Neustart
+- **Plugin-System** - Erweiterbar durch eigene Module
+- **Manifest-basiert** - Module mit manifest.json Metadaten
+- **Saubere Trennung** - Core = Infrastruktur, Module = Features
+
+---
+
+## Implementierte Module
+
+### Posts & Blog
+- Rich-Text-Editor für Artikel
+- Kategorien & Tags System
+- SEO-freundliche URLs (Slugs)
+- Draft/Published/Archived Status
+- Reactions & Kommentare
+
+### Events & Kalender
+- Event-Management mit Kalenderansicht
+- Teilnehmer-Verwaltung mit RSVP
+- Event-Serien (Wiederholungen)
+- Alarms/Notifications
+- Exchange Calendar Sync
+
+### Chat & Real-time Messaging
+- Direct Messages (1:1)
+- Group Chats
+- WebSocket-basiert (Socket.io)
+- File-Sharing & Reactions
+- Typing Indicators & Read Receipts
+
+### Mail System (Exchange Integration)
+- Vollständiger E-Mail-Client
+- Inbox, Compose, View
+- Folder-Synchronisation
+- Attachment Support
+- Verschlüsselte Credentials (AES-256-GCM)
+
+### Drive (Dateiverwaltung)
+- Ordner-Hierarchie
+- File Versioning & Rollback
+- File Deduplication (SHA256)
+- Sharing mit Links
+- Storage Quotas pro User
+- Full-Text Search
+
+### Project Management (Kanban)
+- Projekt-Verwaltung mit Status
+- Kanban-Boards mit Spalten
+- Tasks/Issues mit Priorität
+- Timeline-Management
+- Progress Tracking
+- Drive-Integration pro Projekt
+
+### Locations & Rooms
+- Bürostandorte verwalten
+- Raum-Management
+- Ressourcen-Verwaltung
+- Benutzer-Zuordnung
+- Offline-Codes
+
+### LDAP/Active Directory
+- User-Synchronisation
+- Group-Mapping zu Rollen
+- Automatische User-Erstellung
+- Scheduled Sync (Cron)
+- Admin-Panel im Frontend
+
+### User Status & Presence
+- 6 Status-Typen: Available, Away, Busy, DND, Offline, OOF
+- Out of Office (OOF) Management
+- Status-History für Analytics
+- Real-time Updates via WebSocket
+
+### Page Builder
+- Visueller Drag & Drop Editor
+- Module: Text, Bilder, Posts, Videos
+- Live Preview
+- Responsive Design
+
+### Social Feed
+- Activity Feed
+- Reactions/Emoji-System
+- Kommentare mit Verschachtelung
+- User-Mentions
+
+### Setup Wizard
+- 7-stufige Web-Installation
+- Datenbank-Konfiguration
+- LDAP/Exchange-Setup (optional)
+- Admin-Benutzer-Erstellung
+- Modul-Auswahl
+
+---
+
+## Schnellstart
 
 ### Voraussetzungen
 
 ```bash
-node >= 18.0.0
+Node.js >= 18.0.0
 npm >= 9.0.0
 PostgreSQL >= 12
+Redis >= 7 (optional, empfohlen)
 ```
 
 ### Installation
@@ -81,8 +154,11 @@ PostgreSQL >= 12
 git clone https://github.com/Jan1701/OpenIntraHub.git
 cd OpenIntraHub
 
-# Dependencies installieren
+# Backend Dependencies installieren
 npm install
+
+# Frontend Dependencies installieren
+cd frontend && npm install && cd ..
 
 # Environment konfigurieren
 cp .env.example .env
@@ -91,49 +167,77 @@ cp .env.example .env
 # Datenbank initialisieren
 npm run db:setup
 
-# Server starten
+# Server starten (Development)
+npm run dev
+
+# Oder Production
 npm start
 ```
 
-🎉 **Server läuft auf:** http://localhost:3000
-
-📖 **API-Docs:** http://localhost:3000/api-docs
+**Server:** http://localhost:3000
+**API-Docs:** http://localhost:3000/api-docs
 
 ---
 
-## 🔧 Konfiguration
+## Docker Deployment
+
+```bash
+# Production Build & Start
+docker compose -f docker-compose.production.yml up -d
+
+# Datenbank initialisieren
+docker compose -f docker-compose.production.yml exec app npm run db:migrate
+docker compose -f docker-compose.production.yml exec app npm run db:seed
+```
+
+Mehr Details: [DEPLOYMENT.md](DEPLOYMENT.md)
+
+---
+
+## Konfiguration
 
 ### Environment Variables (.env)
 
 ```bash
-# Server
+# Application
+NODE_ENV=production
 PORT=3000
-NODE_ENV=development
+FRONTEND_URL=https://intranet.example.com
 
 # Database
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=openintrahub
 DB_USER=postgres
-DB_PASSWORD=your_password
+DB_PASSWORD=your_secure_password
 
 # Security
 JWT_SECRET=your_super_secret_jwt_key_change_in_production
 JWT_EXPIRES_IN=24h
 
-# LDAP (optional)
-LDAP_URL=ldap://localhost:389
-LDAP_BIND_DN=cn=admin,dc=example,dc=com
-LDAP_BIND_PASSWORD=admin_password
-LDAP_SEARCH_BASE=ou=users,dc=example,dc=com
+# Redis (optional)
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
+# LDAP/Active Directory (optional)
+LDAP_ENABLED=false
+LDAP_URL=ldap://your-ad-server.local:389
+LDAP_BIND_DN=CN=Service Account,OU=Users,DC=example,DC=local
+LDAP_BIND_PASSWORD=your_password
+LDAP_SEARCH_BASE=DC=example,DC=local
 
 # Exchange Integration (optional)
 EXCHANGE_ENABLED=false
 EXCHANGE_SYNC_INTERVAL_MINUTES=15
+EXCHANGE_ENCRYPTION_KEY=your_encryption_key
+
+# File Storage
+DRIVE_UPLOAD_DIR=./uploads/drive
+DRIVE_MAX_FILE_SIZE=104857600
+DRIVE_USER_QUOTA=5368709120
 
 # Logging
 LOG_LEVEL=info
-LOG_TO_FILE=false
 ```
 
 ### Default Admin User
@@ -144,64 +248,49 @@ Password: admin123
 Email: admin@openintrahub.local
 ```
 
-⚠️ **Wichtig:** Ändere das Passwort nach dem ersten Login!
+**Wichtig:** Passwort nach dem ersten Login ändern!
 
 ---
 
-## 🏗️ Architektur
-
-### Core vs. Modules
+## Architektur
 
 ```
 OpenIntraHub/
-├── core/                    # 🔷 CORE - Infrastruktur
-│   ├── app.js              # Express App
-│   ├── auth.js             # JWT + Multi-Auth
-│   ├── ldap.js             # LDAP-Integration
+├── core/                    # Backend-Infrastruktur
+│   ├── app.js              # Express Server
+│   ├── auth.js             # JWT & Multi-Auth
+│   ├── database.js         # PostgreSQL Pool
 │   ├── middleware.js       # Auth-Middleware
 │   ├── permissions.js      # RBAC-System
 │   ├── logger.js           # Winston Logger
-│   ├── database.js         # PostgreSQL Pool
-│   ├── swagger.js          # API-Dokumentation
-│   └── userService.js      # User-Management
+│   ├── eventBus.js         # Event-System
+│   ├── *Api.js             # 16 API-Module
+│   └── *Service.js         # 13 Service-Module
 │
-├── modules/                # 🧩 MODULES - Features
-│   └── example-module/     # Beispiel-Modul
-│       ├── manifest.json   # Modul-Metadaten
-│       └── index.js        # Modul-Code
+├── frontend/               # React 18 UI
+│   └── src/
+│       ├── pages/          # 14 Seiten
+│       ├── components/     # UI-Komponenten
+│       ├── hooks/          # Custom Hooks
+│       └── services/       # API & Socket
 │
-├── db/                     # 🗄️ DATABASE
-│   ├── migrations/         # SQL-Migrations
-│   ├── seeds/             # Seed-Data
-│   └── migrate.js         # Migration-Tool
+├── db/                     # Datenbank
+│   ├── migrations/         # 16 SQL-Migrationen
+│   └── seeds/              # Seed-Daten
 │
-└── logo/                   # 🎨 BRANDING
-    └── ...                # Logos & Icons
-```
-
-### Module Context
-
-Jedes Modul bekommt vollen Zugriff auf Core-Funktionen:
-
-```javascript
-module.exports = {
-    init: (ctx) => {
-        const {
-            router,           // Express App
-            events,           // Event-Bus
-            services,         // Database, Logger
-            middleware,       // Auth-Middleware
-            permissions       // RBAC-System
-        } = ctx;
-
-        // Dein Code hier...
-    }
-};
+├── modules/                # Erweiterbare Module
+│   └── example-module/
+│
+├── locales/                # 7 Sprachen
+│   ├── de/, en/, fr/
+│   ├── es/, it/, pl/, nl/
+│
+└── logo/                   # Branding
 ```
 
 ---
 
-## 📚 API-Dokumentation
+## API-Dokumentation
 
 ### Authentication
 
@@ -219,8 +308,6 @@ POST /api/auth/login
   "user": {
     "id": 1,
     "username": "admin",
-    "name": "Admin",
-    "email": "admin@openintrahub.local",
     "role": "admin"
   }
 }
@@ -229,138 +316,69 @@ POST /api/auth/login
 ### Protected Endpoints
 
 ```bash
-# User Profile (mit Token)
+# Alle Requests mit Token
+Header: Authorization: Bearer <token>
+
+# Beispiel: User Profile
 GET /api/user/profile
-Header: Authorization: Bearer <token>
 
-# Admin Only
-GET /api/admin/users
-Header: Authorization: Bearer <admin-token>
-
-# Permission-based
-POST /api/content
-Header: Authorization: Bearer <token-with-content.create>
+# Beispiel: Posts erstellen
+POST /api/posts
 ```
 
-**Vollständige API-Docs:** http://localhost:3000/api-docs
+**Vollständige Dokumentation:** http://localhost:3000/api-docs
 
 ---
 
-## 🌍 Internationalisierung (i18n)
+## Tech-Stack
 
-OpenIntraHub unterstützt Mehrsprachigkeit mit **i18next**.
+### Backend
+| Technologie | Version |
+|-------------|---------|
+| Node.js | >= 18.0.0 |
+| Express.js | 4.18.x |
+| PostgreSQL | 16 |
+| Redis | 7 |
+| Socket.io | 4.7.x |
+| JWT | 9.x |
+| Winston | 3.11.x |
+| i18next | 25.x |
 
-### Unterstützte Sprachen
+### Frontend
+| Technologie | Version |
+|-------------|---------|
+| React | 18.2.x |
+| Vite | 5.x |
+| Tailwind CSS | 3.3.x |
+| Zustand | 4.4.x |
+| React Router | 6.x |
+| Socket.io Client | 4.7.x |
 
-- 🇩🇪 **Deutsch (DE)** - Standard
-- 🇬🇧 **English (EN)**
-- 🇫🇷 **Français (FR)**
-- 🇪🇸 **Español (ES)**
-- 🇮🇹 **Italiano (IT)**
-- 🇵🇱 **Polski (PL)**
-- 🇳🇱 **Nederlands (NL)**
-
-### Sprachumschaltung
-
-```bash
-# Query-Parameter (de, en, fr, es, it, pl, nl)
-GET /api/example/hello?lang=en
-GET /api/example/hello?lang=fr
-
-# Accept-Language Header
-curl -H "Accept-Language: en" http://localhost:3000/api/example/hello
-curl -H "Accept-Language: es" http://localhost:3000/api/example/hello
-
-# Cookie (automatisch gesetzt nach Sprachwahl)
-Cookie: i18next=en
-```
-
-### API-Endpunkte
-
-```bash
-# Aktuelle Sprachpräferenz abrufen
-GET /api/user/language
-Header: Authorization: Bearer <token>
-
-# Sprachpräferenz ändern
-PUT /api/user/language
-Header: Authorization: Bearer <token>
-Body: { "language": "en" }
-
-# Unterstützte Sprachen auflisten
-GET /api/languages
-```
-
-### Verwendung in Modulen
-
-```javascript
-module.exports = {
-    init: (ctx) => {
-        const { router, i18n } = ctx;
-
-        router.get('/api/module/hello', (req, res) => {
-            res.json({
-                message: req.t('common:app.welcome', { name: 'Module' }),
-                language: req.language
-            });
-        });
-    }
-};
-```
-
-### Übersetzungsdateien
-
-Übersetzungen befinden sich in `/locales/{lang}/{namespace}.json`:
-
-- `common.json` - Allgemeine Begriffe
-- `auth.json` - Authentifizierung & Autorisierung
-- `errors.json` - Fehlermeldungen
-- `validation.json` - Validierungsmeldungen
-- `module_{name}.json` - Modul-spezifische Übersetzungen
+### DevOps
+| Technologie | Beschreibung |
+|-------------|--------------|
+| Docker | Multi-Stage Build |
+| Docker Compose | Orchestrierung |
+| Nginx Proxy Manager | Reverse Proxy |
+| Let's Encrypt | SSL/TLS |
 
 ---
 
-## 🗄️ Datenbank
-
-### Schema
-
-- **users** - User-Verwaltung (Multi-Auth)
-- **sessions** - JWT-Token-Tracking
-- **audit_log** - Security Audit-Trail
-
-### Migrations
-
-```bash
-# Alle Migrations ausführen
-npm run db:migrate
-
-# Admin-User erstellen
-npm run db:seed
-
-# Complete Setup
-npm run db:setup
-```
-
-**Doku:** [db/README.md](db/README.md)
-
----
-
-## 🔐 Sicherheit
+## Sicherheit
 
 ### Implementiert
-
-✅ JWT-Token-basierte Authentifizierung
-✅ bcrypt Password-Hashing (10 rounds)
-✅ RBAC mit 5 Rollen & 20+ Permissions
-✅ SQL Injection Prevention (Prepared Statements)
-✅ Input-Validierung
-✅ Rate Limiting
-✅ Audit-Logging
-✅ Graceful Shutdown
+- JWT-Token-basierte Authentifizierung
+- bcrypt Password-Hashing (10 rounds)
+- RBAC mit 5 Rollen & 20+ Permissions
+- SQL Injection Prevention (Prepared Statements)
+- AES-256-GCM Verschlüsselung für Credentials
+- Input-Validierung
+- Rate Limiting
+- Audit-Logging
 
 ### Sicherheitslücken melden
 
-📧 **jg@linxpress.de**
+**Email:** jg@linxpress.de
 
 **Bitte NICHT über GitHub Issues melden!**
 
@@ -368,9 +386,44 @@ Mehr: [SECURITY.md](SECURITY.md)
 
 ---
 
-## 🤝 Contributing
+## Roadmap
 
-Wir freuen uns über Beiträge! 🎉
+### v0.1.1-alpha (Aktuell)
+- [x] Core-System (Auth, RBAC, Logging, i18n)
+- [x] PostgreSQL & Redis Integration
+- [x] LDAP/Active Directory Support
+- [x] Posts & Blog Module
+- [x] Events & Calendar Module
+- [x] Chat & Real-time Messaging
+- [x] Locations & Rooms Module
+- [x] Exchange Integration (Calendar & Mail)
+- [x] User Status & Presence System
+- [x] Drive (File Management)
+- [x] Project Management (Kanban)
+- [x] Page Builder (Drag & Drop)
+- [x] Social Feed & Reactions
+- [x] Web-based Setup Wizard
+- [x] Docker Production Setup
+
+### v0.2.0 (Next)
+- [ ] Unit & Integration Tests
+- [ ] CI/CD Pipeline (GitHub Actions)
+- [ ] Performance Optimierung
+- [ ] Advanced Admin Dashboard
+- [ ] Notification Center
+
+### v0.3.0 (Future)
+- [ ] Wiki Module
+- [ ] Workflows & Approvals
+- [ ] Advanced Analytics
+- [ ] Mobile App (React Native)
+- [ ] Plugin Marketplace
+
+---
+
+## Contributing
+
+Wir freuen uns über Beiträge!
 
 1. Fork das Repository
 2. Branch erstellen (`git checkout -b feature/amazing-feature`)
@@ -382,68 +435,45 @@ Wir freuen uns über Beiträge! 🎉
 
 ---
 
-## 📋 Roadmap
-
-### ✅ v0.1 (Current)
-- [x] Core-System (Auth, RBAC, Logging)
-- [x] PostgreSQL-Integration
-- [x] LDAP-Support
-- [x] Mehrsprachigkeit (i18n)
-- [x] API-Dokumentation
-- [x] Module-System
-
-### 🔜 v0.2 (Next)
-- [ ] Frontend/Admin-Dashboard
-- [ ] User-Management UI
-- [ ] Docker Support
-- [ ] CI/CD Pipeline
-- [ ] Unit Tests
-
-### 📅 v0.3 (Future)
-- [ ] Chat-Modul
-- [ ] Wiki-Modul
-- [ ] File-Management
-- [ ] Calendar-Modul
-- [ ] Activity Feed
-
----
-
-## 📄 Lizenz
+## Lizenz
 
 Apache License 2.0 - siehe [LICENSE](LICENSE)
 
 ```
-Copyright 2024 Jan Günther (jg@linxpress.de)
+Copyright 2024-2025 Jan Guenther (jg@linxpress.de)
 
 Licensed under the Apache License, Version 2.0
 ```
 
 ---
 
-## 👨‍💻 Autor
+## Autor
 
-**Jan Günther**
+**Jan Guenther**
 - Email: jg@linxpress.de
 - GitHub: [@Jan1701](https://github.com/Jan1701)
 
 ---
 
-## 🙏 Danksagung
+## Danksagung
 
 Dieses Projekt nutzt großartige Open-Source-Software:
 
 - [Express.js](https://expressjs.com/) - Web Framework
+- [React](https://react.dev/) - UI Library
 - [PostgreSQL](https://www.postgresql.org/) - Database
+- [Redis](https://redis.io/) - Cache & Queue
+- [Socket.io](https://socket.io/) - Real-time Communication
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
 - [Winston](https://github.com/winstonjs/winston) - Logging
 - [Swagger](https://swagger.io/) - API Documentation
-- [JWT](https://jwt.io/) - Authentication
 
 ---
 
 <div align="center">
 
-**Made with ❤️ for the Intranet Community**
+**Made with Dedication for the Enterprise Intranet Community**
 
-[Report Bug](https://github.com/Jan1701/OpenIntraHub/issues) · [Request Feature](https://github.com/Jan1701/OpenIntraHub/issues) · [Discussions](https://github.com/Jan1701/OpenIntraHub/discussions)
+[Report Bug](https://github.com/Jan1701/OpenIntraHub/issues) | [Request Feature](https://github.com/Jan1701/OpenIntraHub/issues) | [Discussions](https://github.com/Jan1701/OpenIntraHub/discussions)
 
 </div>
