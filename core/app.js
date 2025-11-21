@@ -38,7 +38,9 @@ const chatApi = require('./chatApi');
 const exchangeApi = require('./exchangeApi');
 const userStatusApi = require('./userStatusApi');
 const mailApi = require('./mailApi');
+const ldapApi = require('./ldapApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
+const ldapSyncWorker = require('./ldapSyncWorker');
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -236,6 +238,9 @@ app.use('/api', userStatusApi);
 // Mail API (Exchange Mail Integration)
 app.use('/api/mail', mailApi);
 
+// LDAP Admin API (User Sync & Management)
+app.use('/api', ldapApi);
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -358,6 +363,12 @@ async function startServer() {
                 scheduledSyncWorker.startWorker();
                 logger.info('📧 Exchange scheduled sync worker aktiviert');
             }
+
+            // Start LDAP sync worker
+            if (process.env.LDAP_URL) {
+                ldapSyncWorker.start();
+                logger.info('👥 LDAP sync worker aktiviert');
+            }
         });
 
         // Graceful shutdown
@@ -371,6 +382,11 @@ async function startServer() {
                 // Stop scheduled sync worker
                 if (process.env.EXCHANGE_ENABLED === 'true') {
                     scheduledSyncWorker.stopWorker();
+                }
+
+                // Stop LDAP sync worker
+                if (process.env.LDAP_URL) {
+                    ldapSyncWorker.stop();
                 }
 
                 // Close database connections

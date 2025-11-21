@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const eventBus = require('./eventBus');
-const ldapAuth = require('./ldap');
+const ldapService = require('./ldapService');
 const database = require('./database');
 const { createModuleLogger } = require('./logger');
 
@@ -84,19 +84,17 @@ module.exports = {
             let user = null;
 
             // 1. Versuch: LDAP-Authentifizierung
-            if (ldapAuth.enabled) {
+            if (ldapService.enabled) {
                 try {
-                    const ldapUser = await ldapAuth.authenticate(username, password);
+                    // Authenticate and cache user in database
+                    const ldapUser = await ldapService.authenticate(username, password);
                     if (ldapUser) {
-                        const role = ldapAuth.getRoleFromGroups(ldapUser.groups);
-
-                        // TODO: User in lokaler DB speichern/aktualisieren für Caching
                         user = {
-                            id: null, // Wird aus DB kommen
+                            id: ldapUser.id,
                             username: ldapUser.username,
                             name: ldapUser.name,
                             email: ldapUser.email,
-                            role: role,
+                            role: ldapUser.role,
                             authMethod: 'ldap'
                         };
                     }
