@@ -1,0 +1,95 @@
+{
+  "title": "LDAP Administration",
+  "subtitle": "Active Directory / LDAP Verwaltung",
+  
+  "tabs": {
+    "test": "Verbindungstest",
+    "search": "Benutzersuche",
+    "sync": "Synchronisierung",
+    "users": "LDAP-Benutzer",
+    "mappings": "Gruppen-Mappings"
+  },
+  
+  "connection": {
+    "title": "LDAP-Verbindung testen",
+    "test": "Verbindung testen",
+    "status": "Status",
+    "server": "Server",
+    "bindDN": "Bind DN",
+    "searchBase": "Search Base",
+    "isAD": "Active Directory",
+    "enabled": "LDAP aktiviert",
+    "disabled": "LDAP nicht konfiguriert",
+    "success": "Verbindung erfolgreich",
+    "failed": "Verbindung fehlgeschlagen"
+  },
+  
+  "search": {
+    "title": "LDAP-Verzeichnis durchsuchen",
+    "placeholder": "Benutzernamen eingeben...",
+    "button": "Suchen",
+    "results": "{{count}} Benutzer gefunden",
+    "noResults": "Keine Benutzer gefunden"
+  },
+  
+  "sync": {
+    "title": "Benutzersynchronisierung",
+    "trigger": "Sync jetzt starten",
+    "status": "Sync-Status",
+    "running": "Läuft...",
+    "notRunning": "Nicht aktiv",
+    "enabled": "Automatischer Sync aktiviert",
+    "disabled": "Automatischer Sync deaktiviert",
+    "schedule": "Zeitplan",
+    "lastSync": "Letzter Sync",
+    "stats": {
+      "processed": "Verarbeitet",
+      "created": "Erstellt",
+      "updated": "Aktualisiert",
+      "deactivated": "Deaktiviert",
+      "errors": "Fehler"
+    },
+    "logs": "Sync-Protokolle"
+  },
+  
+  "users": {
+    "title": "Synchronisierte LDAP-Benutzer",
+    "total": "{{count}} Benutzer gesamt",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "lastLogin": "Letzter Login",
+    "lastSync": "Letzter Sync",
+    "neverLoggedIn": "Nie eingeloggt",
+    "showActiveOnly": "Nur aktive anzeigen"
+  },
+  
+  "groups": {
+    "title": "Gruppen-zu-Rollen-Mappings",
+    "add": "Mapping hinzufügen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "ldapGroup": "LDAP-Gruppe",
+    "groupName": "Gruppenname",
+    "groupDN": "Gruppen-DN",
+    "appRole": "Anwendungsrolle",
+    "priority": "Priorität",
+    "isActive": "Aktiv",
+    "created": "Mapping erstellt",
+    "updated": "Mapping aktualisiert",
+    "deleted": "Mapping gelöscht"
+  },
+  
+  "roles": {
+    "user": "Benutzer",
+    "moderator": "Moderator",
+    "admin": "Administrator"
+  },
+  
+  "errors": {
+    "notConfigured": "LDAP ist nicht konfiguriert",
+    "connectionFailed": "Verbindung fehlgeschlagen",
+    "searchFailed": "Suche fehlgeschlagen",
+    "syncFailed": "Synchronisierung fehlgeschlagen",
+    "loadFailed": "Laden fehlgeschlagen"
+  }
+}

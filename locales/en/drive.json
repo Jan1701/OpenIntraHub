@@ -1,0 +1,161 @@
+{
+  "title": "Drive",
+  "subtitle": "File Management",
+  "myDrive": "My Drive",
+  "sharedWithMe": "Shared with me",
+  "publicFiles": "Public Files",
+  "recentFiles": "Recent Files",
+
+  "folders": {
+    "title": "Folders",
+    "new": "New Folder",
+    "create": "Create Folder",
+    "name": "Folder Name",
+    "description": "Description",
+    "parent": "Parent Folder",
+    "root": "Root Folder",
+    "empty": "This folder is empty",
+    "created": "Folder created",
+    "deleted": "Folder deleted",
+    "updated": "Folder updated"
+  },
+
+  "files": {
+    "title": "Files",
+    "upload": "Upload File",
+    "uploadMultiple": "Upload Files",
+    "download": "Download",
+    "delete": "Delete",
+    "rename": "Rename",
+    "move": "Move",
+    "copy": "Copy",
+    "details": "Details",
+    "preview": "Preview",
+    "name": "File Name",
+    "size": "Size",
+    "type": "Type",
+    "modified": "Modified",
+    "uploaded": "Uploaded",
+    "uploadedBy": "Uploaded by",
+    "noFiles": "No files available"
+  },
+
+  "upload": {
+    "title": "Upload File",
+    "dragDrop": "Drag files here or click to select",
+    "selectFile": "Select File",
+    "uploading": "Uploading...",
+    "success": "File uploaded successfully",
+    "failed": "Upload failed",
+    "maxSize": "Maximum file size: {{size}}",
+    "allowedTypes": "Allowed file types: {{types}}"
+  },
+
+  "download": {
+    "title": "Download",
+    "downloading": "Downloading...",
+    "success": "Download successful",
+    "failed": "Download failed"
+  },
+
+  "delete": {
+    "title": "Delete File",
+    "confirm": "Are you sure you want to delete this file?",
+    "confirmFolder": "Are you sure you want to delete this folder and all its contents?",
+    "success": "Successfully deleted",
+    "failed": "Delete failed"
+  },
+
+  "update": {
+    "success": "Successfully updated",
+    "failed": "Update failed"
+  },
+
+  "share": {
+    "title": "Share",
+    "with": "Share with",
+    "user": "User",
+    "group": "Group",
+    "public": "Public",
+    "publicLink": "Public Link",
+    "createLink": "Create Link",
+    "copyLink": "Copy Link",
+    "linkCopied": "Link copied to clipboard",
+    "linkCreated": "Public link created",
+    "success": "Successfully shared",
+    "failed": "Sharing failed",
+    "permission": "Permission",
+    "permissions": {
+      "read": "Read",
+      "write": "Write",
+      "admin": "Admin"
+    },
+    "expiresAt": "Expires at",
+    "noExpiry": "No expiry"
+  },
+
+  "search": {
+    "placeholder": "Search files and folders...",
+    "results": "Search Results",
+    "noResults": "No results found"
+  },
+
+  "filter": {
+    "all": "All Files",
+    "images": "Images",
+    "documents": "Documents",
+    "videos": "Videos",
+    "audio": "Audio",
+    "archives": "Archives",
+    "other": "Other"
+  },
+
+  "sort": {
+    "name": "Name",
+    "size": "Size",
+    "modified": "Modified Date",
+    "created": "Created Date",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+
+  "visibility": {
+    "private": "Private",
+    "shared": "Shared",
+    "public": "Public",
+    "privateDesc": "Only you can see this file",
+    "sharedDesc": "Shared with selected users",
+    "publicDesc": "Everyone can see this file"
+  },
+
+  "tags": {
+    "title": "Tags",
+    "add": "Add Tag",
+    "remove": "Remove Tag",
+    "placeholder": "Enter tag..."
+  },
+
+  "stats": {
+    "title": "Storage",
+    "used": "Used",
+    "available": "Available",
+    "quota": "Quota",
+    "totalFiles": "Total Files",
+    "totalFolders": "Total Folders",
+    "storageUsage": "Storage Usage"
+  },
+
+  "errors": {
+    "fileNotFound": "File not found",
+    "folderNotFound": "Folder not found",
+    "accessDenied": "Access denied",
+    "quotaExceeded": "Storage quota exceeded",
+    "uploadFailed": "Upload failed",
+    "downloadFailed": "Download failed",
+    "deleteFailed": "Delete failed",
+    "shareFailed": "Sharing failed",
+    "invalidFileType": "Invalid file type",
+    "fileTooLarge": "File too large",
+    "networkError": "Network error"
+  }
+}

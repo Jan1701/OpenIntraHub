@@ -1,0 +1,161 @@
+{
+  "title": "Drive",
+  "subtitle": "Datei-Management",
+  "myDrive": "Mein Drive",
+  "sharedWithMe": "Geteilt mit mir",
+  "publicFiles": "Öffentliche Dateien",
+  "recentFiles": "Neueste Dateien",
+
+  "folders": {
+    "title": "Ordner",
+    "new": "Neuer Ordner",
+    "create": "Ordner erstellen",
+    "name": "Ordnername",
+    "description": "Beschreibung",
+    "parent": "Übergeordneter Ordner",
+    "root": "Hauptordner",
+    "empty": "Dieser Ordner ist leer",
+    "created": "Ordner erstellt",
+    "deleted": "Ordner gelöscht",
+    "updated": "Ordner aktualisiert"
+  },
+
+  "files": {
+    "title": "Dateien",
+    "upload": "Datei hochladen",
+    "uploadMultiple": "Dateien hochladen",
+    "download": "Herunterladen",
+    "delete": "Löschen",
+    "rename": "Umbenennen",
+    "move": "Verschieben",
+    "copy": "Kopieren",
+    "details": "Details",
+    "preview": "Vorschau",
+    "name": "Dateiname",
+    "size": "Größe",
+    "type": "Typ",
+    "modified": "Geändert",
+    "uploaded": "Hochgeladen",
+    "uploadedBy": "Hochgeladen von",
+    "noFiles": "Keine Dateien vorhanden"
+  },
+
+  "upload": {
+    "title": "Datei hochladen",
+    "dragDrop": "Dateien hierher ziehen oder klicken zum Auswählen",
+    "selectFile": "Datei auswählen",
+    "uploading": "Wird hochgeladen...",
+    "success": "Datei erfolgreich hochgeladen",
+    "failed": "Upload fehlgeschlagen",
+    "maxSize": "Maximale Dateigröße: {{size}}",
+    "allowedTypes": "Erlaubte Dateitypen: {{types}}"
+  },
+
+  "download": {
+    "title": "Herunterladen",
+    "downloading": "Wird heruntergeladen...",
+    "success": "Download erfolgreich",
+    "failed": "Download fehlgeschlagen"
+  },
+
+  "delete": {
+    "title": "Datei löschen",
+    "confirm": "Möchten Sie diese Datei wirklich löschen?",
+    "confirmFolder": "Möchten Sie diesen Ordner und alle enthaltenen Dateien wirklich löschen?",
+    "success": "Erfolgreich gelöscht",
+    "failed": "Löschen fehlgeschlagen"
+  },
+
+  "update": {
+    "success": "Erfolgreich aktualisiert",
+    "failed": "Aktualisierung fehlgeschlagen"
+  },
+
+  "share": {
+    "title": "Teilen",
+    "with": "Teilen mit",
+    "user": "Benutzer",
+    "group": "Gruppe",
+    "public": "Öffentlich",
+    "publicLink": "Öffentlicher Link",
+    "createLink": "Link erstellen",
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link in Zwischenablage kopiert",
+    "linkCreated": "Öffentlicher Link erstellt",
+    "success": "Erfolgreich geteilt",
+    "failed": "Teilen fehlgeschlagen",
+    "permission": "Berechtigung",
+    "permissions": {
+      "read": "Lesen",
+      "write": "Schreiben",
+      "admin": "Administrator"
+    },
+    "expiresAt": "Läuft ab am",
+    "noExpiry": "Läuft nicht ab"
+  },
+
+  "search": {
+    "placeholder": "Dateien und Ordner durchsuchen...",
+    "results": "Suchergebnisse",
+    "noResults": "Keine Ergebnisse gefunden"
+  },
+
+  "filter": {
+    "all": "Alle Dateien",
+    "images": "Bilder",
+    "documents": "Dokumente",
+    "videos": "Videos",
+    "audio": "Audio",
+    "archives": "Archive",
+    "other": "Sonstiges"
+  },
+
+  "sort": {
+    "name": "Name",
+    "size": "Größe",
+    "modified": "Änderungsdatum",
+    "created": "Erstellungsdatum",
+    "asc": "Aufsteigend",
+    "desc": "Absteigend"
+  },
+
+  "visibility": {
+    "private": "Privat",
+    "shared": "Geteilt",
+    "public": "Öffentlich",
+    "privateDesc": "Nur Sie können diese Datei sehen",
+    "sharedDesc": "Geteilt mit ausgewählten Benutzern",
+    "publicDesc": "Jeder kann diese Datei sehen"
+  },
+
+  "tags": {
+    "title": "Tags",
+    "add": "Tag hinzufügen",
+    "remove": "Tag entfernen",
+    "placeholder": "Tag eingeben..."
+  },
+
+  "stats": {
+    "title": "Speicher",
+    "used": "Verwendet",
+    "available": "Verfügbar",
+    "quota": "Kontingent",
+    "totalFiles": "Dateien gesamt",
+    "totalFolders": "Ordner gesamt",
+    "storageUsage": "Speichernutzung"
+  },
+
+  "errors": {
+    "fileNotFound": "Datei nicht gefunden",
+    "folderNotFound": "Ordner nicht gefunden",
+    "accessDenied": "Zugriff verweigert",
+    "quotaExceeded": "Speicherkontingent überschritten",
+    "uploadFailed": "Upload fehlgeschlagen",
+    "downloadFailed": "Download fehlgeschlagen",
+    "deleteFailed": "Löschen fehlgeschlagen",
+    "shareFailed": "Teilen fehlgeschlagen",
+    "invalidFileType": "Ungültiger Dateityp",
+    "fileTooLarge": "Datei zu groß",
+    "networkError": "Netzwerkfehler"
+  }
+}

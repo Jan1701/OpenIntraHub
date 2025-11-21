@@ -39,6 +39,7 @@ const exchangeApi = require('./exchangeApi');
 const userStatusApi = require('./userStatusApi');
 const mailApi = require('./mailApi');
 const ldapApi = require('./ldapApi');
+const driveApi = require('./driveApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -240,6 +241,9 @@ app.use('/api/mail', mailApi);
 
 // LDAP Admin API (User Sync & Management)
 app.use('/api', ldapApi);
+
+// Drive API (File Management)
+app.use('/api', driveApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {

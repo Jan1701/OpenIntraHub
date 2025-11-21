@@ -1,0 +1,147 @@
+{
+  "title": "Drive",
+  "subtitle": "Gestion de fichiers",
+  "myDrive": "Mon Drive",
+  "sharedWithMe": "Partagé avec moi",
+  "publicFiles": "Fichiers publics",
+  "recentFiles": "Fichiers récents",
+  "folders": {
+    "title": "Dossiers",
+    "new": "Nouveau dossier",
+    "create": "Créer un dossier",
+    "name": "Nom du dossier",
+    "description": "Description",
+    "parent": "Dossier parent",
+    "root": "Dossier racine",
+    "empty": "Ce dossier est vide",
+    "created": "Dossier créé",
+    "deleted": "Dossier supprimé",
+    "updated": "Dossier mis à jour"
+  },
+  "files": {
+    "title": "Fichiers",
+    "upload": "Télécharger un fichier",
+    "uploadMultiple": "Télécharger des fichiers",
+    "download": "Télécharger",
+    "delete": "Supprimer",
+    "rename": "Renommer",
+    "move": "Déplacer",
+    "copy": "Copier",
+    "details": "Détails",
+    "preview": "Aperçu",
+    "name": "Nom du fichier",
+    "size": "Taille",
+    "type": "Type",
+    "modified": "Modifié",
+    "uploaded": "Téléchargé",
+    "uploadedBy": "Téléchargé par",
+    "noFiles": "Aucun fichier disponible"
+  },
+  "upload": {
+    "title": "Télécharger un fichier",
+    "dragDrop": "Faites glisser des fichiers ici ou cliquez pour sélectionner",
+    "selectFile": "Sélectionner un fichier",
+    "uploading": "Téléchargement en cours...",
+    "success": "Fichier téléchargé avec succès",
+    "failed": "Échec du téléchargement",
+    "maxSize": "Taille maximale du fichier : {{size}}",
+    "allowedTypes": "Types de fichiers autorisés : {{types}}"
+  },
+  "download": {
+    "title": "Télécharger",
+    "downloading": "Téléchargement...",
+    "success": "Téléchargement réussi",
+    "failed": "Échec du téléchargement"
+  },
+  "delete": {
+    "title": "Supprimer le fichier",
+    "confirm": "Voulez-vous vraiment supprimer ce fichier?",
+    "confirmFolder": "Voulez-vous vraiment supprimer ce dossier et tout son contenu?",
+    "success": "Supprimé avec succès",
+    "failed": "Échec de la suppression"
+  },
+  "update": {
+    "success": "Mis à jour avec succès",
+    "failed": "Échec de la mise à jour"
+  },
+  "share": {
+    "title": "Partager",
+    "with": "Partager avec",
+    "user": "Utilisateur",
+    "group": "Groupe",
+    "public": "Public",
+    "publicLink": "Lien public",
+    "createLink": "Créer un lien",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié dans le presse-papiers",
+    "linkCreated": "Lien public créé",
+    "success": "Partagé avec succès",
+    "failed": "Échec du partage",
+    "permission": "Permission",
+    "permissions": {
+      "read": "Lecture",
+      "write": "Écriture",
+      "admin": "Admin"
+    },
+    "expiresAt": "Expire le",
+    "noExpiry": "Pas d'expiration"
+  },
+  "search": {
+    "placeholder": "Rechercher des fichiers et dossiers...",
+    "results": "Résultats de recherche",
+    "noResults": "Aucun résultat trouvé"
+  },
+  "filter": {
+    "all": "Tous les fichiers",
+    "images": "Images",
+    "documents": "Documents",
+    "videos": "Vidéos",
+    "audio": "Audio",
+    "archives": "Archives",
+    "other": "Autre"
+  },
+  "sort": {
+    "name": "Nom",
+    "size": "Taille",
+    "modified": "Date de modification",
+    "created": "Date de création",
+    "asc": "Croissant",
+    "desc": "Décroissant"
+  },
+  "visibility": {
+    "private": "Privé",
+    "shared": "Partagé",
+    "public": "Public",
+    "privateDesc": "Vous seul pouvez voir ce fichier",
+    "sharedDesc": "Partagé avec des utilisateurs sélectionnés",
+    "publicDesc": "Tout le monde peut voir ce fichier"
+  },
+  "tags": {
+    "title": "Tags",
+    "add": "Ajouter un tag",
+    "remove": "Supprimer le tag",
+    "placeholder": "Entrez un tag..."
+  },
+  "stats": {
+    "title": "Stockage",
+    "used": "Utilisé",
+    "available": "Disponible",
+    "quota": "Quota",
+    "totalFiles": "Fichiers totaux",
+    "totalFolders": "Dossiers totaux",
+    "storageUsage": "Utilisation du stockage"
+  },
+  "errors": {
+    "fileNotFound": "Fichier introuvable",
+    "folderNotFound": "Dossier introuvable",
+    "accessDenied": "Accès refusé",
+    "quotaExceeded": "Quota de stockage dépassé",
+    "uploadFailed": "Échec du téléchargement",
+    "downloadFailed": "Échec du téléchargement",
+    "deleteFailed": "Échec de la suppression",
+    "shareFailed": "Échec du partage",
+    "invalidFileType": "Type de fichier invalide",
+    "fileTooLarge": "Fichier trop volumineux",
+    "networkError": "Erreur réseau"
+  }
+}
