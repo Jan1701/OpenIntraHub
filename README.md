@@ -20,7 +20,7 @@
 ### ✨ **Core-System**
 - 🔐 **Multi-Authentifizierung** (JWT, LDAP, Database)
 - 👥 **RBAC** - 5 Rollen, 20+ Permissions
-- 🌍 **i18n** - Mehrsprachigkeit (DE, EN) mit i18next
+- 🌍 **i18n** - Mehrsprachigkeit (DE, EN, FR, ES, IT, PL, NL) mit i18next
 - 📝 **Winston Logging** - Strukturiertes JSON-Logging
 - 📚 **Swagger API-Docs** - Interactive API-Dokumentation
 - 🗄️ **PostgreSQL** - Vollständiges DB-Schema
