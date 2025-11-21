@@ -1,0 +1,71 @@
+{
+  "fields": {
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "name": "Name",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "title": "Title",
+    "description": "Description",
+    "content": "Content",
+    "category": "Category",
+    "tags": "Tags",
+    "status": "Status",
+    "date": "Date",
+    "time": "Time",
+    "phone": "Phone",
+    "address": "Address",
+    "city": "City",
+    "country": "Country",
+    "zipCode": "ZIP Code",
+    "language": "Language"
+  },
+  "rules": {
+    "required": "{{field}} is required",
+    "email": "Please enter a valid email address",
+    "min": "{{field}} must be at least {{count}} characters long",
+    "max": "{{field}} may be at most {{count}} characters long",
+    "minValue": "{{field}} must be at least {{value}}",
+    "maxValue": "{{field}} may be at most {{value}}",
+    "between": "{{field}} must be between {{min}} and {{max}}",
+    "alpha": "{{field}} may only contain letters",
+    "alphanumeric": "{{field}} may only contain letters and numbers",
+    "numeric": "{{field}} must be a number",
+    "integer": "{{field}} must be an integer",
+    "url": "Please enter a valid URL",
+    "date": "Please enter a valid date",
+    "time": "Please enter a valid time",
+    "datetime": "Please enter a valid date and time",
+    "boolean": "{{field}} must be true or false",
+    "array": "{{field}} must be an array",
+    "object": "{{field}} must be an object",
+    "unique": "{{field}} is already taken",
+    "exists": "{{field}} does not exist",
+    "confirmed": "{{field}} does not match",
+    "pattern": "{{field}} has an invalid format",
+    "weakPassword": "Password is too weak. Use uppercase, lowercase, numbers and special characters",
+    "invalidFormat": "Invalid format for {{field}}"
+  },
+  "messages": {
+    "invalidInput": "Invalid input",
+    "validationFailed": "Validation failed",
+    "checkInputs": "Please check your inputs",
+    "requiredFields": "Please fill in all required fields",
+    "success": "Validation successful"
+  },
+  "password": {
+    "tooShort": "Password must be at least {{min}} characters long",
+    "requireUppercase": "Password must contain at least one uppercase letter",
+    "requireLowercase": "Password must contain at least one lowercase letter",
+    "requireNumber": "Password must contain at least one number",
+    "requireSpecial": "Password must contain at least one special character",
+    "noMatch": "Passwords do not match"
+  },
+  "file": {
+    "required": "Please select a file",
+    "invalidType": "File type not allowed. Allowed types: {{types}}",
+    "tooLarge": "File is too large. Maximum size: {{size}}",
+    "tooMany": "Too many files. Maximum allowed: {{count}}"
+  }
+}

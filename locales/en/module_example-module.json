@@ -1,0 +1,22 @@
+{
+  "example": {
+    "greeting": "Welcome to the Example Module!",
+    "description": "This module demonstrates all core features of OpenIntraHub",
+    "features": {
+      "authentication": "Authentication and Authorization",
+      "permissions": "Granular Permissions",
+      "events": "Event-based Communication",
+      "database": "Database Integration",
+      "logging": "Structured Logging",
+      "i18n": "Internationalization"
+    },
+    "messages": {
+      "success": "Action executed successfully",
+      "error": "Error during execution",
+      "notFound": "Resource not found",
+      "created": "Resource created successfully",
+      "updated": "Resource updated successfully",
+      "deleted": "Resource deleted successfully"
+    }
+  }
+}

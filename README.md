@@ -20,6 +20,7 @@
 ### ✨ **Core-System**
 - 🔐 **Multi-Authentifizierung** (JWT, LDAP, Database)
 - 👥 **RBAC** - 5 Rollen, 20+ Permissions
+- 🌍 **i18n** - Mehrsprachigkeit (DE, EN) mit i18next
 - 📝 **Winston Logging** - Strukturiertes JSON-Logging
 - 📚 **Swagger API-Docs** - Interactive API-Dokumentation
 - 🗄️ **PostgreSQL** - Vollständiges DB-Schema
@@ -211,6 +212,73 @@ Header: Authorization: Bearer <token-with-content.create>
 
 ---
 
+## 🌍 Internationalisierung (i18n)
+
+OpenIntraHub unterstützt Mehrsprachigkeit mit **i18next**.
+
+### Unterstützte Sprachen
+
+- 🇩🇪 **Deutsch (DE)** - Standard
+- 🇬🇧 **English (EN)**
+
+### Sprachumschaltung
+
+```bash
+# Query-Parameter
+GET /api/example/hello?lang=en
+
+# Accept-Language Header
+curl -H "Accept-Language: en" http://localhost:3000/api/example/hello
+
+# Cookie (automatisch gesetzt nach Sprachwahl)
+Cookie: i18next=en
+```
+
+### API-Endpunkte
+
+```bash
+# Aktuelle Sprachpräferenz abrufen
+GET /api/user/language
+Header: Authorization: Bearer <token>
+
+# Sprachpräferenz ändern
+PUT /api/user/language
+Header: Authorization: Bearer <token>
+Body: { "language": "en" }
+
+# Unterstützte Sprachen auflisten
+GET /api/languages
+```
+
+### Verwendung in Modulen
+
+```javascript
+module.exports = {
+    init: (ctx) => {
+        const { router, i18n } = ctx;
+
+        router.get('/api/module/hello', (req, res) => {
+            res.json({
+                message: req.t('common:app.welcome', { name: 'Module' }),
+                language: req.language
+            });
+        });
+    }
+};
+```
+
+### Übersetzungsdateien
+
+Übersetzungen befinden sich in `/locales/{lang}/{namespace}.json`:
+
+- `common.json` - Allgemeine Begriffe
+- `auth.json` - Authentifizierung & Autorisierung
+- `errors.json` - Fehlermeldungen
+- `validation.json` - Validierungsmeldungen
+- `module_{name}.json` - Modul-spezifische Übersetzungen
+
+---
+
 ## 🗄️ Datenbank
 
 ### Schema
@@ -279,6 +347,7 @@ Wir freuen uns über Beiträge! 🎉
 - [x] Core-System (Auth, RBAC, Logging)
 - [x] PostgreSQL-Integration
 - [x] LDAP-Support
+- [x] Mehrsprachigkeit (i18n)
 - [x] API-Dokumentation
 - [x] Module-System
 

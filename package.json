@@ -42,16 +42,20 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {
-    "express": "^4.18.2",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "pg": "^8.11.3",
-    "bcrypt": "^5.1.1",
+    "express": "^4.18.2",
+    "i18next": "^25.6.3",
+    "i18next-fs-backend": "^2.6.1",
+    "i18next-http-middleware": "^3.8.2",
     "jsonwebtoken": "^9.0.2",
     "ldapjs": "^3.0.7",
-    "winston": "^3.11.0",
+    "pg": "^8.11.3",
+    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
-    "swagger-jsdoc": "^6.2.8"
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

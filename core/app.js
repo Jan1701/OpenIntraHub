@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const ModuleLoader = require('./moduleLoader');
 const eventBus = require('./eventBus');
 const auth = require('./auth');
@@ -20,6 +21,8 @@ const {
     requireAllPermissions
 } = require('./permissions');
 const { swaggerUi, swaggerSpec } = require('./swagger');
+const { middleware: i18nMiddleware, i18nRequestMiddleware, SUPPORTED_LANGUAGES, validateLanguage } = require('./i18n');
+const userService = require('./userService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +30,9 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
+app.use(i18nMiddleware);
+app.use(i18nRequestMiddleware);
 app.use(requestLogger);
 
 // API-Dokumentation
@@ -83,6 +89,82 @@ app.get('/api/user/profile', authenticateToken, (req, res) => {
     });
 });
 
+// Language API - Sprachpräferenzen
+app.get('/api/user/language', authenticateToken, async (req, res) => {
+    try {
+        const user = await userService.findUserById(req.user.id);
+        res.json({
+            success: true,
+            language: user.language || 'de',
+            supported: SUPPORTED_LANGUAGES
+        });
+    } catch (error) {
+        logger.error('Fehler beim Abrufen der Sprachpräferenz', { error: error.message });
+        res.status(500).json({
+            success: false,
+            message: req.t('errors:general.serverError')
+        });
+    }
+});
+
+app.put('/api/user/language', authenticateToken, async (req, res) => {
+    try {
+        const { language } = req.body;
+
+        // Validierung
+        const validLang = validateLanguage(language);
+        if (!validLang) {
+            return res.status(400).json({
+                success: false,
+                message: req.t('errors:validation.invalid', { field: req.t('validation:fields.language') }),
+                supported: SUPPORTED_LANGUAGES
+            });
+        }
+
+        // Sprache in Datenbank speichern
+        if (database.pool) {
+            await database.query(
+                'UPDATE users SET language = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2',
+                [validLang, req.user.id]
+            );
+        }
+
+        // Cookie setzen für zukünftige Requests
+        res.cookie('i18next', validLang, {
+            maxAge: 365 * 24 * 60 * 60 * 1000, // 1 Jahr
+            httpOnly: false,
+            sameSite: 'lax'
+        });
+
+        res.json({
+            success: true,
+            message: req.t('auth:profile.updated'),
+            language: validLang
+        });
+
+        logger.info('Sprachpräferenz aktualisiert', { userId: req.user.id, language: validLang });
+    } catch (error) {
+        logger.error('Fehler beim Aktualisieren der Sprachpräferenz', { error: error.message });
+        res.status(500).json({
+            success: false,
+            message: req.t('errors:general.serverError')
+        });
+    }
+});
+
+// Öffentlicher Endpunkt für unterstützte Sprachen
+app.get('/api/languages', (req, res) => {
+    res.json({
+        success: true,
+        languages: SUPPORTED_LANGUAGES.map(lang => ({
+            code: lang,
+            name: lang === 'de' ? 'Deutsch' : 'English',
+            nativeName: lang === 'de' ? 'Deutsch' : 'English'
+        })),
+        default: 'de'
+    });
+});
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -128,7 +210,9 @@ loader.loadModules();
 
 // 404 Handler
 app.use((req, res) => {
-    res.status(404).json({ error: 'Endpoint nicht gefunden' });
+    res.status(404).json({
+        error: req.t('errors:general.notFound')
+    });
 });
 
 // Global Error Handler
@@ -136,7 +220,7 @@ app.use((err, req, res, next) => {
     logger.error('Unbehandelter Fehler', { error: err.message, stack: err.stack });
     res.status(err.status || 500).json({
         error: process.env.NODE_ENV === 'production'
-            ? 'Interner Serverfehler'
+            ? req.t('errors:general.serverError')
             : err.message
     });
 });
@@ -162,6 +246,7 @@ async function startServer() {
             logger.info(`OpenIntraHub Core gestartet auf Port ${PORT}`);
             logger.info(`Umgebung: ${process.env.NODE_ENV || 'development'}`);
             logger.info(`Log-Level: ${process.env.LOG_LEVEL || 'debug'}`);
+            logger.info(`Mehrsprachigkeit: DE (Standard), EN`);
             logger.info(`API-Dokumentation verfügbar: http://localhost:${PORT}/api-docs`);
         });
 

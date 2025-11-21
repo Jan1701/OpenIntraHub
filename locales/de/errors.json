@@ -1,0 +1,73 @@
+{
+  "general": {
+    "unknown": "Ein unbekannter Fehler ist aufgetreten",
+    "serverError": "Interner Serverfehler",
+    "notFound": "Nicht gefunden",
+    "badRequest": "Ungültige Anfrage",
+    "forbidden": "Zugriff verboten",
+    "unauthorized": "Nicht autorisiert",
+    "timeout": "Zeitüberschreitung",
+    "maintenance": "Wartungsarbeiten",
+    "unavailable": "Service nicht verfügbar"
+  },
+  "validation": {
+    "required": "{{field}} ist erforderlich",
+    "invalid": "{{field}} ist ungültig",
+    "tooShort": "{{field}} ist zu kurz (min. {{min}} Zeichen)",
+    "tooLong": "{{field}} ist zu lang (max. {{max}} Zeichen)",
+    "format": "{{field}} hat ein ungültiges Format",
+    "unique": "{{field}} existiert bereits",
+    "range": "{{field}} muss zwischen {{min}} und {{max}} liegen",
+    "min": "{{field}} muss mindestens {{min}} sein",
+    "max": "{{field}} darf höchstens {{max}} sein",
+    "email": "Ungültige E-Mail-Adresse",
+    "url": "Ungültige URL",
+    "alphanumeric": "{{field}} darf nur Buchstaben und Zahlen enthalten",
+    "numeric": "{{field}} muss eine Zahl sein",
+    "pattern": "{{field}} entspricht nicht dem erwarteten Muster"
+  },
+  "database": {
+    "connectionFailed": "Datenbankverbindung fehlgeschlagen",
+    "queryFailed": "Datenbankabfrage fehlgeschlagen",
+    "notFound": "Datensatz nicht gefunden",
+    "duplicate": "Datensatz existiert bereits",
+    "constraint": "Datenbank-Constraint verletzt",
+    "transaction": "Transaktionsfehler"
+  },
+  "auth": {
+    "loginFailed": "Anmeldung fehlgeschlagen",
+    "invalidCredentials": "Ungültige Anmeldedaten",
+    "tokenExpired": "Sitzung abgelaufen, bitte erneut anmelden",
+    "tokenInvalid": "Ungültiges Authentifizierungs-Token",
+    "permissionDenied": "Keine Berechtigung für diese Aktion",
+    "accountInactive": "Konto ist nicht aktiv",
+    "accountLocked": "Konto wurde gesperrt"
+  },
+  "ldap": {
+    "connectionFailed": "LDAP-Verbindung fehlgeschlagen",
+    "bindFailed": "LDAP-Authentifizierung fehlgeschlagen",
+    "searchFailed": "LDAP-Suche fehlgeschlagen",
+    "userNotFound": "Benutzer nicht in LDAP gefunden",
+    "invalidConfiguration": "Ungültige LDAP-Konfiguration"
+  },
+  "file": {
+    "notFound": "Datei nicht gefunden",
+    "uploadFailed": "Datei-Upload fehlgeschlagen",
+    "invalidType": "Ungültiger Dateityp",
+    "tooLarge": "Datei zu groß (max. {{max}})",
+    "readFailed": "Datei konnte nicht gelesen werden",
+    "writeFailed": "Datei konnte nicht geschrieben werden",
+    "deleteFailed": "Datei konnte nicht gelöscht werden"
+  },
+  "module": {
+    "notFound": "Modul nicht gefunden",
+    "loadFailed": "Modul konnte nicht geladen werden",
+    "invalidManifest": "Ungültiges Modul-Manifest",
+    "dependencyMissing": "Modul-Abhängigkeit fehlt",
+    "alreadyLoaded": "Modul ist bereits geladen"
+  },
+  "rate": {
+    "limitExceeded": "Zu viele Anfragen, bitte später erneut versuchen",
+    "throttled": "Anfrage gedrosselt, bitte warten"
+  }
+}

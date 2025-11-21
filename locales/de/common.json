@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "OpenIntraHub",
+    "tagline": "Modulare Social Intranet Plattform",
+    "welcome": "Willkommen bei {{name}}",
+    "version": "Version {{version}}"
+  },
+  "general": {
+    "yes": "Ja",
+    "no": "Nein",
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "loading": "Lädt...",
+    "success": "Erfolgreich",
+    "error": "Fehler",
+    "warning": "Warnung",
+    "info": "Information",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "refresh": "Aktualisieren",
+    "download": "Herunterladen",
+    "upload": "Hochladen",
+    "export": "Exportieren",
+    "import": "Importieren"
+  },
+  "time": {
+    "now": "Jetzt",
+    "today": "Heute",
+    "yesterday": "Gestern",
+    "tomorrow": "Morgen",
+    "week": "Woche",
+    "month": "Monat",
+    "year": "Jahr",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "datetime": "Datum & Uhrzeit"
+  },
+  "status": {
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "pending": "Ausstehend",
+    "approved": "Genehmigt",
+    "rejected": "Abgelehnt",
+    "draft": "Entwurf",
+    "published": "Veröffentlicht"
+  },
+  "pagination": {
+    "page": "Seite",
+    "of": "von",
+    "items": "Einträge",
+    "perPage": "Pro Seite",
+    "showing": "Zeige {{from}} bis {{to}} von {{total}} Einträgen",
+    "noResults": "Keine Ergebnisse gefunden"
+  }
+}

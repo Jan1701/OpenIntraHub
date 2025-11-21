@@ -1,0 +1,65 @@
+{
+  "app": {
+    "name": "OpenIntraHub",
+    "tagline": "Modular Social Intranet Platform",
+    "welcome": "Welcome to {{name}}",
+    "version": "Version {{version}}"
+  },
+  "general": {
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "loading": "Loading...",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "download": "Download",
+    "upload": "Upload",
+    "export": "Export",
+    "import": "Import"
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow",
+    "week": "Week",
+    "month": "Month",
+    "year": "Year",
+    "date": "Date",
+    "time": "Time",
+    "datetime": "Date & Time"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected",
+    "draft": "Draft",
+    "published": "Published"
+  },
+  "pagination": {
+    "page": "Page",
+    "of": "of",
+    "items": "Items",
+    "perPage": "Per Page",
+    "showing": "Showing {{from}} to {{to}} of {{total}} items",
+    "noResults": "No results found"
+  }
+}

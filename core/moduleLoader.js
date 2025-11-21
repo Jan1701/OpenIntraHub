@@ -4,6 +4,7 @@ const { createModuleLogger } = require('./logger');
 const database = require('./database');
 const middleware = require('./middleware');
 const permissions = require('./permissions');
+const { createModuleI18n } = require('./i18n');
 
 const logger = createModuleLogger('ModuleLoader');
 
@@ -68,7 +69,10 @@ class ModuleLoader {
                             hasPermission: permissions.hasPermission,
                             ROLES: permissions.ROLES,
                             PERMISSIONS: permissions.PERMISSIONS
-                        }
+                        },
+
+                        // Internationalization (i18n)
+                        i18n: createModuleI18n(manifest.name)
                     };
 
                     entryPoint.init(moduleContext);

@@ -1,0 +1,73 @@
+{
+  "general": {
+    "unknown": "An unknown error occurred",
+    "serverError": "Internal server error",
+    "notFound": "Not found",
+    "badRequest": "Bad request",
+    "forbidden": "Forbidden",
+    "unauthorized": "Unauthorized",
+    "timeout": "Request timeout",
+    "maintenance": "Maintenance in progress",
+    "unavailable": "Service unavailable"
+  },
+  "validation": {
+    "required": "{{field}} is required",
+    "invalid": "{{field}} is invalid",
+    "tooShort": "{{field}} is too short (min. {{min}} characters)",
+    "tooLong": "{{field}} is too long (max. {{max}} characters)",
+    "format": "{{field}} has an invalid format",
+    "unique": "{{field}} already exists",
+    "range": "{{field}} must be between {{min}} and {{max}}",
+    "min": "{{field}} must be at least {{min}}",
+    "max": "{{field}} must be at most {{max}}",
+    "email": "Invalid email address",
+    "url": "Invalid URL",
+    "alphanumeric": "{{field}} may only contain letters and numbers",
+    "numeric": "{{field}} must be a number",
+    "pattern": "{{field}} does not match expected pattern"
+  },
+  "database": {
+    "connectionFailed": "Database connection failed",
+    "queryFailed": "Database query failed",
+    "notFound": "Record not found",
+    "duplicate": "Record already exists",
+    "constraint": "Database constraint violation",
+    "transaction": "Transaction error"
+  },
+  "auth": {
+    "loginFailed": "Login failed",
+    "invalidCredentials": "Invalid credentials",
+    "tokenExpired": "Session expired, please login again",
+    "tokenInvalid": "Invalid authentication token",
+    "permissionDenied": "Permission denied for this action",
+    "accountInactive": "Account is not active",
+    "accountLocked": "Account has been locked"
+  },
+  "ldap": {
+    "connectionFailed": "LDAP connection failed",
+    "bindFailed": "LDAP authentication failed",
+    "searchFailed": "LDAP search failed",
+    "userNotFound": "User not found in LDAP",
+    "invalidConfiguration": "Invalid LDAP configuration"
+  },
+  "file": {
+    "notFound": "File not found",
+    "uploadFailed": "File upload failed",
+    "invalidType": "Invalid file type",
+    "tooLarge": "File too large (max. {{max}})",
+    "readFailed": "Could not read file",
+    "writeFailed": "Could not write file",
+    "deleteFailed": "Could not delete file"
+  },
+  "module": {
+    "notFound": "Module not found",
+    "loadFailed": "Could not load module",
+    "invalidManifest": "Invalid module manifest",
+    "dependencyMissing": "Module dependency missing",
+    "alreadyLoaded": "Module is already loaded"
+  },
+  "rate": {
+    "limitExceeded": "Too many requests, please try again later",
+    "throttled": "Request throttled, please wait"
+  }
+}
