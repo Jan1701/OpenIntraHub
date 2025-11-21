@@ -5,6 +5,8 @@ import PageBuilder from './pages/PageBuilder';
 import ModuleRegistry from './pages/ModuleRegistry';
 import Login from './pages/Login';
 import Layout from './components/Layout';
+import Dashboard from './pages/Dashboard/Dashboard';
+import Chat from './pages/Chat/Chat';
 import PostsList from './pages/Posts/PostsList';
 import PostEditor from './pages/Posts/PostEditor';
 import CategoryManager from './pages/Posts/CategoryManager';
@@ -39,11 +41,11 @@ function App() {
             <Layout />
           </ProtectedRoute>
         }>
-          <Route index element={<Navigate to="/pages" replace />} />
-          <Route path="pages" element={<PagesList />} />
-          <Route path="pages/new" element={<PageBuilder />} />
-          <Route path="pages/:id/edit" element={<PageBuilder />} />
-          <Route path="modules" element={<ModuleRegistry />} />
+          {/* Dashboard (Home) */}
+          <Route index element={<Dashboard />} />
+
+          {/* Chat */}
+          <Route path="chat" element={<Chat />} />
 
           {/* Posts Routes */}
           <Route path="posts" element={<PostsList />} />
@@ -52,16 +54,24 @@ function App() {
           <Route path="posts/categories" element={<CategoryManager />} />
           <Route path="posts/tags" element={<TagManager />} />
 
-          {/* Locations Routes */}
-          <Route path="locations" element={<LocationsList />} />
-          <Route path="locations/new" element={<LocationEditor />} />
-          <Route path="locations/:id/edit" element={<LocationEditor />} />
-
           {/* Events Routes */}
           <Route path="events" element={<EventsList />} />
           <Route path="events/new" element={<EventEditor />} />
           <Route path="events/:id" element={<EventDetails />} />
           <Route path="events/:id/edit" element={<EventEditor />} />
+
+          {/* Locations Routes */}
+          <Route path="locations" element={<LocationsList />} />
+          <Route path="locations/new" element={<LocationEditor />} />
+          <Route path="locations/:id/edit" element={<LocationEditor />} />
+
+          {/* Page Builder Routes */}
+          <Route path="pages" element={<PagesList />} />
+          <Route path="pages/new" element={<PageBuilder />} />
+          <Route path="pages/:id/edit" element={<PageBuilder />} />
+
+          {/* Module Registry */}
+          <Route path="modules" element={<ModuleRegistry />} />
         </Route>
       </Routes>
     </Router>

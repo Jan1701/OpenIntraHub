@@ -1,7 +1,7 @@
 {
   "name": "openintrahub-frontend",
-  "version": "0.1.0",
-  "description": "OpenIntraHub Page Builder Frontend",
+  "version": "0.1.1-alpha",
+  "description": "OpenIntraHub Frontend - Social Feed, Chat & More",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,7 @@
     "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "axios": "^1.6.2",
+    "socket.io-client": "^4.7.2",
     "i18next": "^23.7.6",
     "react-i18next": "^13.5.0",
     "zustand": "^4.4.7",
