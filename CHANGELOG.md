@@ -7,6 +7,106 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.3-alpha] - 2025-11-22
+
+### Added - CI/CD Pipeline
+
+#### GitHub Actions Workflows
+- **CI Pipeline** (`.github/workflows/ci.yml`)
+  - Backend tests with Jest (Node.js 18)
+  - Frontend tests with Vitest
+  - PostgreSQL service container for integration tests
+  - Build verification for frontend
+  - Security audit for dependencies
+  - Docker build test
+  - Coverage report artifacts
+
+- **Release Pipeline** (`.github/workflows/release.yml`)
+  - Automatic GitHub releases on version tags
+  - Docker image build and push to GHCR
+  - Release archive generation
+  - Pre-release detection for alpha/beta versions
+
+- **Dependabot Configuration** (`.github/dependabot.yml`)
+  - Weekly dependency updates
+  - Grouped updates for React, Vite, testing libraries
+  - GitHub Actions version updates
+  - Docker base image updates
+
+### Added - Test Coverage Expansion
+
+#### Backend Tests (Jest)
+- **Database Module Tests** (`tests/unit/database.test.js`)
+  - Connection lifecycle testing
+  - Query execution tests
+  - Error handling verification
+  - Configuration validation
+
+- **Social Service Tests** (`tests/unit/socialService.test.js`)
+  - Post/comment reactions (6 types)
+  - Activity feed operations
+  - Notifications management
+  - Mentions parsing (@username)
+  - User social statistics
+
+- **Chat Service Tests** (`tests/unit/chatService.test.js`)
+  - Direct and group conversations
+  - Message send/edit/delete
+  - Participant management
+  - Read status tracking
+  - Message search functionality
+
+### Added - Performance Optimizations
+
+#### Caching System (`core/cacheService.js`)
+- **Memory Cache (LRU)**
+  - Configurable max size and TTL
+  - Automatic cleanup of expired entries
+  - LRU eviction for memory management
+  - Pattern-based cache invalidation
+
+- **Redis Cache Support**
+  - Automatic Redis detection via environment
+  - Fallback to memory cache
+  - Prefix-based key isolation
+  - TTL support for all operations
+
+- **Cache Middleware**
+  - Route-level response caching
+  - X-Cache header (HIT/MISS)
+  - Conditional caching support
+  - Async memoization helper
+
+#### Performance Utilities (`core/performanceUtils.js`)
+- **Query Optimization**
+  - Cursor-based pagination builder
+  - Selective column queries
+  - Batch processing utilities
+
+- **Rate Limiting**
+  - In-memory rate limiter
+  - Configurable windows and limits
+  - Middleware for route protection
+  - Retry-After header support
+
+- **Performance Monitoring**
+  - Execution time measurement
+  - Timer with lap functionality
+  - Debounce and throttle helpers
+
+- **Response Optimization**
+  - Null value cleanup
+  - Pagination metadata wrapper
+  - Compression configuration
+
+### Test Statistics
+- **Total Tests: 207**
+  - Backend (Jest): 169 tests
+  - Frontend (Vitest): 38 tests
+- **Coverage Target: 50%** for branches, functions, lines, statements
+
+---
+
 ## [0.1.1-alpha] - 2025-11-21
 
 ### Added - Project Management Module
