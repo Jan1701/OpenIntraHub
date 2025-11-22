@@ -278,7 +278,7 @@ router.put('/drive/files/:id', authenticateToken, async (req, res) => {
         }
 
         // Update metadata
-        const pool = require('./db');
+        const pool = require('./database');
         const result = await pool.query(`
             UPDATE drive_files
             SET name = COALESCE($1, name),
@@ -387,7 +387,7 @@ router.get('/drive/folders/:id', authenticateToken, async (req, res) => {
     try {
         const folderId = parseInt(req.params.id);
 
-        const pool = require('./db');
+        const pool = require('./database');
         const result = await pool.query(`
             SELECT f.*, u.name as owner_name
             FROM drive_folders f
@@ -510,7 +510,7 @@ router.get('/drive/public/:token', async (req, res) => {
     try {
         const { token } = req.params;
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Get share by token
         const shareResult = await pool.query(`
@@ -573,7 +573,7 @@ router.get('/drive/stats', authenticateToken, async (req, res) => {
         const usage = await driveService.getUserStorageUsage(req.user.id);
         const quota = driveService.defaultQuota;
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Get file counts
         const statsResult = await pool.query(`
@@ -632,7 +632,7 @@ router.put('/drive/folders/:id', authenticateToken, async (req, res) => {
         const folderId = parseInt(req.params.id);
         const { name, description, parentId } = req.body;
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Check ownership
         const folderResult = await pool.query(
@@ -690,7 +690,7 @@ router.delete('/drive/folders/:id', authenticateToken, async (req, res) => {
     try {
         const folderId = parseInt(req.params.id);
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Check ownership
         const folderResult = await pool.query(
@@ -749,7 +749,7 @@ router.get('/drive/files/:id/versions', authenticateToken, async (req, res) => {
         // Check access to file
         const file = await driveService.getFile(fileId, req.user.id);
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Get versions
         const result = await pool.query(`
@@ -800,7 +800,7 @@ router.post('/drive/files/:id/restore-version', authenticateToken, async (req, r
             });
         }
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Get version data
         const versionResult = await pool.query(
@@ -866,7 +866,7 @@ router.post('/drive/files/:id/restore-version', authenticateToken, async (req, r
  */
 router.get('/users', authenticateToken, async (req, res) => {
     try {
-        const pool = require('./db');
+        const pool = require('./database');
 
         const result = await pool.query(`
             SELECT id, username, name, email, avatar_url

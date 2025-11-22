@@ -277,7 +277,7 @@ router.post('/exchange/sync', authenticateToken, async (req, res) => {
  */
 router.get('/exchange/sync-status', authenticateToken, async (req, res) => {
     try {
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Get connection info
         const connectionResult = await pool.query(`
@@ -356,7 +356,7 @@ router.get('/exchange/sync-status', authenticateToken, async (req, res) => {
  */
 router.get('/exchange/conflicts', authenticateToken, async (req, res) => {
     try {
-        const pool = require('./db');
+        const pool = require('./database');
 
         const result = await pool.query(`
             SELECT
@@ -406,7 +406,7 @@ router.post('/exchange/conflicts/:id/resolve', authenticateToken, async (req, re
             });
         }
 
-        const pool = require('./db');
+        const pool = require('./database');
 
         // Mark conflict as resolved
         await pool.query(`

@@ -7,7 +7,7 @@
 
 const crypto = require('crypto');
 const EWS = require('node-ews');
-const pool = require('./db');
+const pool = require('./database');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('Exchange');

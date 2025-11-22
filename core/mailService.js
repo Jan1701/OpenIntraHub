@@ -4,7 +4,7 @@
 // Purpose: Sync mail from Exchange, send mail, manage folders
 // =====================================================
 
-const pool = require('./db');
+const pool = require('./database');
 const exchangeService = require('./exchangeService');
 const { createModuleLogger } = require('./logger');
 const path = require('path');

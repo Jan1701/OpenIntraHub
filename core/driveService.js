@@ -6,7 +6,7 @@ const fs = require('fs').promises;
 const fsSync = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const pool = require('./db');
+const pool = require('./database');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('DriveService');

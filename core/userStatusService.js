@@ -5,7 +5,7 @@
 // all modules (Chat, Mail, Calendar, etc.)
 // =====================================================
 
-const pool = require('./db');
+const pool = require('./database');
 const exchangeService = require('./exchangeService');
 const { createModuleLogger } = require('./logger');
 

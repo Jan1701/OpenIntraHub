@@ -3,7 +3,7 @@
 // =====================================================
 
 const driveService = require('./driveService');
-const pool = require('./db');
+const pool = require('./database');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('PostsDrive');

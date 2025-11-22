@@ -5,10 +5,14 @@ const { Server: SocketIO } = require('socket.io');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const helmet = require('helmet');
+const compression = require('compression');
+const { createAdapter } = require('@socket.io/redis-adapter');
 const EnhancedModuleLoader = require('./enhancedModuleLoader');
 const eventBus = require('./eventBus');
 const auth = require('./auth');
 const database = require('./database');
+const redis = require('./redis');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('Core');
@@ -56,13 +60,26 @@ const io = new SocketIO(httpServer, {
 
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+// Security & Performance Middleware
+app.use(helmet({
+    contentSecurityPolicy: false, // Für Single-Page-Apps
+    crossOriginEmbedderPolicy: false
+}));
+app.use(compression()); // Gzip compression
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
+}));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 app.use(i18nMiddleware);
 app.use(i18nRequestMiddleware);
 app.use(requestLogger);
+
+// Trust proxy for rate limiting behind load balancer
+app.set('trust proxy', 1);
 
 // API-Dokumentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
@@ -322,6 +339,19 @@ async function startServer() {
             }
         } else {
             logger.info('Keine DB konfiguriert - Auth läuft ohne DB (nur LDAP/Mock)');
+        }
+
+        // Redis-Verbindung herstellen (für Caching & Socket.io Clustering)
+        if (process.env.REDIS_HOST) {
+            const redisConnected = await redis.connect();
+            if (redisConnected) {
+                // Setup Socket.io Redis Adapter für horizontale Skalierung
+                const { pubClient, subClient } = redis.getPubSubClients();
+                io.adapter(createAdapter(pubClient, subClient));
+                logger.info('Socket.io Redis Adapter aktiviert - Clustering bereit');
+            }
+        } else {
+            logger.info('Kein Redis konfiguriert - Socket.io läuft im Single-Instance-Modus');
         }
 
         // Module laden (Enhanced Module System mit Feature-Toggles)

@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 const ldapService = require('./ldapService');
 const ldapSyncWorker = require('./ldapSyncWorker');
-const pool = require('./db');
+const pool = require('./database');
 const { authenticateToken, requireAdmin } = require('./middleware');
 const { createModuleLogger } = require('./logger');
 

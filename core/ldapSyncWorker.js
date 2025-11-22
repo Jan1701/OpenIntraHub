@@ -3,7 +3,7 @@
 // =====================================================
 
 const cron = require('node-cron');
-const pool = require('./db');
+const pool = require('./database');
 const ldapService = require('./ldapService');
 const { createModuleLogger } = require('./logger');
 

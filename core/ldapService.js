@@ -3,7 +3,7 @@
 // =====================================================
 
 const ldap = require('ldapjs');
-const pool = require('./db');
+const pool = require('./database');
 const { createModuleLogger } = require('./logger');
 
 const logger = createModuleLogger('LDAP');
