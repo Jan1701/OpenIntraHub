@@ -7,6 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.4-alpha] - 2025-11-22
+
+### Added - Safety & Compliance Modules (Haus-Service)
+
+#### ASG Module - Arbeitssicherheit & Gesundheitskontrolle
+- BGHW-konforme digitale Checklisten
+- Inspektionsverwaltung mit Foto-Dokumentation
+- Maengelverfolgung mit 3-stufiger Eskalation
+- Digitale Unterschriften fuer alle Protokolle
+- Kalender-Integration fuer Fristen und Termine
+- Audit-Trail fuer Compliance-Nachweise
+- Database: `018_asg_safety_control.sql` (8 Tabellen)
+
+#### EVA Module - Evakuierung & Fluchtweg-Management
+- TUeV SUeD-konforme Evakuierungsverwaltung
+- Gebaeude- und Fluchtweg-Dokumentation
+- Organisatorische/Strukturelle/Technische Massnahmen
+- Evakuierungsuebungen mit 3-Phasen-Wizard
+- Sammelplaetze & Evakuierungshelfer-Verwaltung
+- Kalender-Integration fuer Uebungstermine
+- Database: `019_evacuation_management.sql` (11 Tabellen)
+
+#### BSM Module - Brandschutz- & Sicherheitsmanagement
+- FeuerTrutz-konforme 5 Checklisten:
+  - Ordnung & Sauberkeit (Brandlasten)
+  - Brandschutz-Infrastruktur (Feuerloescher, Melder)
+  - Fluchtwege (Ausgaenge, Beleuchtung)
+  - Baulicher Brandschutz (Brandabschnitte, Tueren)
+  - Betrieblicher Brandschutz (Organisation, Alarme)
+- Schulungsverwaltung mit Teilnehmerlisten
+- Wartungsplanung fuer BMA, RWA, Loeschanlagen
+- Database: `020_firesafety_management.sql` (11 Tabellen)
+
+### Added - Setup Wizard Enhancement
+- 11 Module waehlbar (vorher 5)
+- Kategorien: Kommunikation, Produktivitaet, Sicherheit
+- Neue Module: Drive, Projects, Mail, ASG, EVA, BSM
+- Verbesserte UI mit Kategorie-Icons
+
+### Added - White-Label Theme Settings
+- Admin-Seite fuer Theme-Konfiguration
+- Farbanpassungen (Primary, Secondary, etc.)
+- Logo-Upload Unterstuetzung
+- Navigation in Admin-Bereich
+
+### Fixed
+- projectApi.js: Korrigierte Database-Import (`database` statt `db`)
+- Setup.jsx: Version aktualisiert
+
+### Changed
+- Version: 0.1.3-alpha -> 0.1.4-alpha
+- 20 Database Migrationen (vorher 17)
+- 19 API Endpoints registriert
+- 15 Frontend-Module implementiert
+
+---
+
 ## [0.1.3-alpha] - 2025-11-22
 
 ### Added - CI/CD Pipeline

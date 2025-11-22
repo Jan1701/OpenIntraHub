@@ -8,7 +8,7 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](package.json)
-[![Version](https://img.shields.io/badge/version-0.1.1--alpha-orange.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.1.4--alpha-orange.svg)](CHANGELOG.md)
 [![GitHub Issues](https://img.shields.io/github/issues/Jan1701/OpenIntraHub)](https://github.com/Jan1701/OpenIntraHub/issues)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
@@ -20,11 +20,12 @@
 
 | Metrik | Wert |
 |--------|------|
-| **Gesamter Code** | ~37.649 Zeilen |
-| **API-Endpoints** | 215+ REST-Endpoints |
-| **Datenbanktabellen** | 66+ Tabellen |
+| **Gesamter Code** | ~45.000 Zeilen |
+| **API-Endpoints** | 250+ REST-Endpoints |
+| **Datenbanktabellen** | 85+ Tabellen |
+| **Migrationen** | 20 |
 | **Sprachen** | 7 (DE, EN, FR, ES, IT, PL, NL) |
-| **Module** | 12 vollständig implementiert |
+| **Module** | 15 vollstaendig implementiert |
 
 ---
 
@@ -36,10 +37,11 @@
 - **Internationalisierung (i18n)** - 7 Sprachen mit i18next
 - **Winston Logging** - Strukturiertes JSON-Logging
 - **Swagger API-Docs** - Interaktive API-Dokumentation unter `/api-docs`
-- **PostgreSQL** - Vollständiges DB-Schema mit 16 Migrationen
+- **PostgreSQL** - Vollstaendiges DB-Schema mit 20 Migrationen
 - **Redis** - Caching & Session-Management
 - **Event-System** - Modul-Kommunikation via Event-Bus
 - **WebSocket** - Real-time Kommunikation mit Socket.io
+- **White-Label** - Vollstaendig anpassbare CI/CD-Farben und Branding
 
 ### Modulare Architektur
 - **Hot-Swap Module** - Aktivieren/Deaktivieren ohne Neustart
@@ -51,35 +53,39 @@
 
 ## Implementierte Module
 
-### Posts & Blog
-- Rich-Text-Editor für Artikel
+### Kommunikation
+
+#### Posts & Blog
+- Rich-Text-Editor fuer Artikel
 - Kategorien & Tags System
 - SEO-freundliche URLs (Slugs)
 - Draft/Published/Archived Status
 - Reactions & Kommentare
 
-### Events & Kalender
+#### Events & Kalender
 - Event-Management mit Kalenderansicht
 - Teilnehmer-Verwaltung mit RSVP
 - Event-Serien (Wiederholungen)
 - Alarms/Notifications
 - Exchange Calendar Sync
 
-### Chat & Real-time Messaging
+#### Chat & Real-time Messaging
 - Direct Messages (1:1)
 - Group Chats
 - WebSocket-basiert (Socket.io)
 - File-Sharing & Reactions
 - Typing Indicators & Read Receipts
 
-### Mail System (Exchange Integration)
-- Vollständiger E-Mail-Client
+#### Mail System (Exchange Integration)
+- Vollstaendiger E-Mail-Client
 - Inbox, Compose, View
 - Folder-Synchronisation
 - Attachment Support
-- Verschlüsselte Credentials (AES-256-GCM)
+- Verschluesselte Credentials (AES-256-GCM)
 
-### Drive (Dateiverwaltung)
+### Produktivitaet
+
+#### Drive (Dateiverwaltung)
 - Ordner-Hierarchie
 - File Versioning & Rollback
 - File Deduplication (SHA256)
@@ -87,52 +93,81 @@
 - Storage Quotas pro User
 - Full-Text Search
 
-### Project Management (Kanban)
+#### Project Management (Kanban)
 - Projekt-Verwaltung mit Status
 - Kanban-Boards mit Spalten
-- Tasks/Issues mit Priorität
+- Tasks/Issues mit Prioritaet
 - Timeline-Management
 - Progress Tracking
 - Drive-Integration pro Projekt
 
-### Locations & Rooms
-- Bürostandorte verwalten
+#### Page Builder
+- Visueller Drag & Drop Editor
+- Module: Text, Bilder, Posts, Videos
+- Live Preview
+- Responsive Design
+
+#### Locations & Rooms
+- Buerostandorte verwalten
 - Raum-Management
 - Ressourcen-Verwaltung
 - Benutzer-Zuordnung
 - Offline-Codes
 
-### LDAP/Active Directory
+### Sicherheit & Compliance (Haus-Service)
+
+#### Arbeitssicherheit (ASG)
+- BGHW-konforme Checklisten
+- Digitale Inspektionen mit Foto-Dokumentation
+- Maengelverfolgung mit Eskalation
+- Digitale Unterschriften
+- Kalender-Integration fuer Fristen
+- Audit-Trail fuer Compliance
+
+#### Evakuierung (EVA)
+- TUeV SUeD-konforme Verwaltung
+- Gebaeude- und Fluchtweg-Management
+- Organisatorische/Strukturelle/Technische Massnahmen
+- Evakuierungsuebungen (3-Phasen-Wizard)
+- Sammelplaetze & Evakuierungshelfer
+
+#### Brandschutz (BSM)
+- FeuerTrutz-konforme 5 Checklisten:
+  - Ordnung & Sauberkeit
+  - Brandschutz-Infrastruktur
+  - Fluchtwege
+  - Baulicher Brandschutz
+  - Betrieblicher Brandschutz
+- Schulungsverwaltung
+- Wartungsplanung (BMA, RWA, Loeschanlagen)
+
+### Administration
+
+#### LDAP/Active Directory
 - User-Synchronisation
 - Group-Mapping zu Rollen
 - Automatische User-Erstellung
 - Scheduled Sync (Cron)
 - Admin-Panel im Frontend
 
-### User Status & Presence
+#### User Status & Presence
 - 6 Status-Typen: Available, Away, Busy, DND, Offline, OOF
 - Out of Office (OOF) Management
-- Status-History für Analytics
+- Status-History fuer Analytics
 - Real-time Updates via WebSocket
 
-### Page Builder
-- Visueller Drag & Drop Editor
-- Module: Text, Bilder, Posts, Videos
-- Live Preview
-- Responsive Design
-
-### Social Feed
+#### Social Feed
 - Activity Feed
 - Reactions/Emoji-System
 - Kommentare mit Verschachtelung
 - User-Mentions
 
-### Setup Wizard
+#### Setup Wizard
 - 7-stufige Web-Installation
 - Datenbank-Konfiguration
 - LDAP/Exchange-Setup (optional)
 - Admin-Benutzer-Erstellung
-- Modul-Auswahl
+- 11 Module waehlbar
 
 ---
 
@@ -176,6 +211,7 @@ npm start
 
 **Server:** http://localhost:3000
 **API-Docs:** http://localhost:3000/api-docs
+**Setup-Wizard:** http://localhost:3000/setup
 
 ---
 
@@ -188,6 +224,19 @@ docker compose -f docker-compose.production.yml up -d
 # Datenbank initialisieren
 docker compose -f docker-compose.production.yml exec app npm run db:migrate
 docker compose -f docker-compose.production.yml exec app npm run db:seed
+```
+
+### Debian 13 Installation
+
+```bash
+# Docker installieren
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+# Repository klonen und starten
+git clone https://github.com/Jan1701/OpenIntraHub.git
+cd OpenIntraHub
+docker compose -f docker-compose.production.yml up -d --build
 ```
 
 Mehr Details: [DEPLOYMENT.md](DEPLOYMENT.md)
@@ -248,10 +297,7 @@ Password: admin123
 Email: admin@openintrahub.local
 ```
 
-**Wichtig:** Passwort nach dem ersten Login ändern!
-
----
-
+**Wichtig:** Passwort nach dem ersten Login aendern!
 
 ---
 
@@ -291,7 +337,7 @@ GET /api/user/profile
 POST /api/posts
 ```
 
-**Vollständige Dokumentation:** http://localhost:3000/api-docs
+**Vollstaendige Dokumentation:** http://localhost:3000/api-docs
 
 ---
 
@@ -336,16 +382,16 @@ POST /api/posts
 - bcrypt Password-Hashing (10 rounds)
 - RBAC mit 5 Rollen & 20+ Permissions
 - SQL Injection Prevention (Prepared Statements)
-- AES-256-GCM Verschlüsselung für Credentials
+- AES-256-GCM Verschluesselung fuer Credentials
 - Input-Validierung
 - Rate Limiting
 - Audit-Logging
 
-### Sicherheitslücken melden
+### Sicherheitsluecken melden
 
 **Email:** jg@linxpress.de
 
-**Bitte NICHT über GitHub Issues melden!**
+**Bitte NICHT ueber GitHub Issues melden!**
 
 Mehr: [SECURITY.md](SECURITY.md)
 
@@ -353,7 +399,7 @@ Mehr: [SECURITY.md](SECURITY.md)
 
 ## Roadmap
 
-### v0.1.1-alpha (Aktuell)
+### v0.1.4-alpha (Aktuell)
 - [x] Core-System (Auth, RBAC, Logging, i18n)
 - [x] PostgreSQL & Redis Integration
 - [x] LDAP/Active Directory Support
@@ -367,8 +413,12 @@ Mehr: [SECURITY.md](SECURITY.md)
 - [x] Project Management (Kanban)
 - [x] Page Builder (Drag & Drop)
 - [x] Social Feed & Reactions
-- [x] Web-based Setup Wizard
+- [x] Web-based Setup Wizard (11 Module)
 - [x] Docker Production Setup
+- [x] White-Label / Theme Settings
+- [x] ASG - Arbeitssicherheit (BGHW-konform)
+- [x] EVA - Evakuierung (TUeV SUeD-konform)
+- [x] BSM - Brandschutz (FeuerTrutz-konform)
 
 ### v0.2.0 (Next)
 - [ ] Unit & Integration Tests
@@ -376,6 +426,7 @@ Mehr: [SECURITY.md](SECURITY.md)
 - [ ] Performance Optimierung
 - [ ] Advanced Admin Dashboard
 - [ ] Notification Center
+- [ ] Dynamische Modul-Aktivierung
 
 ### v0.3.0 (Future)
 - [ ] Wiki Module
@@ -386,15 +437,27 @@ Mehr: [SECURITY.md](SECURITY.md)
 
 ---
 
+## Vergleich mit anderen Loesungen
+
+Siehe [COMPARISON.md](COMPARISON.md) fuer einen detaillierten Vergleich mit:
+- Microsoft SharePoint
+- Confluence/Jira
+- Staffbase
+- Haiilo
+
+**Fazit:** OpenIntraHub bietet volle Freiheit ohne Kompromisse - Open Source, Self-Hosted, keine Vendor Lock-in.
+
+---
+
 ## Contributing
 
-Wir freuen uns über Beiträge!
+Wir freuen uns ueber Beitraege!
 
 1. Fork das Repository
 2. Branch erstellen (`git checkout -b feature/amazing-feature`)
 3. Commit (`git commit -m 'Feature: Add amazing feature'`)
 4. Push (`git push origin feature/amazing-feature`)
-5. Pull Request öffnen
+5. Pull Request oeffnen
 
 **Guidelines:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
@@ -422,7 +485,7 @@ Licensed under the Apache License, Version 2.0
 
 ## Danksagung
 
-Dieses Projekt nutzt großartige Open-Source-Software:
+Dieses Projekt nutzt grossartige Open-Source-Software:
 
 - [Express.js](https://expressjs.com/) - Web Framework
 - [React](https://react.dev/) - UI Library
