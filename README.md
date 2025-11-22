@@ -6,6 +6,7 @@
 
 **Moderne, modulare Social-Intranet-Plattform**
 
+[![Version](https://img.shields.io/badge/version-0.1.5--alpha-blue.svg)](CHANGELOG.md)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](package.json)
 [![GitHub Issues](https://img.shields.io/github/issues/Jan1701/OpenIntraHub)](https://github.com/Jan1701/OpenIntraHub/issues)
@@ -15,9 +16,25 @@
 
 ---
 
-## 🚀 Features
+## Aktueller Status (v0.1.5-alpha)
 
-### ✨ **Core-System**
+| Modul | Status | Beschreibung |
+|-------|--------|--------------|
+| Core System | 100% | Auth, RBAC, i18n, Logging, API-Docs, Redis |
+| Chat & Messaging | 100% | Real-time WebSocket mit Socket.io + Redis Adapter |
+| Drive (Dateimanager) | 100% | Upload, Versionierung, Freigabe, Papierkorb |
+| Project Management | 100% | Kanban Board mit Drag & Drop, Tasks, Sprints |
+| Posts & Blog | 100% | Rich-Text-Editor, Kategorien, Tags |
+| Events & Calendar | 100% | Event-Management, Exchange-Sync |
+| Mail Client | 100% | Exchange-Integration, Ordner, Attachments |
+| Mobile Apps | 100% | React Native (Expo) - iOS & Android |
+| User Status | 100% | Presence, Out of Office (OOF) |
+
+---
+
+## Features
+
+### Core-System (Optimiert für 5000+ User)
 - 🔐 **Multi-Authentifizierung** (JWT, LDAP, Database)
 - 👥 **RBAC** - 5 Rollen, 20+ Permissions
 - 🌍 **i18n** - Mehrsprachigkeit (DE, EN, FR, ES, IT, PL, NL) mit i18next
@@ -382,29 +399,33 @@ Wir freuen uns über Beiträge! 🎉
 
 ---
 
-## 📋 Roadmap
+## Roadmap
 
-### ✅ v0.1 (Current)
+### v0.1.5-alpha (Aktuell)
 - [x] Core-System (Auth, RBAC, Logging)
-- [x] PostgreSQL-Integration
-- [x] LDAP-Support
-- [x] Mehrsprachigkeit (i18n)
-- [x] API-Dokumentation
-- [x] Module-System
+- [x] PostgreSQL + Redis Integration
+- [x] LDAP/Active Directory Support
+- [x] Mehrsprachigkeit (i18n - 7 Sprachen)
+- [x] Swagger API-Dokumentation
+- [x] Chat & Real-time Messaging (Socket.io)
+- [x] Drive/Dateimanager
+- [x] Project Management (Kanban)
+- [x] Exchange Integration (Calendar, Mail, OOF)
+- [x] Mobile Apps (React Native/Expo)
+- [x] Performance-Optimierung (5000+ User)
 
-### 🔜 v0.2 (Next)
-- [ ] Frontend/Admin-Dashboard
-- [ ] User-Management UI
-- [ ] Docker Support
+### v0.2.0 (Geplant)
+- [ ] Push Notifications (Mobile & Web)
+- [ ] Docker Compose Setup
 - [ ] CI/CD Pipeline
-- [ ] Unit Tests
+- [ ] E2E Tests
+- [ ] Admin Dashboard Erweiterungen
 
-### 📅 v0.3 (Future)
-- [ ] Chat-Modul
+### v0.3.0 (Zukunft)
 - [ ] Wiki-Modul
-- [ ] File-Management
-- [ ] Calendar-Modul
-- [ ] Activity Feed
+- [ ] Video Conferencing Integration
+- [ ] Advanced Analytics Dashboard
+- [ ] Workflow Automation
 
 ---
 

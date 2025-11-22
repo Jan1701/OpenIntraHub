@@ -22,15 +22,22 @@
     "list": "Lista"
   },
   "task": {
-    "title": "Tarea",
+    "title": "Título",
     "new": "Nueva Tarea",
+    "edit": "Editar Tarea",
+    "tasks": "Tareas",
     "assignee": "Asignado a",
+    "unassigned": "Sin asignar",
     "reporter": "Creador",
     "priority": "Prioridad",
     "type": "Tipo",
     "status": "Estado",
     "dueDate": "Fecha de Vencimiento",
     "description": "Descripción",
+    "titlePlaceholder": "Ingrese el título de la tarea",
+    "descriptionPlaceholder": "Ingrese la descripción...",
+    "deleteConfirm": "¿Está seguro de que desea eliminar esta tarea?",
+    "empty": "No hay tareas en esta columna",
     "comments": "Comentarios",
     "activity": "Actividad",
     "attachments": "Archivos Adjuntos"

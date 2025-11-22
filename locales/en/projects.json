@@ -1,1 +1,64 @@
-{"title":"Projects","subtitle":"Project Management & Kanban","myProjects":"My Projects","newProject":"New Project","project":{"name":"Project Name","key":"Project Key","description":"Description","status":"Status","progress":"Progress","tasks":"Tasks","members":"Members","created":"Created","deadline":"Deadline"},"board":{"title":"Board","kanban":"Kanban","timeline":"Timeline","list":"List"},"task":{"title":"Task","new":"New Task","assignee":"Assignee","reporter":"Reporter","priority":"Priority","type":"Type","status":"Status","dueDate":"Due Date","description":"Description","comments":"Comments","activity":"Activity","attachments":"Attachments"},"priority":{"low":"Low","medium":"Medium","high":"High","critical":"Critical"},"type":{"task":"Task","bug":"Bug","feature":"Feature","epic":"Epic","story":"Story"},"status":{"open":"Open","in_progress":"In Progress","in_review":"In Review","done":"Done","blocked":"Blocked"}}
+{
+  "title": "Projects",
+  "subtitle": "Project Management & Kanban",
+  "myProjects": "My Projects",
+  "newProject": "New Project",
+  "project": {
+    "name": "Project Name",
+    "key": "Project Key",
+    "description": "Description",
+    "status": "Status",
+    "progress": "Progress",
+    "tasks": "Tasks",
+    "members": "Members",
+    "created": "Created",
+    "deadline": "Deadline"
+  },
+  "board": {
+    "title": "Board",
+    "kanban": "Kanban",
+    "timeline": "Timeline",
+    "list": "List"
+  },
+  "task": {
+    "title": "Title",
+    "new": "New Task",
+    "edit": "Edit Task",
+    "tasks": "Tasks",
+    "assignee": "Assignee",
+    "unassigned": "Unassigned",
+    "reporter": "Reporter",
+    "priority": "Priority",
+    "type": "Type",
+    "status": "Status",
+    "dueDate": "Due Date",
+    "description": "Description",
+    "titlePlaceholder": "Enter task title",
+    "descriptionPlaceholder": "Enter description...",
+    "deleteConfirm": "Are you sure you want to delete this task?",
+    "empty": "No tasks in this column",
+    "comments": "Comments",
+    "activity": "Activity",
+    "attachments": "Attachments"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "critical": "Critical"
+  },
+  "type": {
+    "task": "Task",
+    "bug": "Bug",
+    "feature": "Feature",
+    "epic": "Epic",
+    "story": "Story"
+  },
+  "status": {
+    "open": "Open",
+    "in_progress": "In Progress",
+    "in_review": "In Review",
+    "done": "Done",
+    "blocked": "Blocked"
+  }
+}

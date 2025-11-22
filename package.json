@@ -1,6 +1,6 @@
 {
   "name": "openintrahub",
-  "version": "0.1.1-alpha",
+  "version": "0.1.5-alpha",
   "description": "Freie Open Source Intranet-Lösung für Europa - Social Feed, Chat, Events & mehr",
   "main": "core/app.js",
   "scripts": {

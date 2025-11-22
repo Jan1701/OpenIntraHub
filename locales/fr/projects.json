@@ -22,15 +22,22 @@
     "list": "Liste"
   },
   "task": {
-    "title": "Tâche",
+    "title": "Titre",
     "new": "Nouvelle Tâche",
+    "edit": "Modifier la Tâche",
+    "tasks": "Tâches",
     "assignee": "Assigné à",
+    "unassigned": "Non assigné",
     "reporter": "Créateur",
     "priority": "Priorité",
     "type": "Type",
     "status": "Statut",
     "dueDate": "Date d'Échéance",
     "description": "Description",
+    "titlePlaceholder": "Entrez le titre de la tâche",
+    "descriptionPlaceholder": "Entrez la description...",
+    "deleteConfirm": "Voulez-vous vraiment supprimer cette tâche?",
+    "empty": "Aucune tâche dans cette colonne",
     "comments": "Commentaires",
     "activity": "Activité",
     "attachments": "Pièces Jointes"

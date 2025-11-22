@@ -5,6 +5,45 @@ All notable changes to OpenIntraHub will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.5-alpha] - 2024-11-22
+
+### Added - Enterprise Performance & Mobile Apps
+
+#### Performance Optimizations (5000+ Users)
+- **Database Pool Optimization** (`core/database.js`)
+  - Increased max connections: 20 → 100
+  - Connection health checks & warming
+  - Batch insert support, slow query logging
+
+- **Redis Service** (`core/redis.js`) - NEW
+  - Caching for user profiles, conversations
+  - Socket.io Redis Adapter for horizontal scaling
+  - Online status tracking, rate limiting
+
+- **Memory-Safe Middleware** (`core/middleware.js`)
+  - Rate limiter with automatic cleanup
+  - XSS protection, input sanitization
+  - SQL injection protection
+
+- **Database Indexes** (`db/migrations/017_performance_indexes.sql`)
+  - 40+ performance indexes for all tables
+
+#### Mobile Apps (React Native / Expo)
+- Complete mobile app with Dashboard, Chat, Drive, Projects
+- i18n (DE/EN), Socket.io, Zustand state management
+
+#### Project Management
+- Kanban Drag & Drop with optimistic updates
+- Task modal with priority, due date, assignee
+
+### Fixed
+- **Critical**: `require('./db')` → `require('./database')` in 13 modules
+
+### Security
+- Helmet headers, XSS protection, rate limiting
+
+---
+
 ## [Unreleased]
 
 ### Added - Exchange Integration Phase 2

@@ -117,7 +117,7 @@ export default function LoginScreen() {
           </Surface>
 
           <Text style={styles.footerText}>
-            {t('app.version', 'Version')} 0.1.0
+            {t('app.version', 'Version')} 0.1.5-alpha
           </Text>
         </ScrollView>
       </KeyboardAvoidingView>

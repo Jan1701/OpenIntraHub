@@ -22,15 +22,22 @@
     "list": "Lijst"
   },
   "task": {
-    "title": "Taak",
+    "title": "Titel",
     "new": "Nieuwe Taak",
+    "edit": "Taak Bewerken",
+    "tasks": "Taken",
     "assignee": "Toegewezen aan",
+    "unassigned": "Niet toegewezen",
     "reporter": "Maker",
     "priority": "Prioriteit",
     "type": "Type",
     "status": "Status",
     "dueDate": "Vervaldatum",
     "description": "Beschrijving",
+    "titlePlaceholder": "Voer taaktitel in",
+    "descriptionPlaceholder": "Voer beschrijving in...",
+    "deleteConfirm": "Weet u zeker dat u deze taak wilt verwijderen?",
+    "empty": "Geen taken in deze kolom",
     "comments": "Opmerkingen",
     "activity": "Activiteit",
     "attachments": "Bijlagen"

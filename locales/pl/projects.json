@@ -22,15 +22,22 @@
     "list": "Lista"
   },
   "task": {
-    "title": "Zadanie",
+    "title": "Tytuł",
     "new": "Nowe Zadanie",
+    "edit": "Edytuj Zadanie",
+    "tasks": "Zadania",
     "assignee": "Przypisano do",
+    "unassigned": "Nieprzypisane",
     "reporter": "Twórca",
     "priority": "Priorytet",
     "type": "Typ",
     "status": "Status",
     "dueDate": "Termin Wykonania",
     "description": "Opis",
+    "titlePlaceholder": "Wprowadź tytuł zadania",
+    "descriptionPlaceholder": "Wprowadź opis...",
+    "deleteConfirm": "Czy na pewno chcesz usunąć to zadanie?",
+    "empty": "Brak zadań w tej kolumnie",
     "comments": "Komentarze",
     "activity": "Aktywność",
     "attachments": "Załączniki"

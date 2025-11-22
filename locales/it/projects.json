@@ -22,15 +22,22 @@
     "list": "Lista"
   },
   "task": {
-    "title": "Attività",
+    "title": "Titolo",
     "new": "Nuova Attività",
+    "edit": "Modifica Attività",
+    "tasks": "Attività",
     "assignee": "Assegnato a",
+    "unassigned": "Non assegnato",
     "reporter": "Creatore",
     "priority": "Priorità",
     "type": "Tipo",
     "status": "Stato",
     "dueDate": "Data di Scadenza",
     "description": "Descrizione",
+    "titlePlaceholder": "Inserisci il titolo dell'attività",
+    "descriptionPlaceholder": "Inserisci la descrizione...",
+    "deleteConfirm": "Sei sicuro di voler eliminare questa attività?",
+    "empty": "Nessuna attività in questa colonna",
     "comments": "Commenti",
     "activity": "Attività",
     "attachments": "Allegati"

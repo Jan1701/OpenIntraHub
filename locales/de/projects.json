@@ -21,15 +21,22 @@
     "list": "Liste"
   },
   "task": {
-    "title": "Aufgabe",
+    "title": "Titel",
     "new": "Neue Aufgabe",
+    "edit": "Aufgabe bearbeiten",
+    "tasks": "Aufgaben",
     "assignee": "Zugewiesen an",
+    "unassigned": "Nicht zugewiesen",
     "reporter": "Ersteller",
     "priority": "Priorität",
     "type": "Typ",
     "status": "Status",
     "dueDate": "Fälligkeitsdatum",
     "description": "Beschreibung",
+    "titlePlaceholder": "Aufgabentitel eingeben",
+    "descriptionPlaceholder": "Beschreibung eingeben...",
+    "deleteConfirm": "Möchten Sie diese Aufgabe wirklich löschen?",
+    "empty": "Keine Aufgaben in dieser Spalte",
     "comments": "Kommentare",
     "activity": "Aktivität",
     "attachments": "Anhänge"
