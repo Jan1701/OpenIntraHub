@@ -2,37 +2,353 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================================
+   CSS Variables for White-Label Theming
+   ============================================= */
+
+:root {
+  /* Primary Brand Colors */
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+
+  /* Secondary Colors */
+  --color-secondary-500: #8b5cf6;
+  --color-secondary-600: #7c3aed;
+
+  /* Neutral Colors */
+  --color-background: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  /* Spacing & Layout */
+  --sidebar-width: 256px;
+  --header-height: 64px;
+  --border-radius: 0.5rem;
+  --border-radius-lg: 0.75rem;
+
+  /* Typography */
+  --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+  --color-background: #111827;
+  --color-surface: #1f2937;
+  --color-border: #374151;
+  --color-text-primary: #f9fafb;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+}
+
+/* =============================================
+   Base Styles
+   ============================================= */
+
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--color-border);
   }
+
+  html {
+    font-family: var(--font-family);
+  }
+
   body {
-    @apply bg-gray-50 text-gray-900 font-sans;
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    @apply antialiased;
+  }
+
+  /* Focus styles for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
   }
 }
 
+/* =============================================
+   Component Classes
+   ============================================= */
+
 @layer components {
+  /* Buttons */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors;
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-primary {
-    @apply bg-primary-600 text-white hover:bg-primary-700;
+    background-color: var(--color-primary-600);
+    @apply text-white hover:opacity-90;
+    @apply focus:ring-primary-500;
   }
 
   .btn-secondary {
     @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+    @apply focus:ring-gray-500;
+  }
+
+  .btn-outline {
+    @apply border-2 border-primary-600 text-primary-600;
+    @apply hover:bg-primary-50;
+    @apply focus:ring-primary-500;
+  }
+
+  .btn-ghost {
+    @apply text-gray-600 hover:bg-gray-100;
+    @apply focus:ring-gray-500;
   }
 
   .btn-danger {
     @apply bg-red-600 text-white hover:bg-red-700;
+    @apply focus:ring-red-500;
   }
 
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
+
+  /* Cards */
   .card {
-    @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4;
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    border-radius: var(--border-radius-lg);
+    @apply shadow-sm border p-4;
   }
 
+  .card-hover {
+    @apply card transition-shadow duration-200 hover:shadow-md;
+  }
+
+  /* Inputs */
   .input {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    @apply w-full px-3 py-2 border rounded-lg;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+    background-color: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-text-primary);
+  }
+
+  .input-error {
+    @apply input border-red-500 focus:ring-red-500;
+  }
+
+  /* Labels */
+  .label {
+    @apply block text-sm font-medium mb-1;
+    color: var(--color-text-secondary);
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-800;
+  }
+
+  .badge-success {
+    @apply badge bg-green-100 text-green-800;
+  }
+
+  .badge-warning {
+    @apply badge bg-yellow-100 text-yellow-800;
+  }
+
+  .badge-error {
+    @apply badge bg-red-100 text-red-800;
+  }
+
+  /* Navigation */
+  .nav-item {
+    @apply flex items-center px-3 py-2 rounded-lg text-gray-700;
+    @apply hover:bg-gray-100 transition-colors duration-150;
+  }
+
+  .nav-item-active {
+    @apply nav-item bg-primary-50 text-primary-700 font-medium;
+  }
+
+  /* Tables */
+  .table {
+    @apply w-full text-left;
+  }
+
+  .table th {
+    @apply px-4 py-3 text-xs font-semibold uppercase tracking-wider;
+    color: var(--color-text-secondary);
+    background-color: var(--color-background);
+  }
+
+  .table td {
+    @apply px-4 py-3 border-t;
+    border-color: var(--color-border);
+  }
+
+  .table tr:hover td {
+    background-color: var(--color-background);
+  }
+
+  /* Modals */
+  .modal-overlay {
+    @apply fixed inset-0 bg-black bg-opacity-50 z-50;
+    @apply flex items-center justify-center;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-xl shadow-xl max-w-lg w-full mx-4;
+    @apply max-h-[90vh] overflow-auto;
+  }
+
+  /* Tooltips */
+  .tooltip {
+    @apply absolute z-50 px-2 py-1 text-xs rounded;
+    @apply bg-gray-900 text-white;
+  }
+
+  /* Dropdown */
+  .dropdown {
+    @apply absolute z-40 mt-2 py-1 rounded-lg shadow-lg;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .dropdown-item {
+    @apply block px-4 py-2 text-sm hover:bg-gray-100;
+    color: var(--color-text-primary);
+  }
+}
+
+/* =============================================
+   Utility Classes
+   ============================================= */
+
+@layer utilities {
+  /* Text Colors using CSS Variables */
+  .text-primary {
+    color: var(--color-primary-600);
+  }
+
+  .text-secondary {
+    color: var(--color-text-secondary);
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  /* Background Colors */
+  .bg-surface {
+    background-color: var(--color-surface);
+  }
+
+  .bg-background {
+    background-color: var(--color-background);
+  }
+
+  /* Scrollbar Styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 3px;
+  }
+
+  /* Animation Classes */
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading Spinner */
+  .spinner {
+    @apply inline-block w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin;
+  }
+
+  /* Skeleton Loading */
+  .skeleton {
+    @apply bg-gray-200 rounded animate-pulse;
+  }
+}
+
+/* =============================================
+   Print Styles
+   ============================================= */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-break {
+    page-break-before: always;
+  }
+
+  body {
+    background: white;
+    color: black;
   }
 }

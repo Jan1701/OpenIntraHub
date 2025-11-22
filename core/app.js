@@ -41,6 +41,10 @@ const mailApi = require('./mailApi');
 const ldapApi = require('./ldapApi');
 const driveApi = require('./driveApi');
 const projectApi = require('./projectApi');
+const themeApi = require('./themeApi');
+const asgApi = require('./asgApi');
+const evacuationApi = require('./evacuationApi');
+const firesafetyApi = require('./firesafetyApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -63,6 +67,10 @@ app.use(cookieParser());
 app.use(i18nMiddleware);
 app.use(i18nRequestMiddleware);
 app.use(requestLogger);
+
+// Static file serving for uploads
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API-Dokumentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
@@ -108,6 +116,11 @@ app.get('/', (req, res) => res.send('OpenIntraHub Core is running'));
 app.post('/api/auth/login', auth.login);
 app.get('/api/core/status', (req, res) => {
     res.json({ status: 'ok', uptime: process.uptime() });
+});
+
+// Health check endpoint for Docker/Kubernetes
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Setup API - MUST be before other routes (works without database)
@@ -249,6 +262,18 @@ app.use('/api', driveApi);
 // Project Management API
 app.use('/api', projectApi);
 
+// Theme API (White-Label Configuration)
+app.use('/api', themeApi);
+
+// ASG API (Arbeitssicherheit & Gesundheit)
+app.use('/api', asgApi);
+
+// Evacuation API (Evakuierung & Fluchtwege)
+app.use('/api', evacuationApi);
+
+// Fire Safety API (Brandschutz & Sicherheit)
+app.use('/api', firesafetyApi);
+
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
     res.json({
@@ -290,6 +315,20 @@ app.post('/api/files/upload', authenticateToken, requirePermission('files.upload
 
 // Module System initialisieren (wird in startServer() geladen)
 const moduleLoader = new EnhancedModuleLoader(app, eventBus);
+
+// Frontend Static Files (Production)
+if (process.env.NODE_ENV === 'production') {
+    const frontendPath = path.join(__dirname, '../frontend/dist');
+    app.use(express.static(frontendPath));
+
+    // SPA Fallback - alle nicht-API Routen zum Frontend
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) {
+            return next();
+        }
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
 
 // 404 Handler
 app.use((req, res) => {

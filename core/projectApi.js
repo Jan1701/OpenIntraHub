@@ -4,7 +4,7 @@
 
 const express = require('express');
 const router = express.Router();
-const pool = require('./db');
+const database = require('./database');
 const { authenticateToken } = require('./middleware');
 const { createModuleLogger } = require('./logger');
 
@@ -17,7 +17,7 @@ const logger = createModuleLogger('ProjectAPI');
 // GET /api/projects - List all projects
 router.get('/projects', authenticateToken, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT p.*, u.name as owner_name,
                    (SELECT COUNT(*) FROM tasks WHERE project_id = p.id) as task_count
             FROM projects p
@@ -40,14 +40,14 @@ router.post('/projects', authenticateToken, async (req, res) => {
 
         const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
-        const result = await pool.query(`
+        const result = await database.query(`
             INSERT INTO projects (name, slug, description, key, owner_id, color, start_date, end_date, team_members)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, ARRAY[$5])
             RETURNING *
         `, [name, slug, description, key, req.user.id, color || '#3B82F6', start_date, end_date]);
 
         // Create default board with columns
-        const boardResult = await pool.query(`
+        const boardResult = await database.query(`
             INSERT INTO project_boards (project_id, name) VALUES ($1, 'Main Board') RETURNING *
         `, [result.rows[0].id]);
 
@@ -61,7 +61,7 @@ router.post('/projects', authenticateToken, async (req, res) => {
         ];
 
         for (const [name, type, color, pos] of columns) {
-            await pool.query(`
+            await database.query(`
                 INSERT INTO board_columns (board_id, name, column_type, color, position)
                 VALUES ($1, $2, $3, $4, $5)
             `, [boardId, name, type, color, pos]);
@@ -77,7 +77,7 @@ router.post('/projects', authenticateToken, async (req, res) => {
 // GET /api/projects/:id - Get project details
 router.get('/projects/:id', authenticateToken, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT p.*, u.name as owner_name
             FROM projects p
             LEFT JOIN users u ON p.owner_id = u.id
@@ -102,10 +102,10 @@ router.get('/projects/:id', authenticateToken, async (req, res) => {
 // GET /api/projects/:id/boards - Get project boards
 router.get('/projects/:id/boards', authenticateToken, async (req, res) => {
     try {
-        const boards = await pool.query('SELECT * FROM project_boards WHERE project_id = $1 ORDER BY position', [req.params.id]);
+        const boards = await database.query('SELECT * FROM project_boards WHERE project_id = $1 ORDER BY position', [req.params.id]);
 
         for (const board of boards.rows) {
-            const columns = await pool.query('SELECT * FROM board_columns WHERE board_id = $1 ORDER BY position', [board.id]);
+            const columns = await database.query('SELECT * FROM board_columns WHERE board_id = $1 ORDER BY position', [board.id]);
             board.columns = columns.rows;
         }
 
@@ -123,7 +123,7 @@ router.get('/projects/:id/boards', authenticateToken, async (req, res) => {
 // GET /api/projects/:id/tasks - Get project tasks
 router.get('/projects/:id/tasks', authenticateToken, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT t.*, 
                    u.name as assignee_name, 
                    r.name as reporter_name,
@@ -149,7 +149,7 @@ router.post('/tasks', authenticateToken, async (req, res) => {
     try {
         const { project_id, title, description, task_type, priority, assignee_id, column_id, due_date } = req.body;
 
-        const result = await pool.query(`
+        const result = await database.query(`
             INSERT INTO tasks (project_id, title, description, task_type, priority, assignee_id, reporter_id, column_id, due_date)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *
@@ -167,7 +167,7 @@ router.put('/tasks/:id', authenticateToken, async (req, res) => {
     try {
         const { title, description, status, priority, assignee_id, column_id, due_date, position } = req.body;
 
-        const result = await pool.query(`
+        const result = await database.query(`
             UPDATE tasks SET
                 title = COALESCE($1, title),
                 description = COALESCE($2, description),
@@ -192,7 +192,7 @@ router.put('/tasks/:id', authenticateToken, async (req, res) => {
 // DELETE /api/tasks/:id - Delete task
 router.delete('/tasks/:id', authenticateToken, async (req, res) => {
     try {
-        await pool.query('DELETE FROM tasks WHERE id = $1', [req.params.id]);
+        await database.query('DELETE FROM tasks WHERE id = $1', [req.params.id]);
         res.json({ success: true, message: 'Task deleted' });
     } catch (error) {
         logger.error('Delete task failed', { error: error.message });
@@ -205,7 +205,7 @@ router.post('/tasks/:id/move', authenticateToken, async (req, res) => {
     try {
         const { column_id, position } = req.body;
 
-        await pool.query('UPDATE tasks SET column_id = $1, position = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3', 
+        await database.query('UPDATE tasks SET column_id = $1, position = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3', 
             [column_id, position, req.params.id]);
 
         res.json({ success: true, message: 'Task moved' });
@@ -222,7 +222,7 @@ router.post('/tasks/:id/move', authenticateToken, async (req, res) => {
 // GET /api/tasks/:id/comments - Get task comments
 router.get('/tasks/:id/comments', authenticateToken, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT c.*, u.name as user_name, u.avatar_url
             FROM task_comments c
             LEFT JOIN users u ON c.user_id = u.id
@@ -242,7 +242,7 @@ router.post('/tasks/:id/comments', authenticateToken, async (req, res) => {
     try {
         const { content } = req.body;
 
-        const result = await pool.query(`
+        const result = await database.query(`
             INSERT INTO task_comments (task_id, user_id, content)
             VALUES ($1, $2, $3)
             RETURNING *
@@ -262,7 +262,7 @@ router.post('/tasks/:id/comments', authenticateToken, async (req, res) => {
 // GET /api/tasks/:id/activity - Get task activity
 router.get('/tasks/:id/activity', authenticateToken, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT a.*, u.name as user_name
             FROM task_activity a
             LEFT JOIN users u ON a.user_id = u.id

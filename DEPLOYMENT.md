@@ -1,14 +1,14 @@
-# 🚀 OpenIntraHub Deployment Guide
+# OpenIntraHub Deployment Guide
 
-## Production Deployment auf Debian mit Nginx Proxy Manager
+## Production Deployment auf Debian mit Docker & Nginx Proxy Manager
 
 ### Voraussetzungen
 
-- **Debian 11/12** Server
+- **Debian 11/12** Server (oder Ubuntu 22.04+)
 - **Docker & Docker Compose** installiert
-- **Nginx Proxy Manager** (NPM) läuft bereits
-- **Domain** mit DNS-Eintrag auf Server (z.B. `intranet.example.com`)
-- **SSL-Zertifikat** (Let's Encrypt via NPM)
+- **Nginx Proxy Manager** (NPM) oder anderer Reverse Proxy
+- **Domain** mit DNS-Eintrag auf Server
+- **SSL-Zertifikat** (Let's Encrypt empfohlen)
 
 ---
 
@@ -20,20 +20,20 @@
 # Docker installieren
 curl -fsSL https://get.docker.com | bash
 
-# Docker Compose installieren
+# Docker Compose Plugin installieren
 sudo apt-get update
 sudo apt-get install docker-compose-plugin
 
-# User zu docker Gruppe hinzufügen
+# User zur docker Gruppe hinzufuegen
 sudo usermod -aG docker $USER
 newgrp docker
 
-# Verify
+# Verifizieren
 docker --version
 docker compose version
 ```
 
-### Git Repository clonen
+### Git Repository klonen
 
 ```bash
 cd /opt
@@ -49,30 +49,47 @@ sudo chown -R $USER:$USER .
 ### Environment-Datei erstellen
 
 ```bash
-cp .env.production.example .env
+cp .env.example .env
 nano .env
 ```
 
-**Wichtige Werte ändern:**
+### Wichtige Werte konfigurieren
 
 ```bash
-# JWT Secret generieren
-openssl rand -hex 64
+# Sichere Secrets generieren
+openssl rand -hex 64  # Fuer JWT_SECRET
+openssl rand -hex 32  # Fuer EXCHANGE_ENCRYPTION_KEY
 
-# In .env einfügen:
-JWT_SECRET=<generierter-hex-wert>
-
-# Starke Passwörter setzen:
-DB_PASSWORD=<starkes-db-password>
-REDIS_PASSWORD=<starkes-redis-password>
-
-# Frontend URL (deine Domain):
+# In .env einfuegen:
+NODE_ENV=production
+PORT=3000
 FRONTEND_URL=https://intranet.example.com
+
+# Database
+DB_HOST=postgres
+DB_PORT=5432
+DB_NAME=openintrahub
+DB_USER=openintrahub
+DB_PASSWORD=<starkes-db-password>
+
+# Security
+JWT_SECRET=<generierter-hex-wert>
+JWT_EXPIRES_IN=24h
+
+# Redis
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# File Storage
+DRIVE_UPLOAD_DIR=/app/uploads/drive
+DRIVE_MAX_FILE_SIZE=104857600
+DRIVE_USER_QUOTA=5368709120
+
+# Logging
+LOG_LEVEL=info
 ```
 
 ### LDAP/AD Integration (optional)
-
-Wenn du Active Directory hast:
 
 ```bash
 LDAP_ENABLED=true
@@ -81,6 +98,22 @@ LDAP_BIND_DN=CN=Service Account,OU=Users,DC=example,DC=local
 LDAP_BIND_PASSWORD=<service-account-password>
 LDAP_SEARCH_BASE=DC=example,DC=local
 LDAP_SEARCH_FILTER=(sAMAccountName={{username}})
+LDAP_IS_AD=true
+LDAP_AD_DOMAIN=example.local
+
+# Automatische Synchronisation
+LDAP_SYNC_ENABLED=true
+LDAP_SYNC_SCHEDULE=0 */6 * * *
+```
+
+### Exchange Integration (optional)
+
+```bash
+EXCHANGE_ENABLED=true
+EXCHANGE_DEFAULT_SERVER=https://mail.company.com/EWS/Exchange.asmx
+EXCHANGE_DEFAULT_AUTH_TYPE=ntlm
+EXCHANGE_ENCRYPTION_KEY=<generierter-hex-wert>
+EXCHANGE_SYNC_INTERVAL_MINUTES=15
 ```
 
 ---
@@ -93,156 +126,126 @@ LDAP_SEARCH_FILTER=(sAMAccountName={{username}})
 # Production Build
 docker compose -f docker-compose.production.yml build
 
-# Start Services
+# Container starten
 docker compose -f docker-compose.production.yml up -d
 
-# Logs prüfen
+# Logs pruefen
 docker compose -f docker-compose.production.yml logs -f app
 ```
 
 ### Datenbank initialisieren
 
 ```bash
-# Migrations ausführen
+# Migrations ausfuehren
 docker compose -f docker-compose.production.yml exec app npm run db:migrate
 
-# Admin-User erstellen
+# Admin-User erstellen (Seed)
 docker compose -f docker-compose.production.yml exec app npm run db:seed
 ```
 
-**Standard Admin-Login:**
-- Username: `admin`
-- Password: `Admin123!`
-**⚠️ WICHTIG: Sofort nach erstem Login ändern!**
+### Standard Admin-Login
+
+```
+Username: admin
+Password: Admin123!
+```
+
+**WICHTIG:** Passwort sofort nach erstem Login aendern!
 
 ---
 
 ## 4. Nginx Proxy Manager Setup
 
-### In NPM Web-Interface (z.B. http://server-ip:81)
+### In NPM Web-Interface (http://server-ip:81)
 
-#### 4.1 Proxy Host hinzufügen
+#### 4.1 Proxy Host hinzufuegen
 
-**Tab: Proxy Hosts → Add Proxy Host**
+**Tab: Proxy Hosts -> Add Proxy Host**
 
 **Details:**
-
 ```
 Domain Names: intranet.example.com
 Scheme: http
-Forward Hostname/IP: 127.0.0.1  (oder Docker-Bridge-IP)
+Forward Hostname/IP: 127.0.0.1
 Forward Port: 3000
 
-☑ Block Common Exploits
-☑ Websockets Support  (WICHTIG für Socket.io Chat!)
+[x] Block Common Exploits
+[x] Websockets Support  (WICHTIG fuer Socket.io!)
 ```
 
 **SSL:**
-
 ```
-☑ Force SSL
-☑ HTTP/2 Support
-☑ HSTS Enabled
+[x] Force SSL
+[x] HTTP/2 Support
+[x] HSTS Enabled
 
 SSL Certificate: Request a new SSL Certificate (Let's Encrypt)
-☑ I Agree to the Let's Encrypt Terms of Service
+[x] I Agree to the Let's Encrypt Terms of Service
 Email: your-email@example.com
 ```
 
-**Advanced (Optional):**
-
+**Advanced (Custom Nginx Configuration):**
 ```nginx
-# Für bessere WebSocket-Performance
+# WebSocket Support fuer Chat & Real-time
 proxy_http_version 1.1;
 proxy_set_header Upgrade $http_upgrade;
 proxy_set_header Connection "upgrade";
 proxy_read_timeout 86400;
 
-# Headers für Socket.io
+# Headers
 proxy_set_header Host $host;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
 
-# File Upload Size
-client_max_body_size 25M;
-```
-
-#### 4.2 Access List (optional)
-
-Falls nur intern erreichbar:
-
-**Tab: Access Lists → Add Access List**
-
-```
-Name: OpenIntraHub Internal
-Satisfy Any: ☐
-
-Authorization:
-☑ Username/Password
-  User: internal
-  Password: <starkes-password>
-
-OR
-
-Access:
-  Allow: 10.0.0.0/8    (Dein internes Netzwerk)
-  Allow: 192.168.0.0/16
-  Deny: all
+# File Upload Size (fuer Drive)
+client_max_body_size 100M;
 ```
 
 ---
 
 ## 5. Health Checks
 
-### Prüfen ob alles läuft
+### Container Status pruefen
 
 ```bash
-# Container Status
+# Status aller Container
 docker compose -f docker-compose.production.yml ps
 
-# Logs
+# Logs anzeigen
 docker compose -f docker-compose.production.yml logs -f app
 
-# Health Endpoint
+# Health Endpoint testen
 curl http://localhost:3000/api/health
-# Expected: {"status":"ok","timestamp":"2025-01-21T..."}
+# Expected: {"status":"ok","timestamp":"..."}
 
-# Frontend (nach NPM Setup)
+# Nach NPM Setup
 curl https://intranet.example.com/api/health
 ```
 
-### Socket.io Chat testen
-
-Browser-Console (nach Login):
+### Socket.io testen (Browser Console)
 
 ```javascript
-// Socket.io verbinden
 const socket = io('https://intranet.example.com/chat', {
-    auth: {
-        token: localStorage.getItem('token')
-    }
+    auth: { token: localStorage.getItem('token') }
 });
 
-socket.on('connect', () => {
-    console.log('✅ Chat connected!');
-});
-
-socket.on('user:online', (data) => {
-    console.log('User online:', data);
-});
+socket.on('connect', () => console.log('Chat connected!'));
+socket.on('connect_error', (err) => console.error('Error:', err));
 ```
 
 ---
 
-## 6. Maintenance & Updates
+## 6. Wartung & Updates
 
 ### Update auf neue Version
 
 ```bash
 cd /opt/OpenIntraHub
 
-# Pull latest changes
+# Backup erstellen (siehe unten)
+
+# Latest changes pullen
 git pull origin main
 
 # Rebuild & Restart
@@ -250,7 +253,7 @@ docker compose -f docker-compose.production.yml down
 docker compose -f docker-compose.production.yml build --no-cache
 docker compose -f docker-compose.production.yml up -d
 
-# Run new migrations
+# Neue Migrations ausfuehren
 docker compose -f docker-compose.production.yml exec app npm run db:migrate
 ```
 
@@ -261,29 +264,45 @@ docker compose -f docker-compose.production.yml exec app npm run db:migrate
 docker compose -f docker-compose.production.yml exec postgres \
     pg_dump -U openintrahub openintrahub > backup-$(date +%Y%m%d).sql
 
-# Restore
+# Drive Files Backup
+tar -czvf drive-backup-$(date +%Y%m%d).tar.gz uploads/
+
+# Restore Database
 docker compose -f docker-compose.production.yml exec -T postgres \
-    psql -U openintrahub openintrahub < backup-20250121.sql
+    psql -U openintrahub openintrahub < backup-20251121.sql
 ```
 
-### Logs rotieren
+### Automatisches Backup (Cron)
 
 ```bash
-# In docker-compose.production.yml logging hinzufügen:
+# Crontab bearbeiten
+crontab -e
+
+# Taeglich um 3 Uhr morgens
+0 3 * * * cd /opt/OpenIntraHub && docker compose -f docker-compose.production.yml exec -T postgres pg_dump -U openintrahub openintrahub > /backup/db-$(date +\%Y\%m\%d).sql
+
+# Woechentlich Drive Backup
+0 4 * * 0 tar -czvf /backup/drive-$(date +\%Y\%m\%d).tar.gz /opt/OpenIntraHub/uploads/
+```
+
+### Log Rotation
+
+```yaml
+# In docker-compose.production.yml
 services:
   app:
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
-        max-file: "3"
+        max-file: "5"
 ```
 
 ---
 
 ## 7. Monitoring (Optional)
 
-### Portainer
+### Portainer (Container Management)
 
 ```bash
 docker run -d \
@@ -297,22 +316,34 @@ docker run -d \
 
 Access: `http://server-ip:9000`
 
-### Prometheus + Grafana (später)
+### Prometheus + Grafana (Metrics)
 
 ```yaml
 # docker-compose.monitoring.yml
+version: '3.8'
+
 services:
   prometheus:
-    image: prom/prometheus
+    image: prom/prometheus:latest
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - openintrahub-network
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
     ports:
       - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - openintrahub-network
+
+networks:
+  openintrahub-network:
+    external: true
 ```
 
 ---
@@ -326,7 +357,7 @@ sudo ufw enable
 # SSH erlauben
 sudo ufw allow 22/tcp
 
-# HTTP/HTTPS (für NPM)
+# HTTP/HTTPS (fuer NPM)
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 
@@ -337,7 +368,7 @@ sudo ufw allow from YOUR_ADMIN_IP to any port 81
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 
-# Status prüfen
+# Status pruefen
 sudo ufw status verbose
 ```
 
@@ -351,28 +382,55 @@ sudo ufw status verbose
 # Logs checken
 docker compose -f docker-compose.production.yml logs app
 
-# Häufige Probleme:
-# - DB_PASSWORD nicht gesetzt → .env prüfen
-# - PostgreSQL nicht ready → healthcheck abwarten
-# - Port 3000 belegt → netstat -tulpn | grep 3000
+# Haeufige Probleme:
+# - DB_PASSWORD nicht gesetzt -> .env pruefen
+# - PostgreSQL nicht ready -> healthcheck abwarten
+# - Port 3000 belegt -> netstat -tulpn | grep 3000
+```
+
+### Datenbank-Verbindungsfehler
+
+```bash
+# PostgreSQL Container pruefen
+docker compose -f docker-compose.production.yml exec postgres pg_isready -U openintrahub
+
+# Verbindung testen
+docker compose -f docker-compose.production.yml exec app node -e "
+const { Pool } = require('pg');
+const pool = new Pool();
+pool.query('SELECT NOW()').then(r => console.log('OK:', r.rows[0])).catch(console.error);
+"
 ```
 
 ### Socket.io verbindet nicht
 
 ```bash
-# NPM: Websockets Support aktiviert? ✓
+# NPM: Websockets Support aktiviert?
 # Browser-Console: CORS-Error?
-# → FRONTEND_URL in .env korrekt gesetzt?
+# -> FRONTEND_URL in .env korrekt gesetzt?
 
-# Test:
+# Test WebSocket Endpoint
 curl -I https://intranet.example.com/socket.io/socket.io.js
 # Expected: HTTP 200
+```
+
+### Drive Upload Fehler
+
+```bash
+# Upload-Verzeichnis pruefen
+docker compose -f docker-compose.production.yml exec app ls -la /app/uploads/
+
+# Berechtigungen korrigieren
+docker compose -f docker-compose.production.yml exec app chmod -R 755 /app/uploads/
+
+# Nginx max upload size
+# In NPM Advanced: client_max_body_size 100M;
 ```
 
 ### Performance Probleme
 
 ```bash
-# PostgreSQL Performance tuning
+# PostgreSQL Performance Tuning
 # In docker-compose.production.yml:
 services:
   postgres:
@@ -393,36 +451,39 @@ services:
 
 ## 10. Security Checklist
 
-- [ ] JWT_SECRET ist stark und zufällig generiert
-- [ ] DB_PASSWORD und REDIS_PASSWORD sind stark
-- [ ] Admin-Passwort nach erstem Login geändert
+- [ ] `NODE_ENV=production` gesetzt
+- [ ] `JWT_SECRET` mit starkem, zufaelligem Wert (min. 64 Zeichen)
+- [ ] `DB_PASSWORD` mit starkem Passwort
+- [ ] `EXCHANGE_ENCRYPTION_KEY` gesetzt (falls Exchange aktiv)
+- [ ] HTTPS aktiviert (SSL-Terminierung via NPM)
+- [ ] Admin-Passwort geaendert (nicht `Admin123!`)
 - [ ] Firewall (UFW) aktiv
-- [ ] SSL-Zertifikat läuft (Let's Encrypt Auto-Renewal)
-- [ ] Backups automatisiert (Cron-Job)
-- [ ] Nur notwendige Ports offen
-- [ ] Docker Containers laufen als non-root (später)
-- [ ] PostgreSQL & Redis nur von localhost erreichbar
-- [ ] Logs werden rotiert
+- [ ] Nur notwendige Ports offen (80, 443)
+- [ ] PostgreSQL & Redis nur intern erreichbar
+- [ ] Regular Backups eingerichtet
+- [ ] Log Rotation aktiviert
+- [ ] `npm audit` ohne kritische Issues
 
 ---
 
-## 🎉 Fertig!
+## 11. Endpoints nach Deployment
 
-Dein OpenIntraHub läuft jetzt auf:
-
-**Frontend:** `https://intranet.example.com`
-**API:** `https://intranet.example.com/api`
-**Swagger Docs:** `https://intranet.example.com/api-docs`
-**Socket.io Chat:** `wss://intranet.example.com/chat`
+| Service | URL |
+|---------|-----|
+| **Frontend** | `https://intranet.example.com` |
+| **API** | `https://intranet.example.com/api` |
+| **Swagger Docs** | `https://intranet.example.com/api-docs` |
+| **Socket.io Chat** | `wss://intranet.example.com/chat` |
+| **Health Check** | `https://intranet.example.com/api/health` |
 
 ---
 
 ## Support & Community
 
 - **GitHub Issues:** https://github.com/Jan1701/OpenIntraHub/issues
-- **Discord:** (coming soon)
-- **Docs:** https://docs.openintrahub.org (coming soon)
+- **Dokumentation:** [README.md](README.md)
+- **Security:** [SECURITY.md](SECURITY.md)
 
 ---
 
-**Made with ❤️ in Europe | AGPLv3 License | Jan Günther <jg@linxpress.de>**
+**Made with Dedication | Apache 2.0 License | Jan Guenther <jg@linxpress.de>**

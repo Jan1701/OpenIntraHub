@@ -18,9 +18,13 @@ import EventsList from './pages/Events/EventsList';
 import EventEditor from './pages/Events/EventEditor';
 import EventDetails from './pages/Events/EventDetails';
 import LDAPAdmin from './pages/Admin/LDAPAdmin';
+import ThemeSettings from './pages/Admin/ThemeSettings';
 import Drive from './pages/Drive/DriveAdvanced';
 import ProjectList from './pages/Projects/ProjectList';
 import ProjectKanban from './pages/Projects/ProjectKanban';
+import { ASGDashboard, InspectionList, InspectionEditor, InspectionDetail } from './pages/ASG';
+import { EvacuationDashboard } from './pages/Evacuation';
+import { FireSafetyDashboard } from './pages/FireSafety';
 import './styles/index.css';
 
 function App() {
@@ -86,8 +90,22 @@ function App() {
           {/* Module Registry */}
           <Route path="modules" element={<ModuleRegistry />} />
 
+          {/* ASG Routes (Arbeitssicherheit) */}
+          <Route path="asg" element={<ASGDashboard />} />
+          <Route path="asg/inspections" element={<InspectionList />} />
+          <Route path="asg/inspections/new" element={<InspectionEditor />} />
+          <Route path="asg/inspections/:id" element={<InspectionDetail />} />
+          <Route path="asg/inspections/:id/edit" element={<InspectionEditor />} />
+
+          {/* Evacuation Routes (Evakuierung) */}
+          <Route path="eva" element={<EvacuationDashboard />} />
+
+          {/* Fire Safety Routes (Brandschutz) */}
+          <Route path="bsm" element={<FireSafetyDashboard />} />
+
           {/* Admin Routes */}
           <Route path="admin/ldap" element={<LDAPAdmin />} />
+          <Route path="admin/theme" element={<ThemeSettings />} />
         </Route>
       </Routes>
     </Router>

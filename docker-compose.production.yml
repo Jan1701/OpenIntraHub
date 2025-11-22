@@ -102,7 +102,7 @@ services:
       - uploads_data:/app/uploads
       - ./logs:/app/logs
     ports:
-      - "127.0.0.1:3000:3000"  # Exposed to localhost for Nginx Proxy Manager
+      - "3000:3000"  # Accessible from local network
     networks:
       - openintrahub-network
     healthcheck:

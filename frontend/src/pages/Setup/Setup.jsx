@@ -63,11 +63,21 @@ function Setup() {
             auth_type: 'basic'
         },
         modules: {
+            // Kommunikation
             posts: true,
             events: true,
-            locations: true,
             chat: true,
-            pageBuilder: true
+            mail: false,
+            // Produktivitaet
+            drive: true,
+            projects: true,
+            pageBuilder: true,
+            // Standorte
+            locations: true,
+            // Sicherheit & Compliance (Haus-Service)
+            asg: false,
+            eva: false,
+            bsm: false
         },
         admin: {
             username: 'admin',
@@ -764,126 +774,295 @@ function Setup() {
             <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-2">Modul-Auswahl</h2>
                 <p className="text-gray-600">
-                    Wähle die Module aus, die du aktivieren möchtest. Du kannst diese später in den Einstellungen ändern.
+                    Waehle die Module aus, die du aktivieren moechtest. Du kannst diese spaeter in den Einstellungen aendern.
                 </p>
             </div>
 
-            <div className="space-y-4">
-                {/* Posts Module */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
-                    <label className="flex items-start cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={config.modules.posts}
-                            onChange={(e) => setConfig(prev => ({
-                                ...prev,
-                                modules: { ...prev.modules, posts: e.target.checked }
-                            }))}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <div className="ml-4 flex-1">
-                            <div className="flex items-center">
-                                <h3 className="font-semibold text-gray-900">Posts & Blog</h3>
-                                <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+            {/* Kommunikation */}
+            <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <span className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-2 text-lg">💬</span>
+                    Kommunikation
+                </h3>
+                <div className="space-y-3">
+                    {/* Posts Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.posts}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, posts: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Posts & Blog</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Veroeffentliche Ankuendigungen, News und Blog-Artikel. Unterstuetzt Rich-Text, Kategorien und Kommentare.
+                                </p>
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">
-                                Veröffentliche Ankündigungen, News und Blog-Artikel. Unterstützt Rich-Text, Kategorien und Kommentare.
-                            </p>
-                        </div>
-                    </label>
-                </div>
+                        </label>
+                    </div>
 
-                {/* Events Module */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
-                    <label className="flex items-start cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={config.modules.events}
-                            onChange={(e) => setConfig(prev => ({
-                                ...prev,
-                                modules: { ...prev.modules, events: e.target.checked }
-                            }))}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <div className="ml-4 flex-1">
-                            <div className="flex items-center">
-                                <h3 className="font-semibold text-gray-900">Events & Kalender</h3>
-                                <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                    {/* Events Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.events}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, events: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Events & Kalender</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Verwalte Events, Meetings und Termine. {config.exchange.enabled && 'Synchronisiert mit Exchange Calendar.'}
+                                </p>
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">
-                                Verwalte Events, Meetings und Termine. {config.exchange.enabled && 'Synchronisiert mit Exchange Calendar.'}
-                            </p>
-                        </div>
-                    </label>
-                </div>
+                        </label>
+                    </div>
 
-                {/* Locations Module */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
-                    <label className="flex items-start cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={config.modules.locations}
-                            onChange={(e) => setConfig(prev => ({
-                                ...prev,
-                                modules: { ...prev.modules, locations: e.target.checked }
-                            }))}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <div className="ml-4 flex-1">
-                            <h3 className="font-semibold text-gray-900">Standorte & Räume</h3>
-                            <p className="text-sm text-gray-600 mt-1">
-                                Verwalte Büros, Standorte, Räume und Ressourcen. Ideal für Raumbuchungen.
-                            </p>
-                        </div>
-                    </label>
-                </div>
-
-                {/* Chat Module */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
-                    <label className="flex items-start cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={config.modules.chat}
-                            onChange={(e) => setConfig(prev => ({
-                                ...prev,
-                                modules: { ...prev.modules, chat: e.target.checked }
-                            }))}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <div className="ml-4 flex-1">
-                            <div className="flex items-center">
-                                <h3 className="font-semibold text-gray-900">Chat & Messaging</h3>
-                                <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                    {/* Chat Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.chat}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, chat: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Chat & Messaging</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Echtzeit-Chat mit Direktnachrichten, Gruppenchats und Dateifreigabe. WebSocket-basiert.
+                                </p>
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">
-                                Echtzeit-Chat mit Direktnachrichten, Gruppenchats und Dateifreigabe. WebSocket-basiert.
-                            </p>
-                        </div>
-                    </label>
-                </div>
+                        </label>
+                    </div>
 
-                {/* Page Builder Module */}
-                <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
-                    <label className="flex items-start cursor-pointer">
-                        <input
-                            type="checkbox"
-                            checked={config.modules.pageBuilder}
-                            onChange={(e) => setConfig(prev => ({
-                                ...prev,
-                                modules: { ...prev.modules, pageBuilder: e.target.checked }
-                            }))}
-                            className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <div className="ml-4 flex-1">
-                            <div className="flex items-center">
-                                <h3 className="font-semibold text-gray-900">Page Builder</h3>
-                                <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">Drag & Drop</span>
+                    {/* Mail Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.mail}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, mail: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Mail Integration</h3>
+                                    {config.exchange.enabled && <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">Exchange</span>}
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    E-Mail-Integration mit Exchange Server. Posteingang und Kalender direkt im Intranet.
+                                </p>
                             </div>
-                            <p className="text-sm text-gray-600 mt-1">
-                                Erstelle benutzerdefinierte Seiten mit Drag & Drop. Widgets für Inhalte, Formulare und mehr.
-                            </p>
-                        </div>
-                    </label>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            {/* Produktivitaet */}
+            <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <span className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-2 text-lg">📊</span>
+                    Produktivitaet
+                </h3>
+                <div className="space-y-3">
+                    {/* Drive Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.drive}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, drive: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Drive & Dateien</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 text-xs rounded-full">Empfohlen</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Dateiverwaltung mit Ordnerstruktur, Versionierung und Freigabe. Cloud-Speicher fuer Teams.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    {/* Projects Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.projects}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, projects: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Projekte & Kanban</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-purple-100 text-purple-800 text-xs rounded-full">Kanban</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Projektmanagement mit Kanban-Boards, Tasks und Team-Zusammenarbeit.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    {/* Page Builder Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.pageBuilder}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, pageBuilder: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Page Builder</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">Drag & Drop</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Erstelle benutzerdefinierte Seiten mit Drag & Drop. Widgets fuer Inhalte, Formulare und mehr.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    {/* Locations Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.locations}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, locations: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <h3 className="font-semibold text-gray-900">Standorte & Raeume</h3>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    Verwalte Bueros, Standorte, Raeume und Ressourcen. Ideal fuer Raumbuchungen.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            {/* Sicherheit & Compliance */}
+            <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <span className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-2 text-lg">🛡️</span>
+                    Sicherheit & Compliance (Haus-Service)
+                </h3>
+                <div className="space-y-3">
+                    {/* ASG Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.asg}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, asg: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Arbeitssicherheit (ASG)</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-orange-100 text-orange-800 text-xs rounded-full">BGHW</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    BGHW-konforme Arbeitssicherheitskontrollen mit digitalen Checklisten und Maengelverfolgung.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    {/* EVA Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.eva}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, eva: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Evakuierung (EVA)</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">TUeV SUeD</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    TUeV-konforme Evakuierungs- und Fluchtweg-Verwaltung mit Uebungsplanung.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
+
+                    {/* BSM Module */}
+                    <div className="border border-gray-200 rounded-lg p-4 hover:border-blue-300 transition">
+                        <label className="flex items-start cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={config.modules.bsm}
+                                onChange={(e) => setConfig(prev => ({
+                                    ...prev,
+                                    modules: { ...prev.modules, bsm: e.target.checked }
+                                }))}
+                                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                            />
+                            <div className="ml-4 flex-1">
+                                <div className="flex items-center">
+                                    <h3 className="font-semibold text-gray-900">Brandschutz (BSM)</h3>
+                                    <span className="ml-2 px-2 py-0.5 bg-red-100 text-red-800 text-xs rounded-full">FeuerTrutz</span>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                    5 Brandschutz-Checklisten, Maengelverwaltung, Schulungen und Wartungsplanung.
+                                </p>
+                            </div>
+                        </label>
+                    </div>
                 </div>
             </div>
 
@@ -893,7 +1072,7 @@ function Setup() {
                     <div className="text-sm text-blue-800">
                         <p className="font-medium mb-1">Flexible Modulverwaltung</p>
                         <p>
-                            Alle Module können später in den Systemeinstellungen aktiviert oder deaktiviert werden.
+                            Alle Module koennen spaeter in den Systemeinstellungen aktiviert oder deaktiviert werden.
                             Die Auswahl beeinflusst die initiale Konfiguration.
                         </p>
                     </div>
@@ -1103,7 +1282,7 @@ function Setup() {
                         OpenIntraHub Setup
                     </h1>
                     <p className="text-gray-600">
-                        Version 0.1.1-alpha | Open Source Intranet
+                        Version 0.1.4-alpha | Open Source Intranet
                     </p>
                 </div>
 
