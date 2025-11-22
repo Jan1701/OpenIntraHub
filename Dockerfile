@@ -1,5 +1,5 @@
 # =====================================================
-# OpenIntraHub v0.1.1-alpha - Production Dockerfile
+# OpenIntraHub v0.1.4-alpha - Production Dockerfile
 # Multi-stage build for optimized image size
 # =====================================================
 
@@ -44,8 +44,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production && \
+# Install production dependencies only
+RUN npm ci --omit=dev && \
     npm cache clean --force
 
 # Copy application code
