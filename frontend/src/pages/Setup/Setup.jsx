@@ -1282,7 +1282,7 @@ function Setup() {
                         OpenIntraHub Setup
                     </h1>
                     <p className="text-gray-600">
-                        Version 0.1.3-alpha | Open Source Intranet
+                        Version 0.1.4-alpha | Open Source Intranet
                     </p>
                 </div>
 

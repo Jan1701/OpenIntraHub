@@ -29,7 +29,7 @@ CREATE INDEX idx_system_settings_key ON system_settings(key);
 -- Standard-Einträge
 INSERT INTO system_settings (key, value, description) VALUES
     ('theme_config', '{"brand":{"name":"OpenIntraHub","tagline":"Enterprise Social Intranet","logo":"/logo/transparent.png","logoLight":"/logo/light.png","logoDark":"/logo/dark.png","favicon":"/favicon.ico"},"colors":{"primary":"#0284c7","secondary":"#7c3aed","success":"#10b981","warning":"#f59e0b","error":"#ef4444","background":"#f9fafb","surface":"#ffffff"},"layout":{"sidebarWidth":256,"headerHeight":64,"borderRadius":8},"features":{"darkMode":true,"compactMode":false,"animations":true}}', 'White-Label Theme Konfiguration'),
-    ('app_version', '"0.1.3-alpha"', 'Aktuelle App-Version'),
+    ('app_version', '"0.1.4-alpha"', 'Aktuelle App-Version'),
     ('maintenance_mode', 'false', 'Wartungsmodus aktiv');
 
 COMMENT ON TABLE system_settings IS 'System-Konfiguration als Key-Value Store';
