@@ -7,6 +7,7 @@
 
 -- Erweitere module_registry Tabelle
 ALTER TABLE module_registry
+ADD COLUMN IF NOT EXISTS display_name VARCHAR(255),
 ADD COLUMN IF NOT EXISTS enabled BOOLEAN DEFAULT true,
 ADD COLUMN IF NOT EXISTS dependencies JSONB DEFAULT '[]',
 ADD COLUMN IF NOT EXISTS module_config JSONB DEFAULT '{}',
@@ -15,6 +16,7 @@ ADD COLUMN IF NOT EXISTS requires_setup BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS setup_completed BOOLEAN DEFAULT false;
 
 -- Kommentare für neue Spalten
+COMMENT ON COLUMN module_registry.display_name IS 'Anzeigename des Moduls (lokalisierbar)';
 COMMENT ON COLUMN module_registry.enabled IS 'Feature-Flag: Modul aktiviert/deaktiviert';
 COMMENT ON COLUMN module_registry.dependencies IS 'Array von Modul-IDs, die benötigt werden';
 COMMENT ON COLUMN module_registry.module_config IS 'Modul-spezifische Konfiguration';
