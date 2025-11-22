@@ -252,41 +252,6 @@ Email: admin@openintrahub.local
 
 ---
 
-## Architektur
-
-```
-OpenIntraHub/
-├── core/                    # Backend-Infrastruktur
-│   ├── app.js              # Express Server
-│   ├── auth.js             # JWT & Multi-Auth
-│   ├── database.js         # PostgreSQL Pool
-│   ├── middleware.js       # Auth-Middleware
-│   ├── permissions.js      # RBAC-System
-│   ├── logger.js           # Winston Logger
-│   ├── eventBus.js         # Event-System
-│   ├── *Api.js             # 16 API-Module
-│   └── *Service.js         # 13 Service-Module
-│
-├── frontend/               # React 18 UI
-│   └── src/
-│       ├── pages/          # 14 Seiten
-│       ├── components/     # UI-Komponenten
-│       ├── hooks/          # Custom Hooks
-│       └── services/       # API & Socket
-│
-├── db/                     # Datenbank
-│   ├── migrations/         # 16 SQL-Migrationen
-│   └── seeds/              # Seed-Daten
-│
-├── modules/                # Erweiterbare Module
-│   └── example-module/
-│
-├── locales/                # 7 Sprachen
-│   ├── de/, en/, fr/
-│   ├── es/, it/, pl/, nl/
-│
-└── logo/                   # Branding
-```
 
 ---
 
