@@ -18,6 +18,7 @@ import EventsList from './pages/Events/EventsList';
 import EventEditor from './pages/Events/EventEditor';
 import EventDetails from './pages/Events/EventDetails';
 import LDAPAdmin from './pages/Admin/LDAPAdmin';
+import ThemeSettings from './pages/Admin/ThemeSettings';
 import Drive from './pages/Drive/DriveAdvanced';
 import ProjectList from './pages/Projects/ProjectList';
 import ProjectKanban from './pages/Projects/ProjectKanban';
@@ -88,6 +89,7 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="admin/ldap" element={<LDAPAdmin />} />
+          <Route path="admin/theme" element={<ThemeSettings />} />
         </Route>
       </Routes>
     </Router>

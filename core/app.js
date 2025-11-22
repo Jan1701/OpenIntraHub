@@ -41,6 +41,7 @@ const mailApi = require('./mailApi');
 const ldapApi = require('./ldapApi');
 const driveApi = require('./driveApi');
 const projectApi = require('./projectApi');
+const themeApi = require('./themeApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -63,6 +64,10 @@ app.use(cookieParser());
 app.use(i18nMiddleware);
 app.use(i18nRequestMiddleware);
 app.use(requestLogger);
+
+// Static file serving for uploads
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API-Dokumentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
@@ -248,6 +253,9 @@ app.use('/api', driveApi);
 
 // Project Management API
 app.use('/api', projectApi);
+
+// Theme API (White-Label Configuration)
+app.use('/api', themeApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {

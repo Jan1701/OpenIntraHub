@@ -221,6 +221,7 @@ const defaultTheme = {
       { key: 'ldap', label: 'LDAP', icon: 'server', path: '/admin/ldap' },
       { key: 'modules', label: 'Module', icon: 'package', path: '/admin/modules' },
       { key: 'pages', label: 'Seiten', icon: 'layout', path: '/admin/pages' },
+      { key: 'theme', label: 'Design', icon: 'palette', path: '/admin/theme' },
     ],
   },
 
