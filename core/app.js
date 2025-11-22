@@ -42,6 +42,7 @@ const ldapApi = require('./ldapApi');
 const driveApi = require('./driveApi');
 const projectApi = require('./projectApi');
 const themeApi = require('./themeApi');
+const asgApi = require('./asgApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -256,6 +257,9 @@ app.use('/api', projectApi);
 
 // Theme API (White-Label Configuration)
 app.use('/api', themeApi);
+
+// ASG API (Arbeitssicherheit & Gesundheit)
+app.use('/api', asgApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {

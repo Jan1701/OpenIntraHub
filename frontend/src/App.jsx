@@ -22,6 +22,7 @@ import ThemeSettings from './pages/Admin/ThemeSettings';
 import Drive from './pages/Drive/DriveAdvanced';
 import ProjectList from './pages/Projects/ProjectList';
 import ProjectKanban from './pages/Projects/ProjectKanban';
+import { ASGDashboard, InspectionList, InspectionEditor, InspectionDetail } from './pages/ASG';
 import './styles/index.css';
 
 function App() {
@@ -86,6 +87,13 @@ function App() {
 
           {/* Module Registry */}
           <Route path="modules" element={<ModuleRegistry />} />
+
+          {/* ASG Routes (Arbeitssicherheit) */}
+          <Route path="asg" element={<ASGDashboard />} />
+          <Route path="asg/inspections" element={<InspectionList />} />
+          <Route path="asg/inspections/new" element={<InspectionEditor />} />
+          <Route path="asg/inspections/:id" element={<InspectionDetail />} />
+          <Route path="asg/inspections/:id/edit" element={<InspectionEditor />} />
 
           {/* Admin Routes */}
           <Route path="admin/ldap" element={<LDAPAdmin />} />

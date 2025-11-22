@@ -213,6 +213,7 @@ const defaultTheme = {
       { key: 'drive', label: 'Drive', icon: 'folder', path: '/drive' },
       { key: 'projects', label: 'Projekte', icon: 'briefcase', path: '/projects' },
       { key: 'locations', label: 'Standorte', icon: 'map-pin', path: '/locations' },
+      { key: 'asg', label: 'Arbeitssicherheit', icon: 'shield', path: '/asg' },
     ],
 
     // Admin navigation items
