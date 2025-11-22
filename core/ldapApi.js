@@ -6,7 +6,7 @@ const express = require('express');
 const router = express.Router();
 const ldapService = require('./ldapService');
 const ldapSyncWorker = require('./ldapSyncWorker');
-const pool = require('./db');
+const database = require('./database');
 const { authenticateToken, requireAdmin } = require('./middleware');
 const { createModuleLogger } = require('./logger');
 
@@ -204,14 +204,14 @@ router.get('/ldap/users', authenticateToken, requireAdmin, async (req, res) => {
 
         query += ` ORDER BY name ASC LIMIT $1 OFFSET $2`;
 
-        const result = await pool.query(query, [limit, offset]);
+        const result = await database.query(query, [limit, offset]);
 
         // Get total count
         const countQuery = active_only === 'true'
             ? `SELECT COUNT(*) FROM users WHERE auth_method = 'ldap' AND is_active = true`
             : `SELECT COUNT(*) FROM users WHERE auth_method = 'ldap'`;
 
-        const countResult = await pool.query(countQuery);
+        const countResult = await database.query(countQuery);
         const totalCount = parseInt(countResult.rows[0].count);
 
         res.json({
@@ -240,7 +240,7 @@ router.get('/ldap/users', authenticateToken, requireAdmin, async (req, res) => {
  */
 router.get('/ldap/group-mappings', authenticateToken, requireAdmin, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT
                 id, ldap_group_dn, ldap_group_name,
                 app_role, priority, is_active,
@@ -278,7 +278,7 @@ router.post('/ldap/group-mappings', authenticateToken, requireAdmin, async (req,
             });
         }
 
-        const result = await pool.query(`
+        const result = await database.query(`
             INSERT INTO ldap_group_mappings (
                 ldap_group_dn, ldap_group_name, app_role, priority
             ) VALUES ($1, $2, $3, $4)
@@ -312,7 +312,7 @@ router.put('/ldap/group-mappings/:id', authenticateToken, requireAdmin, async (r
         const { id } = req.params;
         const { ldap_group_name, app_role, priority, is_active } = req.body;
 
-        const result = await pool.query(`
+        const result = await database.query(`
             UPDATE ldap_group_mappings
             SET ldap_group_name = COALESCE($1, ldap_group_name),
                 app_role = COALESCE($2, app_role),
@@ -353,7 +353,7 @@ router.delete('/ldap/group-mappings/:id', authenticateToken, requireAdmin, async
     try {
         const { id } = req.params;
 
-        const result = await pool.query(
+        const result = await database.query(
             'DELETE FROM ldap_group_mappings WHERE id = $1 RETURNING ldap_group_name',
             [id]
         );
@@ -386,7 +386,7 @@ router.delete('/ldap/group-mappings/:id', authenticateToken, requireAdmin, async
  */
 router.get('/ldap/stats', authenticateToken, requireAdmin, async (req, res) => {
     try {
-        const result = await pool.query(`
+        const result = await database.query(`
             SELECT
                 COUNT(*) as total_users,
                 COUNT(*) FILTER (WHERE is_active = true) as active_users,

@@ -1,6 +1,6 @@
 {
   "name": "openintrahub-frontend",
-  "version": "0.1.3-alpha",
+  "version": "0.1.4-alpha",
   "description": "OpenIntraHub Frontend - Social Feed, Chat & More",
   "type": "module",
   "scripts": {

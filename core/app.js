@@ -118,6 +118,11 @@ app.get('/api/core/status', (req, res) => {
     res.json({ status: 'ok', uptime: process.uptime() });
 });
 
+// Health check endpoint for Docker/Kubernetes
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Setup API - MUST be before other routes (works without database)
 app.use('/api', setupApi);
 
