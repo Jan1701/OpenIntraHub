@@ -24,6 +24,7 @@ import ProjectList from './pages/Projects/ProjectList';
 import ProjectKanban from './pages/Projects/ProjectKanban';
 import { ASGDashboard, InspectionList, InspectionEditor, InspectionDetail } from './pages/ASG';
 import { EvacuationDashboard } from './pages/Evacuation';
+import { FireSafetyDashboard } from './pages/FireSafety';
 import './styles/index.css';
 
 function App() {
@@ -98,6 +99,9 @@ function App() {
 
           {/* Evacuation Routes (Evakuierung) */}
           <Route path="eva" element={<EvacuationDashboard />} />
+
+          {/* Fire Safety Routes (Brandschutz) */}
+          <Route path="bsm" element={<FireSafetyDashboard />} />
 
           {/* Admin Routes */}
           <Route path="admin/ldap" element={<LDAPAdmin />} />

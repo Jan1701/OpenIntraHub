@@ -215,6 +215,7 @@ const defaultTheme = {
       { key: 'locations', label: 'Standorte', icon: 'map-pin', path: '/locations' },
       { key: 'asg', label: 'Arbeitssicherheit', icon: 'shield', path: '/asg' },
       { key: 'eva', label: 'Evakuierung', icon: 'zap', path: '/eva' },
+      { key: 'bsm', label: 'Brandschutz', icon: 'flame', path: '/bsm' },
     ],
 
     // Admin navigation items

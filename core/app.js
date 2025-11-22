@@ -44,6 +44,7 @@ const projectApi = require('./projectApi');
 const themeApi = require('./themeApi');
 const asgApi = require('./asgApi');
 const evacuationApi = require('./evacuationApi');
+const firesafetyApi = require('./firesafetyApi');
 const scheduledSyncWorker = require('./scheduledSyncWorker');
 const ldapSyncWorker = require('./ldapSyncWorker');
 
@@ -264,6 +265,9 @@ app.use('/api', asgApi);
 
 // Evacuation API (Evakuierung & Fluchtwege)
 app.use('/api', evacuationApi);
+
+// Fire Safety API (Brandschutz & Sicherheit)
+app.use('/api', firesafetyApi);
 
 // Admin Routes - Nur für Admins
 app.get('/api/admin/users', authenticateToken, requireAdmin, (req, res) => {
