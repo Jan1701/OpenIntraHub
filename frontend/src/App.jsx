@@ -23,6 +23,7 @@ import Drive from './pages/Drive/DriveAdvanced';
 import ProjectList from './pages/Projects/ProjectList';
 import ProjectKanban from './pages/Projects/ProjectKanban';
 import { ASGDashboard, InspectionList, InspectionEditor, InspectionDetail } from './pages/ASG';
+import { EvacuationDashboard } from './pages/Evacuation';
 import './styles/index.css';
 
 function App() {
@@ -94,6 +95,9 @@ function App() {
           <Route path="asg/inspections/new" element={<InspectionEditor />} />
           <Route path="asg/inspections/:id" element={<InspectionDetail />} />
           <Route path="asg/inspections/:id/edit" element={<InspectionEditor />} />
+
+          {/* Evacuation Routes (Evakuierung) */}
+          <Route path="eva" element={<EvacuationDashboard />} />
 
           {/* Admin Routes */}
           <Route path="admin/ldap" element={<LDAPAdmin />} />
