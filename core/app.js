@@ -299,6 +299,20 @@ app.post('/api/files/upload', authenticateToken, requirePermission('files.upload
 // Module System initialisieren (wird in startServer() geladen)
 const moduleLoader = new EnhancedModuleLoader(app, eventBus);
 
+// Frontend Static Files (Production)
+if (process.env.NODE_ENV === 'production') {
+    const frontendPath = path.join(__dirname, '../frontend/dist');
+    app.use(express.static(frontendPath));
+
+    // SPA Fallback - alle nicht-API Routen zum Frontend
+    app.get('*', (req, res, next) => {
+        if (req.path.startsWith('/api')) {
+            return next();
+        }
+        res.sendFile(path.join(frontendPath, 'index.html'));
+    });
+}
+
 // 404 Handler
 app.use((req, res) => {
     res.status(404).json({

@@ -13,13 +13,13 @@ WORKDIR /build
 # Copy frontend package files
 COPY frontend/package*.json ./frontend/
 WORKDIR /build/frontend
-RUN npm ci --only=production
+RUN npm ci
 
 # Copy frontend source
 COPY frontend/ ./
 
 # Build frontend (if needed - adjust if using Vite/React build)
-# RUN npm run build
+RUN npm run build
 
 # =====================================================
 # Stage 2: Backend Runtime
@@ -53,8 +53,8 @@ COPY core/ ./core/
 COPY db/ ./db/
 COPY locales/ ./locales/
 
-# Copy frontend build from Stage 1
-COPY --from=frontend-builder /build/frontend/build ./frontend/build
+# Copy frontend build from Stage 1 (Vite outputs to dist/)
+COPY --from=frontend-builder /build/frontend/dist ./frontend/dist
 
 # Create necessary directories
 RUN mkdir -p /app/uploads /app/logs && \
